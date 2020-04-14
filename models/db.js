@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 const uri = "mongodb+srv://daniel:daniel321@cluster0-bmldn.mongodb.net/INFO30005?retryWrites=true&w=majority";
-s
+
 mongoose.connect(uri,
     function(err){
     if(!err){
