@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1 #{title}
+  form(method='POST', action='/event/edit/'+event.id)
+    #form-group
+      label Name:
+      input.form-control(name='name', type='text', value=event.name)
+    #form-group
+      label Category:
+      input.form-control(name='category', type='text', value=event.category)
+    #form-group
+      label Location:
+      textarea.form-control(name='location', type='text')= event.location
+    #form-group
+      label Date:
+      input.form-control(name='date', type='text', value=event.date)
+    #form-group
+      label Time:
+      input.form-control(name='time', type='text', value=event.time)
+    #form-group
+      label Description:
+      textarea.form-control(name='description', type='text')= event.description
+    br
+    input.btn.btn-primary(type='submit',value='Done!')

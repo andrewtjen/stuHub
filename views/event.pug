@@ -1,0 +1,19 @@
+extend layout
+
+block content
+    h1= event.name
+    h2= event.category
+    h3= event.location
+    h3= event.date
+    h3= event.time
+    h3= event.description
+
+    a(href="/event/edit/"+event.id) Event edit button
+
+    
+    br
+    br
+    form(method='POST', action='/event/delete/'+event.id)
+        input.btn.btn-primary(type='submit',value='Delete')
+
+    //- a(href="/",data-id=event.id) Delete

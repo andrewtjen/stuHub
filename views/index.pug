@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1 #{title}
+    ul
+        each event, i in events
+            li
+                a(href="/event/"+event._id)= event.name

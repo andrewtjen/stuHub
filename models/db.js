@@ -11,4 +11,4 @@ mongoose.connect(uri,
     }
 });
 
-require('./cafe.js');
+let db = mongoose.connection;
