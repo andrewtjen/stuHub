@@ -2,15 +2,25 @@ doctype html
 html
   head
     title StudentHub
-
   body
-    a(href="/event/add") add_article BUTTON
-
-    block content
+    form(action="/event/add")
+      input(type="submit" value="Add_event")
 
     br
+
+    != messages('message', locals)
+    
+    if errors
+      each error, i in errors
+        div(class="alert alert-danger") || #{error.msg} ||
+
+    block content
+    
+    br
     h3
-      a(href="/") home BUTTON
+      form(action="/")
+        input(type="submit" value="Home")
+
     br
     hr
     footer

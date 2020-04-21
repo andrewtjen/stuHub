@@ -2,26 +2,46 @@ var mongoose = require('mongoose');
 
 //Bringing the models
 let Event = require('../models/event');
-
+const { check, validationResult } = require('express-validator');
 
 //add event
 var createEvent = function (req, res) {
-    let event = new Event();
-    event.name = req.body.name;
-    event.category = req.body.category;
-    event.location = req.body.location;
-    event.date = req.body.date;
-    event.time = req.body.time;
-    event.description = req.body.description;
+    check(['name','name is required']).notEmpty(),
+    check(['category','category is required']).notEmpty();
+    check('location','location is required').notEmpty();
+    check('date','date is required').notEmpty();
+    check('time','time is required').notEmpty();
+    check('description','description is required').notEmpty();
 
-    event.save(function(err){
-        if(err){
-            console.log(err);
-            return;
-        } else {
-            res.redirect('/');
-        }
-    });
+    // Get Errors
+    let errors = validationResult(req);
+    console.log(errors);
+    errors = false;
+    if(errors){
+        res.render('add_event', {
+        title:'Add Event',
+        errors:errors
+        });
+    } else {
+
+        let event = new Event();
+        event.name = req.body.name;
+        event.category = req.body.category;
+        event.location = req.body.location;
+        event.date = req.body.date;
+        event.time = req.body.time;
+        event.description = req.body.description;
+
+        event.save(function(err){
+            if(err){
+                console.log(err);
+                return;
+            } else {
+                req.flash('success','Event Added');
+                res.redirect('/');
+            }
+        });
+    }
 };
 
 //get single event
@@ -36,9 +56,11 @@ var getEvent = function(req, res){
 
 //load edit event
 var loadEvent =  function (req, res) {
-    Event.findById(req.params.id, function(err, event){
+    var id = req.params.id;
+
+    Event.findById(id, function(err, event){
         res.render('edit_event', {
-            title: 'Edit Event',
+            name: 'Edit Event',
             event: event
         });
     });
@@ -46,12 +68,12 @@ var loadEvent =  function (req, res) {
 
 //post edit event
 var editEvent =  function (req, res) {
-    var id = req.params.id;
+    var id = req.body.id;
     
     Event.findById(id, function(err, event) {
 
         if (err) {
-            console.error('error, no cafe found');
+            console.error('error, no event found');
         }
         event.name = req.body.name;
         event.category = req.body.category;
@@ -64,6 +86,7 @@ var editEvent =  function (req, res) {
                 console.log(err);
                 return;
             } else {
+                req.flash('success','Event Updated');
                 res.redirect('/');
             }
         });
@@ -74,9 +97,9 @@ var editEvent =  function (req, res) {
 var deleteEvent = function (req, res) {
     var id = req.body.id;
     Event.findByIdAndRemove(id).exec();
+    req.flash('danger','Event Deleted');
     res.redirect('/');
 };
-
 
 
 module.exports.createEvent = createEvent;

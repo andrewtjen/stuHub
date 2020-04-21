@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1 #{title}
-  form(method='POST', action='/event/edit/'+event.id)
+  form(method='POST', action='/event/edit')
     #form-group
       label Name:
       input.form-control(name='name', type='text', value=event.name)
@@ -22,4 +22,5 @@ block content
       label Description:
       textarea.form-control(name='description', type='text')= event.description
     br
-    input.btn.btn-primary(type='submit',value='Done!')
+    input(type='hidden', name="id", value=event.id)
+    input.btn.btn-primary(type='submit',value='Update This!')
