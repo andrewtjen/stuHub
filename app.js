@@ -110,8 +110,11 @@ app.post('/event/delete/:id', function (req, res) {
     res.redirect('/');
 });
 
+app.listen(process.env.PORT || 3000, () => {
+    console.log("The library app is running!");
+});
 // app.listen(3000, function(){
 //     console.log('server run on port 3000..');
 // });
 
-module.exports = app;
+// module.exports = app;
