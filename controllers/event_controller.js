@@ -59,15 +59,20 @@ var editEvent =  function (req, res) {
         event.date = req.body.date;
         event.time = req.body.time;
         event.description = req.body.description;
-        event.save();
+        event.save(function(err){
+            if(err){
+                console.log(err);
+                return;
+            } else {
+                res.redirect('/');
+            }
+        });
     });
-    res.redirect('/');
 };
 
 //delete event
 var deleteEvent = function (req, res) {
-    var id = req.params.id;
-    console.log(id);
+    var id = req.body.id;
     Event.findByIdAndRemove(id).exec();
     res.redirect('/');
 };

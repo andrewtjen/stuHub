@@ -13,7 +13,8 @@ block content
     
     br
     br
-    form(method='POST', action='/event/delete/'+event.id)
+    form(method='POST', action='/event/delete')
+        input(type='hidden', name="id", value=event.id)
         input.btn.btn-primary(type='submit',value='Delete')
 
     //- a(href="/",data-id=event.id) Delete

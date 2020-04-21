@@ -39,6 +39,6 @@ router.get('/event/edit/:id', eventController.loadEvent);
 router.post('/event/edit/:id', eventController.editEvent);
 
 //delete event
-router.post('/event/delete/:id', eventController.deleteEvent);
+router.post('/event/delete', eventController.deleteEvent);
 
 module.exports = router;
