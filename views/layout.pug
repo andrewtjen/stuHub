@@ -3,8 +3,18 @@ html
   head
     title StudentHub
   body
+
+    form(action="/")
+      input(type="submit" value="Home")
+    br
+    form(action="/user/login")
+      input(type="submit" value="Log In")
+    br
+    form(action="/user/register")
+      input(type="submit" value="Join Us")
+    br
     form(action="/event/add")
-      input(type="submit" value="Add_event")
+      input(type="submit" value="Add an Event")
 
     br
 
@@ -16,11 +26,6 @@ html
 
     block content
     
-    br
-    h3
-      form(action="/")
-        input(type="submit" value="Home")
-
     br
     hr
     footer

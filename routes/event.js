@@ -27,7 +27,7 @@ router.get('/event/add', function (req, res) {
     });
 });
 
-router.post('/event/add', eventController.createEvent);
+router.post('/event/add', eventController.validate('saveEvent'), eventController.createEvent);
 
 //get single event
 router.get('/event/:id', eventController.getEvent);
@@ -36,7 +36,7 @@ router.get('/event/:id', eventController.getEvent);
 router.get('/event/edit/:id', eventController.loadEvent);
 
 //post edit event
-router.post('/event/edit', eventController.editEvent);
+router.post('/event/edit', eventController.validate('saveEvent'), eventController.editEvent);
 
 //delete event
 router.post('/event/delete', eventController.deleteEvent);

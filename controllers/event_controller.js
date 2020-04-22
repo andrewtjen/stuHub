@@ -2,25 +2,20 @@ var mongoose = require('mongoose');
 
 //Bringing the models
 let Event = require('../models/event');
-const { check, validationResult } = require('express-validator');
+const { body , validationResult } = require('express-validator');
 
 //add event
 var createEvent = function (req, res) {
-    check(['name','name is required']).notEmpty(),
-    check(['category','category is required']).notEmpty();
-    check('location','location is required').notEmpty();
-    check('date','date is required').notEmpty();
-    check('time','time is required').notEmpty();
-    check('description','description is required').notEmpty();
 
     // Get Errors
     let errors = validationResult(req);
-    console.log(errors);
-    errors = false;
-    if(errors){
+    
+
+    if(!errors.isEmpty()){
+        console.log(errors);
         res.render('add_event', {
         title:'Add Event',
-        errors:errors
+        errors: errors.errors
         });
     } else {
 
@@ -102,8 +97,25 @@ var deleteEvent = function (req, res) {
 };
 
 
+var validate = (method) => {
+    switch (method) {
+        case 'saveEvent': {
+
+            return [ 
+                body('name','name is required').notEmpty(),
+                body('category','category is required').notEmpty(),
+                body('location','location is required').notEmpty(),
+                body('date','date is required').notEmpty(),
+                body('time','time is required').notEmpty(),
+                body('description','description is required').notEmpty()
+            ]
+        }
+    }
+}
+
 module.exports.createEvent = createEvent;
 module.exports.getEvent = getEvent;
 module.exports.loadEvent = loadEvent;
 module.exports.editEvent = editEvent;
 module.exports.deleteEvent = deleteEvent;
+module.exports.validate = validate;

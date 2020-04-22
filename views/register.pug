@@ -1,8 +1,10 @@
 extends layout
 
 block content
+
   h1 Register
-  form(method='POST', action='/users/register')
+
+  form(method='POST', action='/user/register')
     #form-group
       label Name:
       input.form-control(name='name', type='text')
@@ -14,6 +16,8 @@ block content
       input.form-control(name='password',type='password')
     #form-group
       label Confirm Password:
-      input.form-control(name='password2',type='password')
+      input.form-control(name='confirm_password',type='password')
     br
     input.btn.btn-primary(type='submit',value='Submit')
+
+

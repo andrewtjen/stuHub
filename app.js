@@ -7,8 +7,8 @@ const flash = require('connect-flash');
 const session = require('express-session');
 
 
-require('./models/db');
-var routes = require('./routes/event');
+require('./config/db');
+
 
 //Init App
 const app = express();
@@ -18,6 +18,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+// Will handle text/plain requests
+app.use(bodyParser.text());
 
 // Express session middleware
 app.set('trust proxy', 1) // trust first proxy
@@ -38,7 +40,11 @@ app.use(function (req, res, next) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use('/', routes);
+var events = require('./routes/event');
+var users = require('./routes/user');
+//route files
+app.use('/', events);
+app.use('/user', users);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Running on port 3000");
