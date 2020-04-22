@@ -9,7 +9,6 @@ var createUser = function (req, res) {
 
     // Get Errors
     let errors = validationResult(req);
-    
 
     if(!errors.isEmpty()){
         res.render('register', {

@@ -3,6 +3,12 @@ html
   head
     title StudentHub
   body
+    if user
+      h1 LOGGED IN
+    else
+      h1 LOGGED OUT
+
+    br
 
     form(action="/")
       input(type="submit" value="Home")
@@ -11,11 +17,13 @@ html
       input(type="submit" value="Log In")
     br
     form(action="/user/register")
-      input(type="submit" value="Join Us")
+      input(type="submit" value="Sign Up")
     br
     form(action="/event/add")
       input(type="submit" value="Add an Event")
-
+    br
+    form(action="/user/logout")
+      input(type="submit" value="Logout")
     br
 
     != messages('message', locals)

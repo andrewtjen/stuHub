@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 //Bringing the models
 let Event = require('../models/event');
+let User = require('../models/event');
 const { body , validationResult } = require('express-validator');
 
 //add event
@@ -18,7 +19,6 @@ var createEvent = function (req, res) {
         errors: errors.errors
         });
     } else {
-
         let event = new Event();
         event.name = req.body.name;
         event.category = req.body.category;
@@ -26,6 +26,7 @@ var createEvent = function (req, res) {
         event.date = req.body.date;
         event.time = req.body.time;
         event.description = req.body.description;
+        event.creatorID = req.user.id;
 
         event.save(function(err){
             if(err){
@@ -113,6 +114,17 @@ var validate = (method) => {
     }
 }
 
+// Access Control
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+      return next();
+    } else {
+      req.flash('danger', 'Please login');
+      res.redirect('/users/login');
+    }
+}
+
+  
 module.exports.createEvent = createEvent;
 module.exports.getEvent = getEvent;
 module.exports.loadEvent = loadEvent;

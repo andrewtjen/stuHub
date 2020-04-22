@@ -25,6 +25,10 @@ let eventSchema = mongoose.Schema({
   description:{
     type: String,
     required: false
+  },
+  creatorID:{
+    type: String,
+    required: true
   }
 });
 

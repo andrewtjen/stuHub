@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 
 
 var userController = require('../controllers/user_controller.js');
@@ -16,6 +17,27 @@ router.post('/register', userController.validate('saveUser'), userController.cre
 //register user
 router.get('/login', function(req, res){
     res.render('login');
+});
+
+//Login process
+router.get('/login', function(req, res){
+    res.render('login');
+});
+
+// Login Process
+router.post('/login', function(req, res, next){
+    passport.authenticate('local', {
+      successRedirect:'/',
+      failureRedirect:'/user/login',
+      failureFlash: true
+    })(req, res, next);
+});
+
+// LogOut process
+router.get('/logout', function(req, res){
+    req.logout();
+    req.flash('success', 'You are logged out');
+    res.redirect('/user/login');
 });
 
 module.exports = router;

@@ -5,9 +5,11 @@ const bodyParser = require('body-parser');
 const { check } = require('express-validator')
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
 
 
 require('./config/db');
+
 
 
 //Init App
@@ -20,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // Will handle text/plain requests
 app.use(bodyParser.text());
+
 
 // Express session middleware
 app.set('trust proxy', 1) // trust first proxy
@@ -40,8 +43,23 @@ app.use(function (req, res, next) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Passport config
+require('./config/passport.js');
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 var events = require('./routes/event');
 var users = require('./routes/user');
+
+
+app.get('*', function(req, res, next){
+  res.locals.user = req.user || null;
+  next();
+});
+
 //route files
 app.use('/', events);
 app.use('/user', users);
