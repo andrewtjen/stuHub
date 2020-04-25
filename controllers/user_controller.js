@@ -36,6 +36,7 @@ var createUser = function (req, res) {
     }
 };
 
+
 var validate = (method) => {
     switch (method) {
         case 'saveUser': {
