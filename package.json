@@ -16,8 +16,19 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.4.0",
     "mongoose": "^5.9.9",
+    "node": "^14.0.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wintan123/INFO30005_2020_ASS.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/wintan123/INFO30005_2020_ASS/issues"
+  },
+  "homepage": "https://github.com/wintan123/INFO30005_2020_ASS#readme"
 }

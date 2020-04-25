@@ -20,6 +20,7 @@ var createUser = function (req, res) {
         user.name = req.body.name;
         user.email = req.body.email;
         user.password = req.body.password;
+        user.verified = false;
 
         user.save(function(err){
             if(err){
@@ -48,6 +49,7 @@ var validate = (method) => {
         }
     }
 }
+
 
 module.exports.createUser = createUser;
 module.exports.validate = validate;
