@@ -18,12 +18,10 @@ var userSchema = mongoose.Schema({
     required: true
   },
   joined_events: {
-    type: array,
-    items: {type: String}
+    type: [String]
   },
   created_events: {
-    type: array,
-    items: {type: String}
+    type: [String]
   }
 });
 

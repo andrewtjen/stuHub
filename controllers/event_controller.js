@@ -66,8 +66,8 @@ var joinEvent = function(req,res){
                     req.flash('success','Join Succesful');
                     res.redirect('/');
                 }
-        }
-        else{
+            });
+        } else {
             //pe ini mau di isi error message "event is full" gw ga ngerti
             req.flash('danger','Event is Full');
             res.redirect('/');
@@ -133,7 +133,7 @@ var validate = (method) => {
                 body('location','location is required').notEmpty(),
                 body('date','date is required').notEmpty(),
                 body('time','time is required').notEmpty(),
-                body('description','description is required').notEmpty()
+                body('description','description is required').notEmpty(),
                 body('capacity','capacity is required').notEmpty(),
                 body('capacity','capacity must be a number').isNumeric()
             ]

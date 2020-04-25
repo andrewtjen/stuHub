@@ -35,10 +35,9 @@ let eventSchema = mongoose.Schema({
     required: true
   },
   attendants: {
-    type: array,
-    items: {type: String},
+    type: [String],
     uniqueItems: true
-  }
+  },
   current_attendees:{
     type: Number,
     required: false
