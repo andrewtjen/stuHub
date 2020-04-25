@@ -5,6 +5,14 @@ let Event = require('../models/event');
 let User = require('../models/event');
 const { body , validationResult } = require('express-validator');
 
+//add event page
+var getEventPage = function (req, res) {
+    res.render('add_event', {
+        title:'add_event'
+    });
+}
+
+
 //add event
 var createEvent = function (req, res) {
 
@@ -13,7 +21,6 @@ var createEvent = function (req, res) {
     
 
     if(!errors.isEmpty()){
-        console.log(errors);
         res.render('add_event', {
         title:'Add Event',
         errors: errors.errors
@@ -80,6 +87,12 @@ var loadEvent =  function (req, res) {
     var id = req.params.id;
 
     Event.findById(id, function(err, event){
+
+        if(event.creatorID != req.user.id){
+            req.flash('danger', 'Not Authorized');
+            return res.redirect('/');
+        }
+
         res.render('edit_event', {
             name: 'Edit Event',
             event: event
@@ -92,7 +105,7 @@ var editEvent =  function (req, res) {
     var id = req.body.id;
     
     Event.findById(id, function(err, event) {
-
+        
         if (err) {
             console.error('error, no event found');
         }
@@ -117,6 +130,7 @@ var editEvent =  function (req, res) {
 //delete event
 var deleteEvent = function (req, res) {
     var id = req.body.id;
+
     Event.findByIdAndRemove(id).exec();
     req.flash('danger','Event Deleted');
     res.redirect('/');
@@ -147,11 +161,12 @@ function ensureAuthenticated(req, res, next){
       return next();
     } else {
       req.flash('danger', 'Please login');
-      res.redirect('/users/login');
+      res.redirect('/user/login');
     }
 }
 
-  
+
+module.exports.getEventPage = getEventPage;
 module.exports.createEvent = createEvent;
 module.exports.getEvent = getEvent;
 module.exports.loadEvent = loadEvent;
@@ -159,3 +174,4 @@ module.exports.editEvent = editEvent;
 module.exports.deleteEvent = deleteEvent;
 module.exports.validate = validate;
 module.exports.joinEvent = joinEvent;
+module.exports.ensureAuthenticated = ensureAuthenticated;

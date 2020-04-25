@@ -22,20 +22,17 @@ let Event = require('../models/event');
 // });
 
 
-//add event
-router.get('/add', function (req, res) {
-    res.render('add_event', {
-        title:'add_event'
-    });
-});
+//get add event page
+router.get('/add', eventController.ensureAuthenticated, eventController.getEventPage);
 
+//add event
 router.post('/add', eventController.validate('saveEvent'), eventController.createEvent);
 
 //get single event
 router.get('/:id', eventController.getEvent);
 
 //load edit event
-router.get('/edit/:id', eventController.loadEvent);
+router.get('/edit/:id', eventController.ensureAuthenticated, eventController.loadEvent);
 
 //post edit event
 router.post('/edit', eventController.validate('saveEvent'), eventController.editEvent);
