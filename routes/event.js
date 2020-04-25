@@ -43,4 +43,6 @@ router.post('/edit', eventController.validate('saveEvent'), eventController.edit
 //delete event
 router.post('/delete', eventController.deleteEvent);
 
+router.post('/join/:id', eventController.joinEvent);
+
 module.exports = router;

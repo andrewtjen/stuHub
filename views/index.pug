@@ -7,3 +7,9 @@ block content
         each event, i in events
             li
                 a(href="/event/"+event._id)= event.name
+            li
+                br
+                br
+                form(method='POST', action='/event/join/' + event.id)
+                    input(type='hidden', name="id", value=event.id)
+                    input.btn.btn-primary(type='submit',value='Join the Event')

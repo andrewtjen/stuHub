@@ -27,7 +27,9 @@ var createEvent = function (req, res) {
         event.time = req.body.time;
         event.description = req.body.description;
         event.creatorID = req.user.id;
-
+        event.capacity = req.body.capacity;
+        event.attendants = [];
+        event.current_attendees = 0;
         event.save(function(err){
             if(err){
                 console.log(err);
@@ -47,7 +49,30 @@ var getEvent = function(req, res){
             event: event
         });
     });
-
+};
+var joinEvent = function(req,res){
+    Event.findById(req.params.id, function(err, event) {
+        if (err) {
+            console.error('error, no event found');
+        }
+        if(event.capacity >= event.current_attendees + 1){
+            event.attendants.push(req.user.id);
+            event.current_attendees = event.current_attendees + 1;
+            event.save(function(err){
+                if(err){
+                    console.log(err);
+                    return;
+                } else {
+                    req.flash('success','Join Succesful');
+                    res.redirect('/');
+                }
+        }
+        else{
+            //pe ini mau di isi error message "event is full" gw ga ngerti
+            req.flash('danger','Event is Full');
+            res.redirect('/');
+        }
+    });
 };
 
 //load edit event
@@ -109,6 +134,8 @@ var validate = (method) => {
                 body('date','date is required').notEmpty(),
                 body('time','time is required').notEmpty(),
                 body('description','description is required').notEmpty()
+                body('capacity','capacity is required').notEmpty(),
+                body('capacity','capacity must be a number').isNumeric()
             ]
         }
     }
@@ -131,3 +158,4 @@ module.exports.loadEvent = loadEvent;
 module.exports.editEvent = editEvent;
 module.exports.deleteEvent = deleteEvent;
 module.exports.validate = validate;
+module.exports.joinEvent = joinEvent;

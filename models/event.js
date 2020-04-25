@@ -29,6 +29,19 @@ let eventSchema = mongoose.Schema({
   creatorID:{
     type: String,
     required: true
+  },
+  capacity:{
+    type: Number,
+    required: true
+  },
+  attendants: {
+    type: array,
+    items: {type: String},
+    uniqueItems: true
+  }
+  current_attendees:{
+    type: Number,
+    required: false
   }
 });
 

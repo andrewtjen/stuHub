@@ -21,6 +21,8 @@ var createUser = function (req, res) {
         user.email = req.body.email;
         user.password = req.body.password;
         user.verified = false;
+        user.joined_events = [];
+        user.created_events = [];
 
         user.save(function(err){
             if(err){
