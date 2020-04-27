@@ -64,15 +64,13 @@ var joinEvent = function(req,res){
             console.error('error, no event found');
         }
         if(event.capacity >= event.current_attendees + 1) {
-            if(event.creatorID == req.user.id){
+            if (event.creatorID == req.user.id) {
                 req.flash('danger', 'Owner Can\'t join own event');
                 res.redirect('/');
-            }
-            else if(event.attendants.includes(req.user.id)){
+            } else if (event.attendants.includes(req.user.id)) {
                 req.flash('danger', 'Already in Event');
                 res.redirect('/');
-            }
-            else {
+            } else {
                 event.attendants.push(req.user.id);
                 event.current_attendees = event.current_attendees + 1;
                 event.save(function (err) {
@@ -81,12 +79,22 @@ var joinEvent = function(req,res){
                         return;
                     } else {
                         req.flash('success', 'Join Succesful');
+                    }
+                });
+                req.user.joined_events.push(event.id);
+                req.user.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                        return
+                    }
+                    else {
+                        req.flash('success', 'user join information updated');
                         res.redirect('/');
                     }
                 });
-                req.user.joined_events.push(req.params.id);
             }
-        } else {
+        }
+         else {
             //pe ini mau di isi error message "event is full" gw ga ngerti
             req.flash('danger','Event is Full');
             res.redirect('/');

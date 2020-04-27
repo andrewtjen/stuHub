@@ -36,6 +36,14 @@ var createUser = function (req, res) {
     }
 };
 
+var getJoinHistory = function(req,res){
+    User.findById(req.user.id, function(err, user){
+        res.render('event_history_template', {
+            title: 'Join History',
+            events: user.joined_events
+        });
+    });
+};
 
 var validate = (method) => {
     switch (method) {
@@ -55,4 +63,5 @@ var validate = (method) => {
 
 
 module.exports.createUser = createUser;
+module.exports.getJoinHistory = getJoinHistory;
 module.exports.validate = validate;
