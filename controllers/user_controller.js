@@ -37,6 +37,7 @@ var createUser = function (req, res) {
 };
 
 var getJoinHistory = function(req,res){
+
     User.findById(req.user.id, function(err, user){
         res.render('event_history_template', {
             title: 'Join History',
