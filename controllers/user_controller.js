@@ -52,7 +52,23 @@ var validate = (method) => {
 
             return [ 
                 body('name','name is required').notEmpty(),
-                body('email','email is required').notEmpty(),
+                body('email','Please enter a valid UniMelb Email')
+                    .isEmail()
+                    .custom(value => {
+                        let regex = /.unimelb.edu.au$/;
+                        if (!regex.test(value)) {
+                          return false;
+                        }
+                        return true;
+                      }),
+                body('email','E-mail already in use')
+                    .custom(value => {
+                        return User.exists({email: value}).then(user => {
+                            if (user){
+                                throw new Error;
+                            }
+                        });
+                    }),
                 body('password','password is required').notEmpty(),
                 body('confirm_password','password do not match')
                     .exists()
