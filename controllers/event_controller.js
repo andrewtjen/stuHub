@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 //Bringing the models
 let Event = require('../models/event');
 let User = require('../models/event');
+//let UserEvents = require('../models/user_events');
+
 const { body , validationResult } = require('express-validator');
 
 //add event page
@@ -35,7 +37,6 @@ var createEvent = function (req, res) {
         event.description = req.body.description;
         event.creatorID = req.user.id;
         event.capacity = req.body.capacity;
-        event.attendants = [];
         event.current_attendees = 0;
         event.save(function(err){
             if(err){
@@ -43,10 +44,21 @@ var createEvent = function (req, res) {
                 return;
             } else {
                 req.flash('success','Event Added');
-                res.redirect('/');
+                //res.redirect('/');
             }
         });
-        req.user.created_events.push(event._id);
+        // let userevents = new UserEvents();
+        // userevents.userid = req.user.id;
+        // userevents.eventid = event.id;
+        // userevents.type = "create";
+        // userevents.save(function(err){
+        //     if(err){
+        //         console.log(err);
+        //         return;
+        //     } else {
+        //         res.redirect('/');
+        //     }
+        // });
     }
 };
 
@@ -71,7 +83,6 @@ var joinEvent = function(req,res){
                 req.flash('danger', 'Already in Event');
                 res.redirect('/');
             } else {
-                event.attendants.push(req.user.id);
                 event.current_attendees = event.current_attendees + 1;
                 event.save(function (err) {
                     if (err) {
@@ -81,21 +92,20 @@ var joinEvent = function(req,res){
                         req.flash('success', 'Join Succesful');
                     }
                 });
-                req.user.joined_events.push(event.id);
-                req.user.save(function (err) {
-                    if (err) {
+                userevents.userid = req.user.id;
+                userevents.eventid = event.id;
+                userevents.type = "join";
+                userevents.save(function(err){
+                    if(err){
                         console.log(err);
-                        return
-                    }
-                    else {
-                        req.flash('success', 'user join information updated');
+                        return;
+                    } else {
                         res.redirect('/');
                     }
                 });
             }
         }
          else {
-            //pe ini mau di isi error message "event is full" gw ga ngerti
             req.flash('danger','Event is Full');
             res.redirect('/');
         }

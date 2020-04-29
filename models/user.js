@@ -16,12 +16,6 @@ var userSchema = mongoose.Schema({
   verified: {
     type: Boolean,
     required: true
-  },
-  joined_events: {
-    type: [String]
-  },
-  created_events: {
-    type: [String]
   }
 });
 

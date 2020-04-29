@@ -34,14 +34,10 @@ let eventSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  attendants: {
-    type: [String],
-    uniqueItems: true
-  },
-  current_attendees:{
+  current_attendees: {
     type: Number,
     required: false
   }
 });
 
-let event = module.exports = mongoose.model('Event', eventSchema);
+let event = module.exports = mongoose.model('event', eventSchema);
