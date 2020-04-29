@@ -9,33 +9,37 @@ html
       h1 LOGGED OUT
 
     br
-    form(action="/")
+    form(method='GET', action="/")
       input(type="submit" value="Home")
     if user
       br
-      form(action="/event/add")
+      form(method='GET', action="/event/add")
         input(type="submit" value="Add an Event")
       br
-      form(action="/user/logout")
+      formmethod='GET', action="/user/logout")
         input(type="submit" value="Logout")
       br
-      form(action='/user/history/joined/')
+      form(method='GET', action='/user/history/joined/')
         input(type="submit" value="Joined Events")
       br
 
     else
       br
-      form(action="/user/login")
+      form(method='GET', action="/user/login")
         input(type="submit" value="Log In")
       br
-      form(action="/user/register")
+      form(method='GET', action="/user/register")
         input(type="submit" value="Sign Up")
 
-    != messages('message', locals)
     
     if errors
       each error, i in errors
         div(class="alert alert-danger") || #{error.msg} ||
+
+
+    form(method='POST', action='/event/join/' + event.id)
+      input(type="text" placeholder="Search.." name="search")
+
 
     block content
     
