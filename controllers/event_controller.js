@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 //Bringing the models
 let Event = require('../models/event');
 let User = require('../models/event');
-//let UserEvents = require('../models/user_events');
+let UserEvents = require('../models/user_events');
 
 const { body , validationResult } = require('express-validator');
 
@@ -47,18 +47,18 @@ var createEvent = function (req, res) {
                 //res.redirect('/');
             }
         });
-        // let userevents = new UserEvents();
-        // userevents.userid = req.user.id;
-        // userevents.eventid = event.id;
-        // userevents.type = "create";
-        // userevents.save(function(err){
-        //     if(err){
-        //         console.log(err);
-        //         return;
-        //     } else {
-        //         res.redirect('/');
-        //     }
-        // });
+        let userevents = new UserEvents();
+        userevents.userid = req.user.id;
+        userevents.eventid = event._id;
+        userevents.type = "create";
+        userevents.save(function(err){
+            if(err){
+                console.log(err);
+                return;
+            } else {
+                res.redirect('/');
+            }
+        });
     }
 };
 
@@ -79,28 +79,39 @@ var joinEvent = function(req,res){
             if (event.creatorID == req.user.id) {
                 req.flash('danger', 'Owner Can\'t join own event');
                 res.redirect('/');
-            } else if (event.attendants.includes(req.user.id)) {
-                req.flash('danger', 'Already in Event');
-                res.redirect('/');
-            } else {
-                event.current_attendees = event.current_attendees + 1;
-                event.save(function (err) {
-                    if (err) {
-                        console.log(err);
-                        return;
-                    } else {
-                        req.flash('success', 'Join Succesful');
-                    }
-                });
-                userevents.userid = req.user.id;
-                userevents.eventid = event.id;
-                userevents.type = "join";
-                userevents.save(function(err){
-                    if(err){
-                        console.log(err);
-                        return;
-                    } else {
+                return;
+            }
+            else {
+                UserEvents.find({userid : req.user.id, eventid: event.id, type : "join"}, function (err, docs) {
+                    if (docs.length > 0){
+                        //req.flash('danger', 'already in event');
+                        console.log("its here")
+                        req.flash("danger", "already in event");
                         res.redirect('/');
+                    }
+                    else{
+                        console.log("its here");
+                        event.current_attendees = event.current_attendees + 1;
+                        event.save(function (err) {
+                            if (err) {
+                                console.log(err);
+                                return;
+                            } else {
+                                req.flash('success', 'Join Succesful');
+                            }
+                        });
+                        let userevents = new UserEvents();
+                        userevents.userid = req.user.id;
+                        userevents.eventid = event.id;
+                        userevents.type = "join";
+                        userevents.save(function(err){
+                            if(err){
+                                console.log(err);
+                                return;
+                            } else {
+                                res.redirect('/');
+                            }
+                        });
                     }
                 });
             }
@@ -108,6 +119,7 @@ var joinEvent = function(req,res){
          else {
             req.flash('danger','Event is Full');
             res.redirect('/');
+            return;
         }
     });
 };

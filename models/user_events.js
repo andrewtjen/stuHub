@@ -12,8 +12,8 @@ let usereventSchema = mongoose.Schema({
     },
     type:{
         enum: ["join","create"],
-        required: true
+        type: String
     }
 });
-
+console.log("its here");
 let userevents = module.exports = mongoose.model('user_events', usereventSchema);

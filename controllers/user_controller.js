@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 //Bringing the models
 let User = require('../models/user');
-// let UserEvent = require('../models/user_events');
+let UserEvent = require('../models/user_events');
 
 //import model
 //const UserEvent = mongoose.model(user_events);
@@ -46,19 +46,21 @@ var getJoinHistory = function(req,res){
         });
     });
 };
-// const getAllJoinHistory = async (req, res) => {
-//     try {
-//         const all_join_history = await UserEvent.find({userid: req.userid, type: "join"});
-//         return res.render('event_history_template', {
-//             title: "Join History",
-//             events: all_join_history
-//         });
-//     } catch (err) {
-//         res.status(400)
-//         req.flash('danger','No join history found');
-//         //res.redirect('/');
-//     }
-// };
+
+const getAllJoinHistory = function (req, res) {
+    UserEvent.find({userid: req.user.id, type: "join"}, function(err, docs){
+       if(err){
+           res.status(400);
+           req.flash("danger", "no join history");
+       }
+       else{
+           res.render('event_history_template', {
+               title: 'Join History',
+               events: docs
+           });
+       }
+    });
+};
 
 var validate = (method) => {
     switch (method) {
@@ -96,4 +98,4 @@ var validate = (method) => {
 module.exports.createUser = createUser;
 module.exports.getJoinHistory = getJoinHistory;
 module.exports.validate = validate;
-// module.exports.getAllJoinHistory = getAllJoinHistory;
+module.exports.getAllJoinHistory = getAllJoinHistory;

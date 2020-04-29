@@ -3,6 +3,6 @@ extend layout
 block content
     h1 #{title}
     ul
-        each event_id, i in events
+        each event, i in events
             li
-                a(href="/event/"+event_id)= event_id
+                a(href="/event/"+event.eventid)= event.eventid
