@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 
 //Bringing the models
 let Event = require('../models/event');
-let User = require('../models/event');
 let UserEvents = require('../models/user_events');
 
 const { body , validationResult } = require('express-validator');

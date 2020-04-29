@@ -40,7 +40,9 @@ router.get('/logout', function(req, res){
     res.redirect('/user/login');
 });
 
-router.get('/history/joined', userController.getAllJoinHistory)
+router.get('/history/joined', userController.ensureAuthenticated,userController.getAllJoinHistory);
+
+router.get('/history/created', userController.ensureAuthenticated,userController.getAllCreateHistory);
 //
 // router.get('/joinhistory')
 module.exports = router;

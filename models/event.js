@@ -37,6 +37,9 @@ let eventSchema = mongoose.Schema({
   current_attendees: {
     type: Number,
     required: false
+  },
+  isactive: {
+    type: Boolean
   }
 });
 
