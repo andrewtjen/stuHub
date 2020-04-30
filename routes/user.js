@@ -46,7 +46,12 @@ router.get('/history/created', userController.ensureAuthenticated,userController
 
 router.get('/confirmation/:id', userController.confirmationPost);
 
+
 router.post('/resend', userController.resendTokenPost);
+
+router.get('/resend', function(req,res){
+    res.render('resend_email_verification');
+})
 
 //
 module.exports = router;

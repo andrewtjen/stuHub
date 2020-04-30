@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    h1 Resend Email Verification
+    form(method='POST', action='/user/resend')
+        #form-group
+            label Email:
+            input.form-control(name='email',type='text')
+        br
+        input.btn.btn-primary(type='submit',value='Submit')

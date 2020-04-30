@@ -98,22 +98,20 @@ var confirmationPost = function (req, res, next) {
             if (user.verified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
 
             // Verify and save the user
+
             user.verified = true;
             user.save(function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
                 //account veriried, render again to login page
-                res.status(200).send("The account has been verified. Please log in.");
-                //res.redirect('/user/login');
+                //res.status(200).send("The account has been verified. Please log in.");
+                req.flash("success", "account has been verified. Please log in");
+                res.redirect('/user/login');
             });
         });
     });
 };
 
 var resendTokenPost = function (req, res, next) {
-
-    var errors = req.validationErrors();
-    if (errors) return res.status(400).send(errors);
-
     User.findOne({ email: req.body.email }, function (err, user) {
         if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
         if (user.verified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
@@ -151,6 +149,10 @@ var resendTokenPost = function (req, res, next) {
     });
 };
 
+//reset password require email in body
+var resetPassword = function(req,res){
+
+}
 
 var getJoinHistory = function(req,res){
     User.findById(req.user.id, function(err, user){
@@ -219,11 +221,7 @@ var validate = (method) => {
                         });
                     }),
                 body('password','password is required and needs to be atleast 8 characters').notEmpty()
-                    .custom(value => {
-                        if(value.length < 8){
-                            throw new Error;
-                        }
-                    }),
+                    .isLength({min:8}),
                 body('confirm_password','password do not match')
                     .exists()
                     .custom((value, { req }) => value === req.body.password)

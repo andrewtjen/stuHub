@@ -30,8 +30,10 @@ html
       br
       form(method='GET', action="/user/register")
         input(type="submit" value="Sign Up")
+      br
+      form(method='GET', action="/user/resend")
+        input(type="submit" value="Havent got verification email?")
 
-    
     if errors
       each error, i in errors
         div(class="alert alert-danger") || #{error.msg} ||
