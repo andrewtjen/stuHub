@@ -1,9 +1,17 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
+var sgTransport = require('nodemailer-sendgrid-transport');
 
-const EMAIL = "webitworkshoptue11@gmail.com"
+const EMAIL = "studenthubpersonal@gmail.com";
 const PASS = "Webitworkshop_tue11";
+
+const SENDGRID_API_KEY = "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";
+const SENDGRID_USERNAME = "studenthub";
+const SENDGRID_PASS = "Webitworkshop_tue11";
+
+var sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 //Bringing the models
 let User = require('../models/user');
@@ -48,24 +56,25 @@ var createUser = function (req, res) {
                         return;
                     }
                     else{
-                        var transporter = nodemailer.createTransport({
-                            host: 'smtp.gmail.com',
-                            port: 465,
-                            secure: true,
+                        var options = {
                             auth: {
-                                user: process.env.SENDGRID_USERNAME,
-                                pass: process.env.SENDGRID_PASSWORD }
-                        });
+                                api_user: SENDGRID_USERNAME,
+                                api_key: SENDGRID_PASS
+                            }
+                        };
+                        var transporter = nodemailer.createTransport(sgTransport(options));
+
                         var mailOptions = {
-                            from: 'no-reply@stuhub.com',
+                            from: EMAIL,
                             to: user.email,
-                            subject: 'Account Verification Token',
-                            text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n'
+                            subject: 'Account Verification',
+                            text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user/confirmation\/' + token.token
                         };
                         transporter.sendMail(mailOptions, function (err) {
                             if (err) { return res.status(500).send({ msg: err.message }); }
                             res.status(200).send('A verification email has been sent to ' + user.email + '.');
-                            //res.redirect('/user/login');
+                            // req.flash("success","Email verification sent");
+                            // res.redirect('/user/login');
                         });
                     }
                 });
@@ -77,6 +86,7 @@ var createUser = function (req, res) {
 var confirmationPost = function (req, res, next) {
     Token.findOne({ token: req.params.id }, function (err, token) {
         if (!token) {
+            //token expire, render send new verification email html
             res.status(400).send({
                 type: 'not-verified',
                 msg: 'We were unable to find a valid token. Your token my have expired.'
@@ -91,25 +101,22 @@ var confirmationPost = function (req, res, next) {
             user.verified = true;
             user.save(function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
+                //account veriried, render again to login page
                 res.status(200).send("The account has been verified. Please log in.");
-                res.redirect('/user/login');
+                //res.redirect('/user/login');
             });
         });
     });
 };
 
 var resendTokenPost = function (req, res, next) {
-    // req.assert('email', 'Email is not valid').isEmail();
-    // req.assert('email', 'Email cannot be blank').notEmpty();
-    // req.sanitize('email').normalizeEmail({ remove_dots: false });
 
-    // Check for validation errors
     var errors = req.validationErrors();
     if (errors) return res.status(400).send(errors);
 
     User.findOne({ email: req.body.email }, function (err, user) {
         if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
-        if (user.isVerified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
+        if (user.verified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
 
         // Create a verification token, save it, and send email
         var token = new Token();
@@ -121,11 +128,24 @@ var resendTokenPost = function (req, res, next) {
             if (err) { return res.status(500).send({ msg: err.message }); }
 
             // Send the email
-            var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
-            var mailOptions = { from: 'no-reply@codemoto.io', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
+            var options ={
+                auth: {
+                    api_user: SENDGRID_USERNAME,
+                    api_key: SENDGRID_PASS
+                }
+            };
+            var transporter = nodemailer.createTransport(sgTransport(options));
+            var mailOptions = {
+                from: EMAIL,
+                to: user.email,
+                subject: 'Account Verification',
+                text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n'
+            };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
                 res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                // req.flash("success","Email verification sent");
+                // res.redirect('/user/login');
             });
         });
     });
@@ -182,13 +202,14 @@ var validate = (method) => {
                 body('name','name is required').notEmpty(),
                 body('email','Please enter a valid UniMelb Email')
                     .isEmail()
-                    .custom(value => {
-                        let regex = /.unimelb.edu.au$/;
-                        if (!regex.test(value)) {
-                          return false;
-                        }
-                        return true;
-                      }),
+                    // .custom(value => {
+                    //     let regex = /.unimelb.edu.au$/;
+                    //     if (!regex.test(value)) {
+                    //       return false;
+                    //     }
+                    //     return true;
+                    //   }),
+                ,
                 body('email','E-mail already in use')
                     .custom(value => {
                         return User.exists({email: value}).then(user => {

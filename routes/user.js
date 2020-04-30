@@ -44,10 +44,9 @@ router.get('/history/joined', userController.ensureAuthenticated,userController.
 
 router.get('/history/created', userController.ensureAuthenticated,userController.getAllCreateHistory);
 
-router.post('/confirmation/:id', userController.confirmationPost);
+router.get('/confirmation/:id', userController.confirmationPost);
 
 router.post('/resend', userController.resendTokenPost);
 
 //
-// router.get('/joinhistory')
 module.exports = router;
