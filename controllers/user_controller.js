@@ -137,7 +137,7 @@ var resendTokenPost = function (req, res, next) {
                 from: EMAIL,
                 to: user.email,
                 subject: 'Account Verification',
-                text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n'
+                text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user/confirmation\/' + token.token + '.\n'
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
@@ -150,8 +150,51 @@ var resendTokenPost = function (req, res, next) {
 };
 
 //reset password require email in body
-var resetPassword = function(req,res){
+var sendresetPassword = function(req,res){
+    User.findOne({ email: req.body.email }, function (err, user) {
+        if (!user) return res.status(400).send({msg: 'We were unable to find a user with that email.'});
 
+        // Create a verification token, save it, and send email
+        var token = new Token();
+        token._userId = user._id;
+        token.token = crypto.randomBytes(16).toString('hex');
+
+        // Save the token
+        token.save(function (err) {
+            if (err) { return res.status(500).send({ msg: err.message }); }
+
+            user.passwordResetToken = token.token;
+            user.passwordResetExpire = token.createdAt;
+
+            // Send the email
+            var options ={
+                auth: {
+                    api_user: SENDGRID_USERNAME,
+                    api_key: SENDGRID_PASS
+                }
+            };
+            var transporter = nodemailer.createTransport(sgTransport(options));
+            var mailOptions = {
+                from: EMAIL,
+                to: user.email,
+                subject: 'Password Reset',
+                text: 'Hello,\n\n' + 'Press this link to reset your password: \nhttp:\/\/' + req.headers.host + '\/user/passwordreset\/' + token.token + '.\n'
+            };
+            transporter.sendMail(mailOptions, function (err) {
+                if (err) { return res.status(500).send({ msg: err.message }); }
+                res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                // req.flash("success","Email verification sent");
+                // res.redirect('/user/login');
+            });
+        });
+    });
+}
+
+var resetPassword = function(req,res){
+    User.findOne({passwordResetToken : req.params.id}, function(err,user){
+        user.password = req.body.password.isEmpty();
+        //masukin password sama confirm password
+    });
 }
 
 var getJoinHistory = function(req,res){
