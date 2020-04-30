@@ -16,7 +16,7 @@ html
       form(method='GET', action="/event/add")
         input(type="submit" value="Add an Event")
       br
-      formmethod='GET', action="/user/logout")
+      form(method='GET', action="/user/logout")
         input(type="submit" value="Logout")
       br
       form(method='GET', action='/user/history/joined/')
@@ -36,10 +36,8 @@ html
       each error, i in errors
         div(class="alert alert-danger") || #{error.msg} ||
 
-
-    form(method='POST', action='/event/join/' + event.id)
-      input(type="text" placeholder="Search.." name="search")
-
+    //nampilin message kalo gagal login
+    !=messages('message', locals)
 
     block content
     
