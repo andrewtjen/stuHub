@@ -218,7 +218,12 @@ var validate = (method) => {
                             }
                         });
                     }),
-                body('password','password is required').notEmpty(),
+                body('password','password is required and needs to be atleast 8 characters').notEmpty()
+                    .custom(value => {
+                        if(value.length < 8){
+                            throw new Error;
+                        }
+                    }),
                 body('confirm_password','password do not match')
                     .exists()
                     .custom((value, { req }) => value === req.body.password)
