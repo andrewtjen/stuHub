@@ -7,7 +7,8 @@ var userSchema = mongoose.Schema({
   },
   email:{
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   password:{
     type: String,
@@ -15,7 +16,13 @@ var userSchema = mongoose.Schema({
   },
   verified: {
     type: Boolean,
-    required: true
+    default: false
+  },
+  passwordResetToken:{
+    type: String
+  },
+  passwordResetExpire: {
+    type: Date
   }
 });
 
