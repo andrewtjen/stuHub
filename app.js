@@ -6,7 +6,7 @@ const { check } = require('express-validator')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-
+const nodemailer = require('nodemailer');
 
 require('./config/db');
 
