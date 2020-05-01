@@ -27,6 +27,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6626adb-5a57-43e0-9f09-6da20cf28191" name="Default Changelist" comment="event history template">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../mylibraryapp/controllers/authorController.js" beforeDir="false" afterPath="$PROJECT_DIR$/../mylibraryapp/controllers/authorController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +96,7 @@
       <workItem from="1587475513130" duration="511000" />
       <workItem from="1587551173602" duration="670000" />
       <workItem from="1587711439836" duration="56297000" />
-      <workItem from="1588141126028" duration="56841000" />
+      <workItem from="1588141126028" duration="57714000" />
     </task>
     <task id="LOCAL-00001" summary="event history template">
       <created>1587970758010</created>
