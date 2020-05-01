@@ -5,22 +5,35 @@ block content
   form(method='POST', action='/event/edit')
     #form-group
       label Name:
-      input.form-control(name='name', type='text', value=event.name)
+      input.form-control(name='name', type='text')
+    br
     #form-group
       label Category:
-      input.form-control(name='category', type='text', value=event.category)
+      select(name='category')
+        option(value='sports') Sports
+        option(value='studies') Studies
+        option(value='leisure') Leisure
+        option(value='club activity') Club Activity
+    br
     #form-group
       label Location:
-      textarea.form-control(name='location', type='text')= event.location
+      input(name='location', type='text')
+    br
     #form-group
       label Date:
-      input.form-control(name='date', type='text', value=event.date)
+      input(name='date', type='date')
+    br
     #form-group
-      label Time:
-      input.form-control(name='time', type='text', value=event.time)
+      label Time (24h format):
+      input(name='time',type="time")
+    br
     #form-group
       label Description:
-      textarea.form-control(name='description', type='text')= event.description
+      textarea.form-control(name='description', type='text')
+    br
+    #form-group
+      label(for='capacity') Capacity:
+      input(type='number', name='capacity', min='1')
     br
     input(type='hidden', name="id", value=event.id)
     input.btn.btn-primary(type='submit',value='Update This!')

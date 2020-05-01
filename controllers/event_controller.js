@@ -151,7 +151,7 @@ var editEvent =  function (req, res) {
         event.name = req.body.name;
         event.category = req.body.category;
         event.location = req.body.location;
-        event.date = req.body.date;
+        event.date = new Date(req.body.date);
         event.time = req.body.time;
         event.description = req.body.description;
         event.save(function(err){
@@ -185,7 +185,7 @@ var validate = (method) => {
                 body('category','category is required').notEmpty(),
                 body('category','must be either "sports", "studies", "leisure", "club activity"').isIn(["sports", "studies", "leisure", "club activity"]),
                 body('location','location is required').notEmpty(),
-                body('date','date is required and must be YYYY/MM/DD format').notEmpty(),
+                body('date','date is required and must be DD/MM/YYYY format').notEmpty(),
                 body('time','time is required').notEmpty(),
                 body('description','description is required').notEmpty(),
                 body('capacity','capacity is required').notEmpty(),

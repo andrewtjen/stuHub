@@ -28,40 +28,39 @@ var searchEventGet = function(req, res) {
     //             events: events
     //         });
     //     }
-    // }).sort( { score: { $meta: "textScore" } } );
+    // }).sort( { score: { $meta: "textScore" } } );4
+
     var noMatch = null;
-    if(req.query.search) {
+    // if(req.query.search) {
         const regex = new RegExp(req.query.search, 'gi');
+        const filterBy = req.query.filterBy;
+        const sortBy = req.query.sortBy;
         // Get all campgrounds from DB
-        Event.find({name: regex}, function(err, events){
-            if(err){
-                console.log(err);
-            } else {
-                if(events.length < 1) {
-                    noMatch = "No events with that query! Showing all events.";
-                    Event.find({}, function(err, events){
-                        if(err){
-                            console.log(err);
-                        } else {
-                            res.render("index",{title: 'List of Events',events: events, noMatch: noMatch});
-                        }
-                    });
-                }
-                else {
-                    res.render("index", {title: 'List of Events', events: events, noMatch: noMatch});
-                }
+        Event.find({name: regex, category: filterBy}).sort({date: sortBy}).then( function(events){
+
+            if(events.length < 1) {
+                noMatch = "No events with that query! Showing all events.";
+                Event.find({}).sort({date: sortBy}).then( function( events){
+
+                    res.render("index",{title: 'List of Events',events: events, noMatch: noMatch});
+                    
+                });
             }
-        });
-    } else {
-        // Get all campgrounds from DB
-        Event.find({}, function(err, events){
-            if(err){
-                console.log(err);
-            } else {
-                res.render("index",{title: 'List of Events',events: events, noMatch: noMatch});
+            else {
+                res.render("index", {title: 'List of Events', events: events, noMatch: noMatch});
             }
+            
         });
-    }
+    // } else {
+    //     // Get all campgrounds from DB
+    //     Event.find({}, function(err, events){
+    //         if(err){
+    //             console.log(err);
+    //         } else {
+    //             res.render("index",{title: 'List of Events',events: events, noMatch: noMatch});
+    //         }
+    //     });
+    // }
 };
 
 module.exports.getAllEvent = getAllEvent;

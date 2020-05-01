@@ -3,10 +3,14 @@ extend layout
 block content
     h1= event.name
     h2= event.category
-    h3= event.location
-    h3= event.date
-    h3= event.time
-    h3= event.description
+    p= "Location:   ".concat(event.location)
+    p= "Date:       ".concat(event.date)
+    p= "Time:       ".concat(event.time)
+    p= "Desc:       ".concat(event.description)
+    p= "Capacity:   ".concat(event.capacity)
+    p= "Curr Attendees: ".concat(event.current_attendees)
+    //- p= "Is Active:  ".concat(event.isactive)
+    
 
     a(href="/event/edit/"+event.id) Event edit button
 

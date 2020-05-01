@@ -33,15 +33,32 @@ html
       br
       form(method='GET', action="/user/send/verification")
         input(type="submit" value="Havent got verification email?")
+    
+    br  
 
-      form.form-inline(action='/search' method='GET')
-        .form-group
-          input.form-control(type='text' name='search' placeholder='Event search...')
-          input.btn.btn-default(type='submit' value='Search')
+    form.form-inline(action='/search' method='GET')
+      .form-group
+        input.form-control(type='text' name='search' placeholder='Event search...')
+        select(name='filterBy')
+          option(value='') Filter By
+          option(value='sports') Sports
+          option(value='studies') Studies
+          option(value='leisure') Leisure
+          option(value='club activity') Club Activity
+        select(name='sortBy')
+          option(value='') Sort By
+          option(value='1') Nearest Event
+          option(value='-1') Later Event
+
+        input.btn.btn-default(type='submit' value='Search')
+
+
+
     if errors
       each error, i in errors
         div(class="alert alert-danger") || #{error.msg} ||
 
+    br
     //nampilin message kalo gagal login
     !=messages('message', locals)
 
