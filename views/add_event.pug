@@ -6,23 +6,33 @@ block content
     #form-group
       label Name:
       input.form-control(name='name', type='text')
+    br
     #form-group
       label Category:
-      textarea.form-control(name='category', type='text')
+      select(name='category')
+        option(value='sports') Sports
+        option(value='studies') Studies
+        option(value='leisure') Leisure
+        option(value='club activity') Club Activity
+    br
     #form-group
       label Location:
-      textarea.form-control(name='location', type='text')
+      input(name='location', type='text')
+    br
     #form-group
       label Date:
-      textarea.form-control(name='date', type='text')
+      input(name='date', type='date')
+    br
     #form-group
-      label Time:
-      textarea.form-control(name='time', type='text')
+      label Time (24h format):
+      input(name='time',type="time")
+    br
     #form-group
       label Description:
       textarea.form-control(name='description', type='text')
+    br
     #form-group
-      label Capacity:
-      textarea.form-control(name = 'capacity', type = 'text')
+      label(for='quantity') Quantity:
+      input(type='number', name='quantity', min='1')
     br
     input.btn.btn-primary(type='submit',value='Submit')
