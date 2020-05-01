@@ -183,8 +183,9 @@ var validate = (method) => {
             return [ 
                 body('name','name is required').notEmpty(),
                 body('category','category is required').notEmpty(),
+                body('category','must be either "sports", "studies", "leisure", "club activity"').isIn(["sports", "studies", "leisure", "club activity"]),
                 body('location','location is required').notEmpty(),
-                body('date','date is required').notEmpty(),
+                body('date','date is required and must be YYYY/MM/DD format').notEmpty(),
                 body('time','time is required').notEmpty(),
                 body('description','description is required').notEmpty(),
                 body('capacity','capacity is required').notEmpty(),

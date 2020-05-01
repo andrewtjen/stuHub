@@ -4,36 +4,38 @@ block content
     h1 #{title}
 
     br
-    input#myInput(type='text', onkeyup='myFunction()', placeholder='Search for names..', title='Type in a name')
+    //input#myInput(type='text', onkeyup='myFunction()', placeholder='Search for names..', title='Type in a name')
+    if(noMatch !== null)
+        h3 #{noMatch}
 
     ul(id="myUL")
-
         each event, i in events
             li
                 a(href="/event/"+event._id)= event.name
-            
-                br
+
+                p #{event.current_attendees} / #{event.capacity} people
+
                 form(method='POST', action='/event/join/' + event.id)
                     input(type='hidden', name="id", value=event.id)
                     input.btn.btn-primary(type='submit',value='Join the Event')
 
-    script.
-        function myFunction() {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-        } else {
-        li[i].style.display = "none";
-        }
-        }
-        }
+    //script.
+    //    function myFunction() {
+    //    var input, filter, ul, li, a, i, txtValue;
+    //    input = document.getElementById("myInput");
+    //    filter = input.value.toUpperCase();
+    //    ul = document.getElementById("myUL");
+    //    li = ul.getElementsByTagName("li");
+    //    for (i = 0; i < li.length; i++) {
+    //    a = li[i].getElementsByTagName("a")[0];
+    //    txtValue = a.textContent || a.innerText;
+    //    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //    li[i].style.display = "";
+    //    } else {
+    //    li[i].style.display = "none";
+    //    }
+    //    }
+    //    }
 
 
       

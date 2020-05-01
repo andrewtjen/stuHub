@@ -34,6 +34,10 @@ html
       form(method='GET', action="/user/send/verification")
         input(type="submit" value="Havent got verification email?")
 
+      form.form-inline(action='/search' method='GET')
+        .form-group
+          input.form-control(type='text' name='search' placeholder='Event search...')
+          input.btn.btn-default(type='submit' value='Search')
     if errors
       each error, i in errors
         div(class="alert alert-danger") || #{error.msg} ||

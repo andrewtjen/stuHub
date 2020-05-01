@@ -8,6 +8,7 @@ let eventSchema = mongoose.Schema({
   },
   category:{
     type: String,
+    enum: ["sports","studies","leisure","club activity"],
     required: true
   },
   location:{

@@ -1,20 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
-var eventController = require('../controllers/event_controller.js');
-let Event = require('../models/event');
+var homeController = require('../controllers/home_controller.js');;
 
-router.get('/', function (req, res) {
-    Event.find({}, function(err, events){
-        if(err){
-            console.log(err);
-        } else {
-            res.render('index', {
-                title:'List of Events',
-                events: events
-            });
-        }
-    })
-});
+//Home page that gets all event
+router.get('/', homeController.getAllEvent);
+
+// router.get('/searchevent', function(req,res){
+//     res.render("search_page");
+// });
+
+router.get('/search',homeController.searchEventGet);
+
 
 module.exports = router;
