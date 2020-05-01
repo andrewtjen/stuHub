@@ -84,12 +84,10 @@ var joinEvent = function(req,res){
                 UserEvents.find({userid : req.user.id, eventid: event.id, type : "join"}, function (err, docs) {
                     if (docs.length > 0){
                         //req.flash('danger', 'already in event');
-                        console.log("its here")
                         req.flash("danger", "already in event");
                         res.redirect('/');
                     }
                     else{
-                        console.log("its here");
                         event.current_attendees = event.current_attendees + 1;
                         event.save(function (err) {
                             if (err) {

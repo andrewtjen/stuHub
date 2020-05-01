@@ -17,19 +17,4 @@ router.get('/', function (req, res) {
     })
 });
 
-router.post('/search', function (req, res) {
-    let nameSearch = req.body.nameSearch;
-    console.log(nameSearch);
-    Event.find({name:nameSearch}, function(err, events){
-        if(err){
-            console.log(err);
-        } else {
-            res.render('index', {
-                title:'List of Events',
-                events: events
-            });
-        }
-    })
-});
-
 module.exports = router;

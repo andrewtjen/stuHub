@@ -88,7 +88,6 @@ var createUser = function (req, res) {
 //right now its fine , but later separate find token to confirmationGet and the rest to confirmation Post
 var confirmationPost = function (req, res, next) {
     Token.findOne({ token: req.params.id }, function (err, token) {
-        console.log(token);
         if (!token) {
             //token expire, render send new verification email html
             res.status(400).send({
