@@ -15,5 +15,4 @@ let usereventSchema = mongoose.Schema({
         type: String
     }
 });
-console.log("its here");
 let userevents = module.exports = mongoose.model('user_events', usereventSchema);

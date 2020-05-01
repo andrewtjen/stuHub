@@ -86,6 +86,7 @@ var createUser = function (req, res) {
 //right now its fine , but later separate find token to confirmationGet and the rest to confirmation Post
 var confirmationPost = function (req, res, next) {
     Token.findOne({ token: req.params.id }, function (err, token) {
+        console.log(token);
         if (!token) {
             //token expire, render send new verification email html
             res.status(400).send({
@@ -120,7 +121,6 @@ var resendTokenGet = function(req,res){
 }
 
 var resendTokenPost = function (req, res, next) {
-    console.log(req.body.email);
     User.findOne({ email: req.body.email }, function (err, user) {
         if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
         if (user.verified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
@@ -146,7 +146,7 @@ var resendTokenPost = function (req, res, next) {
                 from: EMAIL,
                 to: user.email,
                 subject: 'Account Verification',
-                text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user/confirmation\/' + token.token + '.\n'
+                text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user/confirmation\/' + token.token
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
@@ -288,7 +288,6 @@ const getAllCreateHistory = function (req, res) {
 var validate = (method) => {
     switch (method) {
         case 'saveUser': {
-
             return [ 
                 body('name','name is required').notEmpty(),
                 body('email','Please enter a valid UniMelb Email')
@@ -309,6 +308,38 @@ var validate = (method) => {
                             }
                         });
                     }),
+                body('password','password is required and needs to be atleast 8 characters').notEmpty()
+                    .isLength({min:8}),
+                body('confirm_password','password do not match')
+                    .exists()
+                    .custom((value, { req }) => value === req.body.password)
+            ]
+        }
+        case 'emailValidate': {
+
+            return [
+                body('email','Please enter a valid UniMelb Email')
+                    .isEmail()
+                // .custom(value => {
+                //     let regex = /.unimelb.edu.au$/;
+                //     if (!regex.test(value)) {
+                //       return false;
+                //     }
+                //     return true;
+                //   }),
+                ,
+                body('email','E-mail already in use')
+                    .custom(value => {
+                        return User.exists({email: value}).then(user => {
+                            if (user){
+                                throw new Error;
+                            }
+                        });
+                    })
+            ]
+        }
+        case 'passwordValidate': {
+            return [
                 body('password','password is required and needs to be atleast 8 characters').notEmpty()
                     .isLength({min:8}),
                 body('confirm_password','password do not match')

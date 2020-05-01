@@ -48,14 +48,14 @@ router.get('/confirmation/:id', userController.confirmationPost);
 
 router.get('/send/verification', userController.resendTokenGet);
 
-router.post('/send/verification', userController.validate, userController.resendTokenPost);
+router.post('/send/verification', userController.validate("emailValidate"), userController.resendTokenPost);
 
 router.get('/send/passwordreset', userController.sendresetPasswordGet);
 
-router.post('/send/passwordreset', userController.validate, userController.sendresetPasswordPost);
+router.post('/send/passwordreset', userController.validate("emailValidate"), userController.sendresetPasswordPost);
 
 router.get('/confirmedpasswordreset/:id', userController.resetPasswordGet);
 
-router.post('/confirmedpasswordreset/:id', userController.validate, userController.resetPasswordPost);
+router.post('/confirmedpasswordreset/:id', userController.validate("passwordValidate"), userController.resetPasswordPost);
 
 module.exports = router;
