@@ -12,9 +12,6 @@ const SENDGRID_API_KEY = "SG.p44PFU2bQCqbb8O0CNh3Yw.D7Qkm8O3vtg1UFdjywRLI9wJwLtb
 const SENDGRID_USERNAME = "studenthub";
 const SENDGRID_PASS = "Webitworkshop_tue11";
 
-var sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(SENDGRID_API_KEY);
-
 //Bringing the models
 let User = require('../models/user');
 let UserEvent = require('../models/user_events');
