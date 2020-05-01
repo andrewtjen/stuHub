@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f6626adb-5a57-43e0-9f09-6da20cf28191" name="Default Changelist" comment="event history template">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mylibraryapp/controllers/authorController.js" beforeDir="false" afterPath="$PROJECT_DIR$/../mylibraryapp/controllers/authorController.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Pug File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1apaB36PUYBxWXpDhEAFDffN0LY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f6626adb-5a57-43e0-9f09-6da20cf28191" name="Default Changelist" comment="" />
+      <created>1587434849638</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587434849638</updated>
+      <workItem from="1587434852381" duration="6000" />
+      <workItem from="1587475513130" duration="511000" />
+      <workItem from="1587551173602" duration="670000" />
+      <workItem from="1587711439836" duration="56297000" />
+      <workItem from="1588141126028" duration="56011000" />
+    </task>
+    <task id="LOCAL-00001" summary="event history template">
+      <created>1587970758010</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587970758011</updated>
+    </task>
+    <task id="LOCAL-00002" summary="event history template">
+      <created>1587970772227</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1587970772227</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="event history template" />
+    <option name="LAST_COMMIT_MESSAGE" value="event history template" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="680" y="151" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588248503051">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="680" y="151" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.768@0.0.1366.768" timestamp="1588248503051" />
+    <state x="680" y="160" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1366.696@0.23.1366.696" timestamp="1588157399409" />
+    <state width="1345" height="202" key="GridCell.Tab.0.bottom" timestamp="1588211402633">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1345" height="202" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1588211402633" />
+    <state width="861" height="158" key="GridCell.Tab.0.bottom/0.23.1366.696@0.23.1366.696" timestamp="1587790188346" />
+    <state width="1345" height="202" key="GridCell.Tab.0.center" timestamp="1588211402631">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1345" height="202" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1588211402631" />
+    <state width="861" height="158" key="GridCell.Tab.0.center/0.23.1366.696@0.23.1366.696" timestamp="1587790188345" />
+    <state width="1345" height="202" key="GridCell.Tab.0.left" timestamp="1588211402630">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1345" height="202" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1588211402630" />
+    <state width="861" height="158" key="GridCell.Tab.0.left/0.23.1366.696@0.23.1366.696" timestamp="1587790188343" />
+    <state width="1345" height="202" key="GridCell.Tab.0.right" timestamp="1588211402632">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1345" height="202" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1588211402632" />
+    <state width="861" height="158" key="GridCell.Tab.0.right/0.23.1366.696@0.23.1366.696" timestamp="1587790188346" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1587789611380">
+      <screen x="0" y="23" width="1366" height="696" />
+    </state>
+    <state width="500" height="445" key="SwitcherDM/0.23.1366.696@0.23.1366.696" timestamp="1587789611380" />
+    <state x="423" y="130" width="682" height="456" key="dock-window-1" timestamp="1587970712458">
+      <screen x="0" y="23" width="1366" height="696" />
+    </state>
+    <state x="423" y="130" width="682" height="456" key="dock-window-1/0.23.1366.696@0.23.1366.696" timestamp="1587970712458" />
+    <state x="590" y="43" width="670" height="676" key="search.everywhere.popup" timestamp="1588166959533">
+      <screen x="0" y="23" width="1366" height="696" />
+    </state>
+    <state x="590" y="43" width="670" height="676" key="search.everywhere.popup/0.23.1366.696@0.23.1366.696" timestamp="1588166959533" />
+  </component>
+</project>
