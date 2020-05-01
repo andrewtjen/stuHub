@@ -83,6 +83,7 @@ var createUser = function (req, res) {
     }
 };
 
+//right now its fine , but later separate find token to confirmationGet and the rest to confirmation Post
 var confirmationPost = function (req, res, next) {
     Token.findOne({ token: req.params.id }, function (err, token) {
         if (!token) {
@@ -111,7 +112,15 @@ var confirmationPost = function (req, res, next) {
     });
 };
 
+var resendTokenGet = function(req,res){
+    res.render('require_email_page',{
+        title: "Resend Email Verification",
+        action: "verification"
+    });
+}
+
 var resendTokenPost = function (req, res, next) {
+    console.log(req.body.email);
     User.findOne({ email: req.body.email }, function (err, user) {
         if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
         if (user.verified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
@@ -149,9 +158,15 @@ var resendTokenPost = function (req, res, next) {
     });
 };
 
+var sendresetPasswordGet = function(req,res){
+    res.render('require_email_page',{
+        title: "Reset Password",
+        action: "passwordreset"
+    });
+}
 //reset password require email in body
-var sendresetPassword = function(req,res){
-    User.findOne({ email: req.body.email }, function (err, user) {
+var sendresetPasswordPost = function(req,res, next){
+    User.findOne({email: req.body.email }, function (err, user) {
         if (!user) return res.status(400).send({msg: 'We were unable to find a user with that email.'});
 
         // Create a verification token, save it, and send email
@@ -182,18 +197,49 @@ var sendresetPassword = function(req,res){
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
-                res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                user.save(function (err) {
+                    if (err) {
+                        return res.status(500).send({msg: err.message});
+                    }
+                    res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                });
                 // req.flash("success","Email verification sent");
                 // res.redirect('/user/login');
+
             });
         });
     });
 }
 
-var resetPassword = function(req,res){
+
+var resetPasswordGet = function(req,res){
+    Token.findOne({ token: req.params.id }, function (err, token) {
+        if (!token) {
+            //token expire, render send new verification email html
+            res.status(400).send({
+                type: 'not-verified',
+                msg: 'We were unable to find a valid token. Your token my have expired.'
+            });
+        }
+        res.render('password_reset_page', {
+            token_id: req.params.id
+        });
+    });
+}
+// post reset password
+var resetPasswordPost = function(req,res){
     User.findOne({passwordResetToken : req.params.id}, function(err,user){
-        user.password = req.body.password.isEmpty();
-        //masukin password sama confirm password
+        user.password = req.body.password;
+        user.PasswordResetToken = null;
+        user.PasswordResetExpire = null;
+
+        user.save(function (err) {
+            if (err) {return res.status(500).send({msg: err.message});}
+            Token.deleteOne({token: req.params.id}, function(err,token){
+                if (err) {return res.status(500).send({msg: err.message});}
+            });
+            res.send('Password has been reset!').redirect('/user/login');
+        });
     });
 }
 
@@ -289,4 +335,9 @@ module.exports.validate = validate;
 module.exports.getAllJoinHistory = getAllJoinHistory;
 module.exports.getAllCreateHistory = getAllCreateHistory;
 module.exports.confirmationPost = confirmationPost;
+module.exports.resendTokenGet = resendTokenGet;
 module.exports.resendTokenPost = resendTokenPost;
+module.exports.sendresetPasswordGet = sendresetPasswordGet;
+module.exports.sendresetPasswordPost = sendresetPasswordPost;
+module.exports.resetPasswordGet = resetPasswordGet;
+module.exports.resetPasswordPost = resetPasswordPost;

@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    h1 #{title}
+    h2 Please Enter Email
+    br
+    form(method='POST', action='/user/send/' + action)
+        label Email:
+        input(type="text", name="email", placeholder="Enter Email..")
+        input.btn.btn-primary(type='submit',value='Submit')

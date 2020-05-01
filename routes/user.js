@@ -46,12 +46,16 @@ router.get('/history/created', userController.ensureAuthenticated,userController
 
 router.get('/confirmation/:id', userController.confirmationPost);
 
+router.get('/send/verification', userController.resendTokenGet);
 
-router.post('/resend', userController.resendTokenPost);
+router.post('/send/verification', userController.validate, userController.resendTokenPost);
 
-router.get('/resend', function(req,res){
-    res.render('resend_email_verification');
-})
+router.get('/send/passwordreset', userController.sendresetPasswordGet);
 
-//
+router.post('/send/passwordreset', userController.validate, userController.sendresetPasswordPost);
+
+router.get('/confirmedpasswordreset/:id', userController.resetPasswordGet);
+
+router.post('/confirmedpasswordreset/:id', userController.validate, userController.resetPasswordPost);
+
 module.exports = router;
