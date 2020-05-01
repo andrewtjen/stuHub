@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
+var passport = require('passport');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
+
 
 const EMAIL = "studenthubpersonal@gmail.com";
 const PASS = "Webitworkshop_tue11";
@@ -350,7 +352,38 @@ var validate = (method) => {
     }
 }
 
-function ensureAuthenticated(req, res, next){
+//validating user has been verified
+var ensureVerified = function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err); }
+
+        if (!user) { 
+            req.flash('danger', 'Account not found! Please Register!');
+            return res.redirect('/user/register');
+        }
+
+        if (!user.verified) {
+            req.flash('danger', 'Account is not verified! Please check email');
+            return res.redirect('/user/login');
+        }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            return res.redirect('/');
+        });
+    })(req, res, next);
+}
+
+//logOut
+
+var logOut = function(req, res){
+    req.logout();
+    req.flash('success', 'You are logged out');
+    res.redirect('/user/login');
+}
+
+
+  
+function ensureAuthenticated(req, res, next){  
     if(req.isAuthenticated()){
         return next();
     } else {
@@ -359,6 +392,8 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+module.exports.logOut = logOut;
+module.exports.ensureVerified = ensureVerified;
 module.exports.ensureAuthenticated = ensureAuthenticated;
 module.exports.createUser = createUser;
 module.exports.getJoinHistory = getJoinHistory;

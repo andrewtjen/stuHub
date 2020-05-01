@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
+
 
 
 var userController = require('../controllers/user_controller.js');
@@ -25,20 +25,10 @@ router.get('/login', function(req, res){
 });
 
 // Login Process
-router.post('/login', function(req, res, next){
-    passport.authenticate('local', {
-      successRedirect:'/',
-      failureRedirect:'/user/login',
-      failureFlash: true
-    })(req, res, next);
-});
+router.post('/login', userController.ensureVerified);
 
 // LogOut process
-router.get('/logout', function(req, res){
-    req.logout();
-    req.flash('success', 'You are logged out');
-    res.redirect('/user/login');
-});
+router.get('/logout', userController.logOut);
 
 router.get('/history/joined', userController.ensureAuthenticated,userController.getAllJoinHistory);
 
