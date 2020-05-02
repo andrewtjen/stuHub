@@ -64,8 +64,12 @@ var createEvent = function (req, res) {
 
 //get single event
 var getEvent = function(req, res){
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     Event.findById(req.params.id, function(err, event){
         res.render('event', {
+            days: days,
+            months: months,
             event: event
         });
     });
