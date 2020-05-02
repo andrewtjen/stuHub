@@ -1,6 +1,6 @@
 # INFO30005_2020_ASS
 
-By: 
+By:
 939206 Andrew Tjen
 955545 William Putra Intan
 980741 Nikolas Leander Putra
