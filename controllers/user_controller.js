@@ -6,7 +6,7 @@ var sgTransport = require('nodemailer-sendgrid-transport');
 
 
 const EMAIL = "studenthubpersonal@gmail.com";
-const PASS = "Webitworkshop_tue11";
+
 
 const SENDGRID_API_KEY = "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";
 const SENDGRID_USERNAME = "studenthub";
@@ -24,6 +24,7 @@ let Token = require("../models/token");
 const { body , validationResult } = require('express-validator');
 
 
+//creating a user
 var createUser = function (req, res) {
 
     // Get Errors
@@ -34,6 +35,7 @@ var createUser = function (req, res) {
         errors: errors.errors
         });
     } else {
+        //storing data from the fields enter
         let user = new User();
         user.name = req.body.name;
         user.email = req.body.email;
@@ -55,6 +57,7 @@ var createUser = function (req, res) {
                         return;
                     }
                     else{
+                        //sending an email verification after saving the data
                         var options = {
                             auth: {
                                 api_user: SENDGRID_USERNAME,
@@ -69,11 +72,10 @@ var createUser = function (req, res) {
                             subject: 'Account Verification',
                             text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user/confirmation\/' + token.token
                         };
+                        //ask to check email
                         transporter.sendMail(mailOptions, function (err) {
                             if (err) { return res.status(500).send({ msg: err.message }); }
                             res.status(200).send('A verification email has been sent to ' + user.email + '.');
-                            // req.flash("success","Email verification sent");
-                            // res.redirect('/user/login');
                         });
                     }
                 });
@@ -111,12 +113,14 @@ var confirmationPost = function (req, res, next) {
     });
 };
 
+
 var resendTokenGet = function(req,res){
     res.render('require_email_page',{
         title: "Resend Email Verification",
         action: "verification"
     });
 }
+
 
 var resendTokenPost = function (req, res, next) {
     User.findOne({ email: req.body.email }, function (err, user) {
@@ -155,6 +159,7 @@ var resendTokenPost = function (req, res, next) {
         });
     });
 };
+
 
 var sendresetPasswordGet = function(req,res){
     res.render('require_email_page',{
@@ -201,8 +206,7 @@ var sendresetPasswordPost = function(req,res, next){
                     }
                     res.status(200).send('A verification email has been sent to ' + user.email + '.');
                 });
-                // req.flash("success","Email verification sent");
-                // res.redirect('/user/login');
+
 
             });
         });

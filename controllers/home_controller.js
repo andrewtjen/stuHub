@@ -4,6 +4,7 @@ let UserEvents = require('../models/user_events');
 
 const { body , validationResult } = require('express-validator');
 
+//getting all available events
 var getAllEvent = function(req, res) {
     Event.find({}, function(err, events) {
         if (err) {
@@ -16,6 +17,8 @@ var getAllEvent = function(req, res) {
         }
     });
 };
+
+//sorting the event based on the selected fields
 let sortEvents = function(events,sortBy){
     if (sortBy == 'newestcreated') {
         return events.sort(function(a, b) {
@@ -49,19 +52,8 @@ let sortEvents = function(events,sortBy){
     return events;
 }
 
+//searching the name of event based on the search bar
 var searchEventGet = function(req, res) {
-    //Event.createIndex({name: "text", category: "text" });
-    // Event.find({name: {$regex: new RegExp(req.query.search, "gi")}}, function (err, events) {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         res.render('index', {
-    //             title: 'List of Events',
-    //             events: events
-    //         });
-    //     }
-    // }).sort( { score: { $meta: "textScore" } } );4
-
     var noMatch = null;
     const filterBy = req.query.filterBy;
     let sortBy = req.query.sortBy;
