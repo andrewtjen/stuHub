@@ -292,14 +292,14 @@ var validate = (method) => {
                 body('name','name is required').notEmpty(),
                 body('email','Please enter a valid UniMelb Email')
                     .isEmail()
-                    // .custom(value => {
-                    //     let regex = /.unimelb.edu.au$/;
-                    //     if (!regex.test(value)) {
-                    //       return false;
-                    //     }
-                    //     return true;
-                    //   }),
-                ,
+                    .custom(value => {
+                        let regex = /.unimelb.edu.au$/;
+                        if (!regex.test(value)) {
+                          return false;
+                        }
+                        return true;
+                      }),
+
                 body('email','E-mail already in use')
                     .custom(value => {
                         return User.exists({email: value}).then(user => {
@@ -320,13 +320,13 @@ var validate = (method) => {
             return [
                 body('email','Please enter a valid UniMelb Email')
                     .isEmail()
-                .custom(value => {
-                    let regex = /.unimelb.edu.au$/;
-                    if (!regex.test(value)) {
-                      return false;
-                    }
-                    return true;
-                  }),
+                    .custom(value => {
+                        let regex = /.unimelb.edu.au$/;
+                        if (!regex.test(value)) {
+                        return false;
+                        }
+                        return true;
+                    }),
                 body('email','E-mail already in use')
                     .custom(value => {
                         return User.exists({email: value}).then(user => {
