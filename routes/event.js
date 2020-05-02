@@ -24,6 +24,7 @@ router.post('/edit', eventController.validate('saveEvent'), eventController.edit
 //delete event
 router.post('/delete', eventController.deleteEvent);
 
+//join event
 router.post('/join/:id', eventController.ensureAuthenticated, eventController.joinEvent);
 
 

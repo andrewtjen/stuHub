@@ -155,8 +155,9 @@ var editEvent =  function (req, res) {
         event.name = req.body.name;
         event.category = req.body.category;
         event.location = req.body.location;
-        event.date = new Date(req.body.date);
+        event.date = req.body.date;
         event.time = req.body.time;
+        event.datetime = new Date(req.body.date + " "+ req.body.time + ":00");
         event.description = req.body.description;
         event.save(function(err){
             if(err){
