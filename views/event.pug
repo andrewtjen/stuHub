@@ -4,7 +4,7 @@ block content
     h1= event.name
     h2= event.category
     p= "Location:   ".concat(event.location)
-    p= "Date:       ".concat(event.date)
+    p= "Date:       ".concat(days[event.date.getDay()],', ', event.date.getDate(), ' ',months[event.date.getMonth()], ' ', event.date.getFullYear())
     p= "Time:       ".concat(event.time)
     p= "Desc:       ".concat(event.description)
     p= "Capacity:   ".concat(event.capacity)
