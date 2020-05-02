@@ -196,7 +196,7 @@ var sendresetPasswordPost = function(req,res, next){
                 from: EMAIL,
                 to: user.email,
                 subject: 'Password Reset',
-                text: 'Hello,\n\n' + 'Press this link to reset your password: \nhttp:\/\/' + req.headers.host + '\/user/passwordreset\/' + token.token + '.\n'
+                text: 'Hello,\n\n' + 'Press this link to reset your password: \nhttp:\/\/' + req.headers.host + '\/user/confirmedpasswordreset\/' + token.token
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
@@ -204,7 +204,7 @@ var sendresetPasswordPost = function(req,res, next){
                     if (err) {
                         return res.status(500).send({msg: err.message});
                     }
-                    res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                    res.status(200).send('A password reset link has been sent to ' + user.email + '.');
                 });
 
 
@@ -240,7 +240,8 @@ var resetPasswordPost = function(req,res){
             Token.deleteOne({token: req.params.id}, function(err,token){
                 if (err) {return res.status(500).send({msg: err.message});}
             });
-            res.send('Password has been reset!').redirect('/user/login');
+            req.flash("success", "Password resetted");
+            res.redirect('/user/login');
         });
     });
 }
@@ -302,8 +303,8 @@ var validate = (method) => {
                           return false;
                         }
                         return true;
-                      }),
-
+                      })
+                ,
                 body('email','E-mail already in use')
                     .custom(value => {
                         return User.exists({email: value}).then(user => {
@@ -330,15 +331,17 @@ var validate = (method) => {
                         return false;
                         }
                         return true;
-                    }),
-                body('email','E-mail already in use')
-                    .custom(value => {
-                        return User.exists({email: value}).then(user => {
-                            if (user){
-                                throw new Error;
-                            }
-                        });
                     })
+
+                // ,
+                // body('email','E-mail already in use')
+                //     .custom(value => {
+                //         return User.exists({email: value}).then(user => {
+                //             if (user){
+                //                 throw new Error;
+                //             }
+                //         });
+                //     })
             ]
         }
         case 'passwordValidate': {
