@@ -18,15 +18,31 @@ var getAllEvent = function(req, res) {
 };
 let sortEvents = function(events,sortBy){
     if (sortBy == 'newestcreated') {
-        return events.reverse(events.createdAt);
+        return events.sort(function(a, b) {
+            a = new Date(a.createdAt);
+            b = new Date(b.createdAt);
+            return a<b ? -1 : a>b ? 1 : 0;
+        });
     } else if (sortBy == 'latestcreated') {
-        return events.sort(events.createdAt);
+        return events.sort(function(a, b) {
+            a = new Date(a.createdAt);
+            b = new Date(b.createdAt);
+            return a>b ? -1 : a<b ? 1 : 0;
+        });;
     } else if (sortBy == '') {
         return events;
     } else if(sortBy == 'happeningsoon'){
-        return events.reverse(events.dateTime);
+        return events.sort(function(a, b) {
+            a = new Date(a.datetime);
+            b = new Date(b.datetime);
+            return a<b ? -1 : a>b ? 1 : 0;
+        });
     } else if(sortBy == 'happeninglatest'){
-        return events.sort(events.dateTime);
+        return events.sort(function(a, b) {
+            a = new Date(a.datetime);
+            b = new Date(b.datetime);
+            return a>b ? -1 : a<b ? 1 : 0;
+        });
     } else if(sortBy == 'capacity'){
         return events.sort(events.capacity);
     }

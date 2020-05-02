@@ -258,7 +258,7 @@ const getAllJoinHistory = function (req, res) {
        }
        else{
            const events = [];
-           docs.forEach(element => events.push(element.id));
+           docs.forEach(element => events.push(element.eventid));
            console.log(docs);
            res.render('event_history_template', {
                title: 'Join History',
@@ -269,14 +269,14 @@ const getAllJoinHistory = function (req, res) {
 };
 
 const getAllCreateHistory = function (req, res) {
-    UserEvent.find({userid: {_id: req.user._id}, type: "create"}, function(err, docs){
+    UserEvent.find({userid :req.user.id, type : "create"}, function(err, docs){
         if(err){
             res.status(400);
             req.flash("danger", "no create history");
         }
         else{
             const events = [];
-            docs.forEach(element => events.push(element.id));
+            docs.forEach(element => events.push(element.eventid));
             res.render('event_history_template', {
                 title: 'Create History',
                 events: events
