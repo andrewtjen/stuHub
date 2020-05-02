@@ -5,4 +5,6 @@ block content
     ul
         each event, i in events
             li
-                a(href="/event/"+event.eventid)= event.eventid
+                a(href="/event/" + event)= event
+                //p #{event.current_attendees} / #{event.capacity} people
+                //p Happening: #{event.date.getDate()}/#{event.date.getMonth() + 1}/#{event.date.getFullYear()} at #{event.time}

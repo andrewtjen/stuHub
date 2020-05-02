@@ -1,14 +1,15 @@
 let mongoose = require('mongoose');
+let Event = mongoose.model('event').schema;
+let User =  mongoose.model('user').schema;
+
 
 // Article Schema
 let usereventSchema = mongoose.Schema({
-    userid:{
-        type: String,
-        required: true
+    userid: {
+        type: String
     },
-    eventid:{
-        type: String,
-        required: true
+    eventid: {
+        type: String
     },
     type:{
         enum: ["join","create"],

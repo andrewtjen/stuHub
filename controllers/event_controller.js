@@ -49,7 +49,7 @@ var createEvent = function (req, res) {
         });
         let userevents = new UserEvents();
         userevents.userid = req.user.id;
-        userevents.eventid = event._id;
+        userevents.eventid = event.id;
         userevents.type = "create";
         userevents.save(function(err){
             if(err){
@@ -82,7 +82,7 @@ var joinEvent = function(req,res){
                 return;
             }
             else {
-                UserEvents.find({userid : req.user.id, eventid: event.id, type : "join"}, function (err, docs) {
+                UserEvents.find({userid: req.user.id, eventid: event.id, type: "join"}, function (err, docs) {
                     if (docs.length > 0){
                         //req.flash('danger', 'already in event');
                         req.flash("danger", "already in event");
@@ -106,10 +106,9 @@ var joinEvent = function(req,res){
                             if(err){
                                 console.log(err);
                                 return;
-                            } else {
-                                res.redirect('/');
                             }
-                        });
+                        })
+                        res.redirect("/");
                     }
                 });
             }

@@ -12,7 +12,6 @@ block content
         each event, i in events
             li
                 a(href="/event/"+event._id)= event.name
-
                 p #{event.current_attendees} / #{event.capacity} people
                 p Happening: #{event.date.getDate()}/#{event.date.getMonth()+1}/#{event.date.getFullYear()} at #{event.time}
                 form(method='POST', action='/event/join/' + event.id)
