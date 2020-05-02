@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // Will handle text/plain requests
 app.use(bodyParser.text());
+// Static files like css
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Express session middleware
@@ -49,7 +51,6 @@ require('./config/passport.js');
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 var events = require('./routes/event');
 var users = require('./routes/user');
