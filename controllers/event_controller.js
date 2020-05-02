@@ -33,6 +33,7 @@ var createEvent = function (req, res) {
         event.location = req.body.location;
         event.date = req.body.date;
         event.time = req.body.time;
+        event.datetime = new Date(req.body.date + " "+ req.body.time + ":00");
         event.description = req.body.description;
         event.creatorID = req.user.id;
         event.capacity = req.body.capacity;
@@ -185,7 +186,7 @@ var validate = (method) => {
                 body('category','category is required').notEmpty(),
                 body('category','must be either "sports", "studies", "leisure", "club activity"').isIn(["sports", "studies", "leisure", "club activity"]),
                 body('location','location is required').notEmpty(),
-                body('date','date is required and must be DD/MM/YYYY format').notEmpty(),
+                body('date','date is required').notEmpty(),
                 body('time','time is required').notEmpty(),
                 body('description','description is required').notEmpty(),
                 body('capacity','capacity is required').notEmpty(),

@@ -23,6 +23,9 @@ let eventSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  datetime:{
+    type: Date
+  },
   description:{
     type: String,
     required: false
@@ -37,10 +40,14 @@ let eventSchema = mongoose.Schema({
   },
   current_attendees: {
     type: Number,
-    required: false
   },
   isactive: {
     type: Boolean
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
   }
 });
 
