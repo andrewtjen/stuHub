@@ -34,13 +34,13 @@ let sortEvents = function(events,sortBy){
         });;
     } else if (sortBy == '') {
         return events;
-    } else if(sortBy == 'happeningsoon'){
+    } else if(sortBy == 'happeninglatest'){
         return events.sort(function(a, b) {
             a = new Date(a.datetime);
             b = new Date(b.datetime);
             return a<b ? -1 : a>b ? 1 : 0;
         });
-    } else if(sortBy == 'happeninglatest'){
+    } else if(sortBy == 'happeningsoon'){
         return events.sort(function(a, b) {
             a = new Date(a.datetime);
             b = new Date(b.datetime);
