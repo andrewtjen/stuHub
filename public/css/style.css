@@ -130,3 +130,7 @@ i:hover {
   background-color: lightblue;
   overflow: hidden;
 }
+
+.headerButton {
+  float: right;
+}

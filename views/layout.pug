@@ -1,76 +1,103 @@
 doctype html
 html
   head
-    title StudentHub
+    title Home
+    style
+      include ../public/css/style.css
+    link(href='https://fonts.googleapis.com/css2?family=Spartan&display=swap', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    script
+      include sidebar.js
   body
-    if user
-      h1 LOGGED IN
-    else
-      h1 LOGGED OUT
-
-    br
-    form(method='GET', action="/")
-      input(type="submit" value="Home")
-    if user
-      br
-      form(method='GET', action="/event/add")
-        input(type="submit" value="Add an Event")
-      br
-      form(method='GET', action="/user/logout")
-        input(type="submit" value="Logout")
-      br
-      form(method='GET', action='/user/history/joined/')
-        input(type="submit" value="Joined Events")
-      br
-      form(method='GET', action='/user/history/created/')
-        input(type="submit" value="Created Events")
-      br
-
-    else
-      br
-      form(method='GET', action="/user/login")
-        input(type="submit" value="Log In")
-      br
-      form(method='GET', action="/user/register")
-        input(type="submit" value="Sign Up")
-      br
-      form(method='GET', action="/user/send/verification")
-        input(type="submit" value="Havent got verification email?")
-    
-    br  
-
-    form.form-inline(action='/search' method='GET')
-      .form-group
-        input.form-control(type='text' name='search' placeholder='Event search...')
-        select(name='filterBy')
-          option(value='') Filter By
-          option(value='sports') Sports
-          option(value='studies') Studies
-          option(value='leisure') Leisure
-          option(value='club activity') Club Activity
-        select(name='sortBy')
-          option(value='') Sort By
-          option(value='happeningsoon') Happening Soon
-          option(value='happeninglatest') Happening latest
-          option(value='newestcreated') Newest Created
-          option(value= 'latestcreated') Latest Created
-          option(value= 'capacity') Capacity
-
-        input.btn.btn-default(type='submit' value='Search')
-
-
-
-    if errors
-      each error, i in errors
-        div(class="alert alert-danger") || #{error.msg} ||
-
-    br
-    //nampilin message kalo gagal login
-    !=messages('message', locals)
-
+    #mySidenav.sidebar
+      a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
+      a(href='#') Add Event
+      a(href='#') Account
+      a(href='#') About
+      a(href='#') Settings
+    #main
+      .topBar
+        span(onclick='openNav()')
+          i.material-icons.listButton menu
+        a.headerButton(href='/user/login') Log In
+        a.headerButton(href='/user/register') Sign Up
     block content
-    
-    br
-    hr
-    footer
-      p Copyright &copy; 2020 
+
+
+
+//doctype html
+//html
+//  head
+//    title StudentHub
+//  body
+//    if user
+//      h1 LOGGED IN
+//    else
+//      h1 LOGGED OUT
+//
+//    br
+//    form(method='GET', action="/")
+//      input(type="submit" value="Home")
+//    if user
+//      br
+//      form(method='GET', action="/event/add")
+//        input(type="submit" value="Add an Event")
+//      br
+//      form(method='GET', action="/user/logout")
+//        input(type="submit" value="Logout")
+//      br
+//      form(method='GET', action='/user/history/joined/')
+//        input(type="submit" value="Joined Events")
+//      br
+//      form(method='GET', action='/user/history/created/')
+//        input(type="submit" value="Created Events")
+//      br
+//
+//    else
+//      br
+//      form(method='GET', action="/user/login")
+//        input(type="submit" value="Log In")
+//      br
+//      form(method='GET', action="/user/register")
+//        input(type="submit" value="Sign Up")
+//      br
+//      form(method='GET', action="/user/send/verification")
+//        input(type="submit" value="Havent got verification email?")
+//
+//    br
+//
+//    form.form-inline(action='/search' method='GET')
+//      .form-group
+//        input.form-control(type='text' name='search' placeholder='Event search...')
+//        select(name='filterBy')
+//          option(value='') Filter By
+//          option(value='sports') Sports
+//          option(value='studies') Studies
+//          option(value='leisure') Leisure
+//          option(value='club activity') Club Activity
+//        select(name='sortBy')
+//          option(value='') Sort By
+//          option(value='happeningsoon') Happening Soon
+//          option(value='happeninglatest') Happening latest
+//          option(value='newestcreated') Newest Created
+//          option(value= 'latestcreated') Latest Created
+//          option(value= 'capacity') Capacity
+//
+//        input.btn.btn-default(type='submit' value='Search')
+//
+//
+//
+//    if errors
+//      each error, i in errors
+//        div(class="alert alert-danger") || #{error.msg} ||
+//
+//    br
+//    //nampilin message kalo gagal login
+//    !=messages('message', locals)
+//
+//    block content
+//
+//    br
+//    hr
+//    footer
+//      p Copyright &copy; 2020
