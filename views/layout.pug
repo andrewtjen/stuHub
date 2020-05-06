@@ -16,11 +16,17 @@ html
       a(href='#') About
       a(href='#') Settings
     #main
-      .topBar
+      .header
         span(onclick='openNav()')
           i.material-icons.listButton menu
-        a.headerButton(href='/user/login') Log In
-        a.headerButton(href='/user/register') Sign Up
+        a(href='/')
+          img.logo(src='img/stuhub-logo-final3.png', alt='logo')
+        if user
+          form(method='GET', action="/user/logout")
+            input(type="submit" value="Logout")
+        else
+          a.headerButton.headerLight(href='/user/login') Log In
+          a.headerButton.headerDark(href='/user/register') Sign Up
     block content
 
 
