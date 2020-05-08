@@ -385,7 +385,43 @@ var logOut = function(req, res){
     res.redirect('/user/login');
 }
 
+//getUpdateUser
+var loadUser =  function (req, res) {
+    var id = req.user.id;
 
+    //find the data of current event
+    User.findById(id, function(err, user){
+
+        res.render('updateProfile', {
+            name: 'Update Profile',
+            user: user
+        });
+    });
+};
+
+//updateUserProfile
+var updateProfile =  function (req, res) {
+    var id = req.user.id;
+
+    User.findById(id, function(err, user) {
+        
+        if (err) {
+            console.error('error, invalid User');
+        }
+        user.name = req.body.name;
+        user.email = req.body.email;
+        user.password = req.body.password;
+        user.save(function(err){
+            if(err){
+                console.log(err);
+                return;
+            } else {
+                req.flash('success','Profile Updated!');
+                res.redirect('/');
+            }
+        });
+    });
+};
   
 function ensureAuthenticated(req, res, next){  
     if(req.isAuthenticated()){
@@ -396,6 +432,8 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+module.exports.updateProfile = updateProfile;
+module.exports.loadUser = loadUser;
 module.exports.logOut = logOut;
 module.exports.ensureVerified = ensureVerified;
 module.exports.ensureAuthenticated = ensureAuthenticated;
