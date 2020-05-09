@@ -9,24 +9,55 @@ html
     script
       include sidebar.js
   body
-    #mySidenav.sidebar
-      a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
-      a(href='#') Add Event
-      a(href='#') Account
-      a(href='#') About
-      a(href='#') Settings
-    #main
-      .header
-        span(onclick='openNav()')
-          i.material-icons.listButton menu
-        a(href='/')
-          img.logo(src='img/stuhub-logo-final3.png', alt='logo')
-        if user
-          form(method='GET', action="/user/logout")
-            input(type="submit" value="Logout")
-        else
-          a.headerButton.headerLight(href='/user/login') Log In
-          a.headerButton.headerDark(href='/user/register') Sign Up
+    if user
+      #mySidenav.sidebar
+        a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
+        a(href='/event/add') Add Event
+        a(href='/user/history/joined/') Joined Events
+        a(href='/user/history/created/') Created Events
+        a(href='#') Account
+        a(href='#') About
+        a(href='#') Settings
+      #main
+        .header
+          span(onclick='openNav()')
+            i.material-icons.listButton menu
+          a(href='/')
+            img.logo(src='../../../img/stuhub-logo-final3.png', alt='logo')
+            a.headerButton.headerDark(href='/user/logout') Log Out
+    else
+      #mySidenav.sidebar
+        a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
+        a(href='/event/add') Add Event
+        a(href='#') Account
+        a(href='#') About
+        a(href='#') Settings
+      #main
+        .header
+          span(onclick='openNav()')
+            i.material-icons.listButton menu
+          a(href='/')
+            img.logo(src='img/stuhub-logo-final3.png', alt='logo')
+            a.headerButton.headerLight(href='/user/login') Log In
+            a.headerButton.headerDark(href='/user/register') Sign Up
+    form.searchBar(action='/search' method='GET')
+      input.search(type='text' name='search' placeholder='Event search...')
+      button.searchButton(type='submit')
+        i.material-icons search
+      select(name='filterBy')
+        option(value='') Filter By
+        option(value='sports') Sports
+        option(value='studies') Studies
+        option(value='leisure') Leisure
+        option(value='club activity') Club Activity
+      select(name='sortBy')
+        option(value='') Sort By
+        option(value='happeningsoon') Happening Soon
+        option(value='happeninglatest') Happening latest
+        option(value='newestcreated') Newest Created
+        option(value= 'latestcreated') Latest Created
+        option(value= 'capacity') Capacity
+
     block content
 
 

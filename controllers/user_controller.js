@@ -376,7 +376,7 @@ var ensureVerified = function(req, res, next) {
 var logOut = function(req, res){
     req.logout();
     req.flash('success', 'You are logged out');
-    res.redirect('/user/login');
+    res.redirect('/');
 }
 
 
