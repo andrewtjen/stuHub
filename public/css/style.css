@@ -196,9 +196,14 @@ input[type="submit"]:hover, i:hover {
   background-color: #533180;
   color: white;
   border: 1px solid #533180;
-<<<<<<< HEAD
-<<<<<<< HEAD
   padding: 6px;
+  vertical-align: bottom;
+  line-height: 15px;
+}
+
+.searchBarElement {
+  display: inline;
+  padding-right: 10px;
 }
 
 .dropbtn {
@@ -237,21 +242,8 @@ input[type="submit"]:hover, i:hover {
 
 .dropdown-content a:hover {background-color: #ddd}
 
-.show {display:block;}
-=======
-=======
->>>>>>> de1b2d6d3d7760c97fd5e4ac972bfb22e183231a
+.show {display:block;} {
   vertical-align: bottom;
   padding: 5px;
   line-height: 20px;
 }
-
-.searchBarElement {
-  display: inline;
-  padding-right: 10px;
-<<<<<<< HEAD
-}
->>>>>>> de1b2d6d3d7760c97fd5e4ac972bfb22e183231a
-=======
-}
->>>>>>> de1b2d6d3d7760c97fd5e4ac972bfb22e183231a
