@@ -112,10 +112,11 @@ var confirmationPost = function (req, res, next) {
 };
 
 var resendTokenGet = function(req,res){
-    res.render('require_email_page',{
-        title: "Resend Email Verification",
-        action: "verification"
-    });
+    res.render('AfterSignUp');
+    // res.render('require_email_page',{
+    //     title: "Resend Email Verification",
+    //     action: "verification"
+    // });
 }
 
 var resendTokenPost = function (req, res, next) {

@@ -12,7 +12,7 @@ body.background
         input.input.inputStyle(name='username', type='text', placeholder='Username')
         input.input.inputStyle(name='password', type='password', placeholder='Password')
         input.input.submitButton(type='submit', value='Submit')
-      a.tiny(href='/user/send/passwordreset')
-        small Forgot Password?
-      a.tiny(href='/user/register')
-        small Sign Up
+      a.tiny.block(href='/user/send/passwordreset')
+        p Forgot Password?
+      a.tiny.block(href='/user/register')
+        p Sign Up

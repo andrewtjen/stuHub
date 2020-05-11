@@ -8,6 +8,14 @@ body, html {
   height: 100%;
 }
 
+*:focus {
+  outline: none;
+}
+
+input[type="submit"]:hover, i:hover {
+  cursor: pointer;
+}
+
 .background {
   background: linear-gradient(#884EA0, #D7BDE2);
   background-size: cover;
@@ -75,10 +83,16 @@ body, html {
 
 .tiny {
   font-family: 'Spartan', sans-serif;
-  font-size: 14px;
-  display: block;
   color: #BFC9CA;
   padding: 3px 0;
+  border: none;
+  background-color: white;
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+.block {
+  display: block;
 }
 
 .sidebar {
@@ -123,10 +137,6 @@ body, html {
   color: #9932CC;
   float: left;
   padding: 5px 10px;
-}
-
-i:hover {
-  cursor: pointer;
 }
 
 .header {

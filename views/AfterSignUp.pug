@@ -1,0 +1,14 @@
+doctype html
+html
+    head
+        title Confirmation
+        link(rel='stylesheet', href="https://fonts.googleapis.com/css2?family=Spartan&display=swap")
+        style
+            include ../public/css/style.css
+body.background
+    .box
+        h1.title.titleLoginPadding A verification email has been sent, please check your email to authenticate your account
+        form(method='POST', action='/user/send/verification')
+            input.tiny(type='submit',value='Resend Verification Email')
+        a.tiny(href='/')
+            p Home
