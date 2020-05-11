@@ -2,14 +2,19 @@ var mongoose = require('mongoose');
 let Event = require('../models/event');
 let UserEvents = require('../models/user_events');
 
+
 const { body , validationResult } = require('express-validator');
 
 //getting all available events
 var getAllEvent = function(req, res) {
+
+
+
     Event.find({}, function(err, events) {
         if (err) {
             console.log(err);
         } else {
+            updateEvent(events);
             res.render('index', {
                 title: 'List of Events',
                 events: events
@@ -126,6 +131,23 @@ var searchEventGet = function(req, res) {
         }
     }
 };
+
+
+function updateEvent( eventList ){
+    let currentTime = new Date();
+    
+    for ( i=0; i< eventList.length ; i++){
+        if (currentTime > eventList[i].datetime){
+
+            eventList[i].isActive = false
+
+            eventList[i].save(function (err) {
+                if (err) { return res.status(500).send({ msg: err.message }); }
+            });
+
+        }
+    }
+}
 
 module.exports.getAllEvent = getAllEvent;
 module.exports.searchEventGet = searchEventGet;

@@ -41,7 +41,7 @@ let eventSchema = mongoose.Schema({
   current_attendees: {
     type: Number,
   },
-  isactive: {
+  isActive: {
     type: Boolean
   },
   createdAt: {
