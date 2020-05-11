@@ -167,14 +167,18 @@ i:hover {
 }
 
 .searchBar {
-  padding: 100px;
+  padding: 50px;
 }
 
 .search {
   padding: 10px;
   border: 3px solid #533180;
   border-radius: 5px 0 0 5px;
-  vertical-align: top;
+  font-family: 'Spartan', sans-serif;
+}
+
+.filter {
+  border-radius: 5px;
 }
 
 .searchButton {
@@ -182,5 +186,12 @@ i:hover {
   background-color: #533180;
   color: white;
   border: 1px solid #533180;
-  padding: 6px;
+  vertical-align: bottom;
+  padding: 5px;
+  line-height: 20px;
+}
+
+.searchBarElement {
+  display: inline;
+  padding-right: 10px;
 }
