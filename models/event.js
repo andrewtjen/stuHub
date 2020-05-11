@@ -15,14 +15,14 @@ let eventSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  date:{
-    type: Date,
-    required: true
-  },
-  time:{
-    type: String,
-    required: true
-  },
+  // date:{
+  //   type: Date,
+  //   required: true
+  // },
+  // time:{
+  //   type: String,
+  //   required: true
+  // },
   datetime:{
     type: Date
   },
@@ -42,7 +42,8 @@ let eventSchema = mongoose.Schema({
     type: Number,
   },
   isActive: {
-    type: Boolean
+    type: Boolean,
+    default: true
   },
   createdAt: {
     type: Date,

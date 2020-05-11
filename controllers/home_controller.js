@@ -8,8 +8,6 @@ const { body , validationResult } = require('express-validator');
 //getting all available events
 var getAllEvent = function(req, res) {
 
-
-
     Event.find({}, function(err, events) {
         if (err) {
             console.log(err);
@@ -135,7 +133,7 @@ var searchEventGet = function(req, res) {
 
 function updateEvent( eventList ){
     let currentTime = new Date();
-    
+
     for ( i=0; i< eventList.length ; i++){
         if (currentTime > eventList[i].datetime){
 

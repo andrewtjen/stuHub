@@ -22,7 +22,7 @@ router.get('/edit/:id', eventController.ensureAuthenticated, eventController.loa
 router.post('/edit', eventController.validate('saveEvent'), eventController.editEvent);
 
 //delete event
-router.post('/delete', eventController.deleteEvent);
+router.post('/delete',  eventController.ensureAuthenticated, eventController.deleteEvent);
 
 //join event
 router.post('/join/:id', eventController.ensureAuthenticated, eventController.joinEvent);

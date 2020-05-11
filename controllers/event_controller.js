@@ -32,8 +32,6 @@ var createEvent = function (req, res) {
         event.name = req.body.name;
         event.category = req.body.category;
         event.location = req.body.location;
-        event.date = req.body.date;
-        event.time = req.body.time;
         event.datetime = new Date(req.body.date + " "+ req.body.time + ":00");
         event.description = req.body.description;
         event.creatorID = req.user.id;
@@ -66,12 +64,10 @@ var createEvent = function (req, res) {
 
 //get single event in a page
 var getEvent = function(req, res){
-    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
     Event.findById(req.params.id, function(err, event){
+
         res.render('event', {
-            days: days,
-            months: months,
             event: event
         });
     });
@@ -163,9 +159,7 @@ var editEvent =  function (req, res) {
         event.name = req.body.name;
         event.category = req.body.category;
         event.location = req.body.location;
-        event.date = req.body.date;
-        event.time = req.body.time;
-        event.datetime = new Date(req.body.date + " "+ req.body.time + ":00");
+        event.datetime = new Date(req.body.date + " "+ req.body.time + ":00" );
         event.description = req.body.description;
         event.save(function(err){
             if(err){
