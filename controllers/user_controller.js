@@ -75,7 +75,7 @@ var createUser = function (req, res) {
                         //ask to check email
                         transporter.sendMail(mailOptions, function (err) {
                             if (err) { return res.status(500).send({ msg: err.message }); }
-                            res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                            res.status(200).send('A verification email has been sent to ' + user.email + ' .');
                         });
                     }
                 });
@@ -204,7 +204,7 @@ var sendresetPasswordPost = function(req,res, next){
                     if (err) {
                         return res.status(500).send({msg: err.message});
                     }
-                    res.status(200).send('A password reset link has been sent to ' + user.email + '.');
+                    res.status(200).send('A password reset link has been sent to ' + user.email + ' .');
                 });
 
 
@@ -248,7 +248,7 @@ var resetPasswordPost = function(req,res){
 
 var getJoinHistory = function(req,res){
     User.findById(req.user.id, function(err, user){
-        res.render('event_history_template', {
+        res.render('history_template', {
             title: 'Join History',
             events: user.joined_events
         });
@@ -266,11 +266,10 @@ const getAllJoinHistory = function (req, res) {
             docs.forEach(element => events.push(element.eventid));
             Event.find({_id:events}, function (err, eventJoined){
                 if(err){
-                    res.status(400);
-                    req.flash("danger", "no join history");
+                    console.log(err);
                 }
                 else{
-                    res.render('event_history_template', {
+                    res.render('history_template', {
                     title: 'Join History',
                     events: eventJoined
                     });
@@ -282,17 +281,26 @@ const getAllJoinHistory = function (req, res) {
 
 const getAllCreateHistory = function (req, res) {
     UserEvent.find({userid :req.user.id, type : "create"}, function(err, docs){
+        
         if(err){
             res.status(400);
             req.flash("danger", "no create history");
         }
         else{
-            const events = [];
-            docs.forEach(element => events.push(element.eventid));
-            res.render('event_history_template', {
-                title: 'Create History',
-                events: events
+            const events_id = [];
+            docs.forEach(element => events_id.push(element.eventid));
+
+            Event.find({_id:events_id}, function(err, all_events){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render('history_template', {
+                        title: 'Create History',
+                        events: all_events
+                    });
+                }
             });
+
         }
     });
 };
@@ -369,8 +377,8 @@ var ensureVerified = function(req, res, next) {
         if (err) { return next(err); }
 
         if (!user) { 
-            req.flash('danger', 'Account not found! Please Register!');
-            return res.redirect('/user/register');
+            req.flash('danger', 'Account not found! Please try again!');
+            return res.redirect('/user/login');
         }
 
         if (!user.verified) {

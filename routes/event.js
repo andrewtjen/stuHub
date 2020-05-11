@@ -27,5 +27,7 @@ router.post('/delete',  eventController.ensureAuthenticated, eventController.del
 //join event
 router.post('/join/:id', eventController.ensureAuthenticated, eventController.joinEvent);
 
+//user_in_event
+router.get('/user/:id', eventController.user_in_event);
 
 module.exports = router;

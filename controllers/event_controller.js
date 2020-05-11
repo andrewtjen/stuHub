@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 //Bringing the models
 let Event = require('../models/event');
 let UserEvents = require('../models/user_events');
+let User = require('../models/user');
 
 const { body , validationResult } = require('express-validator');
 
@@ -104,7 +105,7 @@ var joinEvent = function(req,res){
                             }
                         });
 
-                        //udpdate to the db of the event
+                        //update to the db of the event
                         let userevents = new UserEvents();
                         userevents.userid = req.user.id;
                         userevents.eventid = event.id;
@@ -128,6 +129,21 @@ var joinEvent = function(req,res){
         }
     });
 };
+
+// //leave event
+// var leaveEvent = function (req, res) {
+//     var id = req.body.id;
+//     UserEvents.findById(id, function (err, event) {
+//         if(){
+//             UserEvents.findByIdAndRemove(id).exec();
+//             req.flash('danger','You had leave an event');
+//             res.redirect('/');
+//         }else{
+//             req.flash('danger','Not Authorized');
+//             res.redirect('/event/'+id);
+//         }
+//     });
+// };
 
 //load edit event
 var loadEvent =  function (req, res) {
@@ -170,6 +186,32 @@ var editEvent =  function (req, res) {
                 res.redirect('/');
             }
         });
+    });
+};
+
+//Who had join the event
+var user_in_event =  function (req, res) {
+    var id = req.params.id;
+    
+    //find the data of current event
+    UserEvents.find({eventid:id}, function(err, user){
+        if(err){
+            console.log(err);
+        } else {
+            const userid_joined = [];
+            user.forEach(element => userid_joined.push(element.userid));
+            
+            User.find({_id:userid_joined}, function (err, userJoined){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render('history_template', {
+                        title: 'Who had join the event?',
+                        events: userJoined
+                    });
+                }
+            });
+        }
     });
 };
 
@@ -219,7 +261,7 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
-
+module.exports.user_in_event = user_in_event;
 module.exports.getEventPage = getEventPage;
 module.exports.createEvent = createEvent;
 module.exports.getEvent = getEvent;

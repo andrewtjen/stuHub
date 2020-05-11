@@ -11,7 +11,9 @@ block content
     p= "Curr Attendees: ".concat(event.current_attendees)
     p= "Is Active   :  ".concat(event.isActive)
     
-
+    a(href="/event/user/"+event.id) who had join the event???
+    br
+    br
     a(href="/event/edit/"+event.id) Event edit button
 
     
