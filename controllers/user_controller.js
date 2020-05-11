@@ -257,19 +257,26 @@ var getJoinHistory = function(req,res){
 
 const getAllJoinHistory = function (req, res) {
     UserEvent.find({userid :req.user.id, type : "join"}, function (err, docs) {
-       if(err){
-           res.status(400);
-           req.flash("danger", "no join history");
-       }
-       else{
-           const events = [];
-           docs.forEach(element => events.push(element.eventid));
-           console.log(docs);
-           res.render('event_history_template', {
-               title: 'Join History',
-               events: events
-           });
-       }
+        if(err){
+            res.status(400);
+            req.flash("danger", "no join history");
+        }
+        else{
+            const events = [];
+            docs.forEach(element => events.push(element.eventid));
+            Event.find({_id:events}, function (err, eventJoined){
+                if(err){
+                    res.status(400);
+                    req.flash("danger", "no join history");
+                }
+                else{
+                    res.render('event_history_template', {
+                    title: 'Join History',
+                    events: eventJoined
+                    });
+                }
+            });
+        }
     });
 };
 
