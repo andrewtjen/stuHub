@@ -41,22 +41,25 @@ html
             a.headerButton.headerLight(href='/user/login') Log In
             a.headerButton.headerDark(href='/user/register') Sign Up
     form.searchBar(action='/search' method='GET')
-      input.search(type='text' name='search' placeholder='Event search...')
-      button.searchButton(type='submit')
-        i.material-icons search
-      select(name='filterBy')
-        option(value='') Filter By
-        option(value='sports') Sports
-        option(value='studies') Studies
-        option(value='leisure') Leisure
-        option(value='club activity') Club Activity
-      select(name='sortBy')
-        option(value='') Sort By
-        option(value='happeningsoon') Happening Soon
-        option(value='happeninglatest') Happening latest
-        option(value='newestcreated') Newest Created
-        option(value= 'latestcreated') Latest Created
-        option(value= 'capacity') Capacity
+      .searchBarElement
+        input.search(type='text' name='search' placeholder='Event search...')
+        button.searchButton(type='submit')
+          i.material-icons search
+      .searchBarElement
+        select.filter.search(name='filterBy')
+          option(value='') Filter By
+          option(value='sports') Sports
+          option(value='studies') Studies
+          option(value='leisure') Leisure
+          option(value='club activity') Club Activity
+      .searchBarElement
+        select.filter.search(name='sortBy')
+          option(value='') Sort By
+          option(value='happeningsoon') Happening Soon
+          option(value='happeninglatest') Happening latest
+          option(value='newestcreated') Newest Created
+          option(value= 'latestcreated') Latest Created
+          option(value= 'capacity') Capacity
 
     block content
 
