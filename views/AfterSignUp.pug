@@ -7,8 +7,9 @@ html
             include ../public/css/style.css
 body.background
     .box
-        h1.title.titleLoginPadding A verification email has been sent, please check your email to authenticate your account
+        h1.title.titleLoginPadding A verification email has been sent to #{email}, please check your email to authenticate your account
         form(method='POST', action='/user/send/verification')
+            input(type='hidden', value=email, name='email')
             input.tiny(type='submit',value='Resend Verification Email')
         a.tiny(href='/')
             p Home

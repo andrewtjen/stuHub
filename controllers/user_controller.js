@@ -71,7 +71,10 @@ var createUser = function (req, res) {
                         };
                         transporter.sendMail(mailOptions, function (err) {
                             if (err) { return res.status(500).send({ msg: err.message }); }
-                            res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                            //res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                            res.render('AfterSignUp', {
+                                email: user.email
+                            });
                             // req.flash("success","Email verification sent");
                             // res.redirect('/user/login');
                         });
@@ -149,9 +152,12 @@ var resendTokenPost = function (req, res, next) {
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
-                res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                //res.status(200).send('A verification email has been sent to ' + user.email + '.');
                 // req.flash("success","Email verification sent");
                 // res.redirect('/user/login');
+                res.render('AfterSignUp', {
+                    email: user.email
+                });
             });
         });
     });
@@ -162,7 +168,7 @@ var sendresetPasswordGet = function(req,res){
         title: "Reset Password",
         action: "passwordreset"
     });
-}
+};
 //reset password require email in body
 var sendresetPasswordPost = function(req,res, next){
     User.findOne({email: req.body.email }, function (err, user) {
