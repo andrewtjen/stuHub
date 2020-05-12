@@ -241,8 +241,11 @@ var validate = (method) => {
                 body('category','must be either "sports", "studies", "leisure", "club activity"').isIn(["sports", "studies", "leisure", "club activity"]),
                 body('location','location is required').notEmpty(),
                 body('date','date is required').notEmpty(),
-                //body('date','date cannot travel to past').custom(value => {return value >= Date.now }),
                 body('time','time is required').notEmpty(),
+                body('date','date cannot travel to past').custom(value => {
+                    let currentDate = new Date();
+                    return new Date(value) >= currentDate }),
+                
                 body('description','description is required').notEmpty(),
                 body('capacity','capacity is required').notEmpty(),
                 body('capacity','capacity must be a number').isNumeric()
