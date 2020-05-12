@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+  h1 Change Profile
+
+  form(method='POST', action='/user/updateProfile')
+    #form-group
+      label Name:
+      input.form-control(name='name', type='text', value=user.name)
+    #form-group
+      label Email:
+      input.form-control(name='email', type='text', value=user.email)
+    #form-group
+      label Password:
+      input.form-control(name='password',type='password', value=user.password)
+    #form-group
+      label Confirm Password:
+      input.form-control(name='confirm_password',type='password')
+    br
+    input.btn.btn-primary(type='submit',value='Submit')
+
+

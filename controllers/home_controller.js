@@ -2,13 +2,17 @@ var mongoose = require('mongoose');
 let Event = require('../models/event');
 let UserEvents = require('../models/user_events');
 
+
 const { body , validationResult } = require('express-validator');
 
+//getting all available events
 var getAllEvent = function(req, res) {
+
     Event.find({}, function(err, events) {
         if (err) {
             console.log(err);
         } else {
+            updateEvent(events);
             res.render('index', {
                 title: 'List of Events',
                 events: events
@@ -16,6 +20,8 @@ var getAllEvent = function(req, res) {
         }
     });
 };
+
+//sorting the event based on the selected fields
 let sortEvents = function(events,sortBy){
     if (sortBy == 'newestcreated') {
         return events.sort(function(a, b) {
@@ -31,13 +37,13 @@ let sortEvents = function(events,sortBy){
         });;
     } else if (sortBy == '') {
         return events;
-    } else if(sortBy == 'happeningsoon'){
+    } else if(sortBy == 'happeninglatest'){
         return events.sort(function(a, b) {
             a = new Date(a.datetime);
             b = new Date(b.datetime);
             return a<b ? -1 : a>b ? 1 : 0;
         });
-    } else if(sortBy == 'happeninglatest'){
+    } else if(sortBy == 'happeningsoon'){
         return events.sort(function(a, b) {
             a = new Date(a.datetime);
             b = new Date(b.datetime);
@@ -49,19 +55,8 @@ let sortEvents = function(events,sortBy){
     return events;
 }
 
+//searching the name of event based on the search bar
 var searchEventGet = function(req, res) {
-    //Event.createIndex({name: "text", category: "text" });
-    // Event.find({name: {$regex: new RegExp(req.query.search, "gi")}}, function (err, events) {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         res.render('index', {
-    //             title: 'List of Events',
-    //             events: events
-    //         });
-    //     }
-    // }).sort( { score: { $meta: "textScore" } } );4
-
     var noMatch = null;
     const filterBy = req.query.filterBy;
     let sortBy = req.query.sortBy;
@@ -134,6 +129,23 @@ var searchEventGet = function(req, res) {
         }
     }
 };
+
+
+function updateEvent( eventList ){
+    let currentTime = new Date();
+
+    for ( i=0; i< eventList.length ; i++){
+        if (currentTime > eventList[i].datetime){
+
+            eventList[i].isActive = false
+
+            eventList[i].save(function (err) {
+                if (err) { return res.status(500).send({ msg: err.message }); }
+            });
+
+        }
+    }
+}
 
 module.exports.getAllEvent = getAllEvent;
 module.exports.searchEventGet = searchEventGet;

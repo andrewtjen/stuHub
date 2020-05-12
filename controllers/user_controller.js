@@ -6,7 +6,7 @@ var sgTransport = require('nodemailer-sendgrid-transport');
 
 
 const EMAIL = "studenthubpersonal@gmail.com";
-const PASS = "Webitworkshop_tue11";
+
 
 const SENDGRID_API_KEY = "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";
 const SENDGRID_USERNAME = "studenthub";
@@ -24,6 +24,7 @@ let Token = require("../models/token");
 const { body , validationResult } = require('express-validator');
 
 
+//creating a user
 var createUser = function (req, res) {
 
     // Get Errors
@@ -34,6 +35,7 @@ var createUser = function (req, res) {
         errors: errors.errors
         });
     } else {
+        //storing data from the fields enter
         let user = new User();
         user.name = req.body.name;
         user.email = req.body.email;
@@ -55,6 +57,7 @@ var createUser = function (req, res) {
                         return;
                     }
                     else{
+                        //sending an email verification after saving the data
                         var options = {
                             auth: {
                                 api_user: SENDGRID_USERNAME,
@@ -69,6 +72,7 @@ var createUser = function (req, res) {
                             subject: 'Account Verification',
                             text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user/confirmation\/' + token.token
                         };
+                        //ask to check email
                         transporter.sendMail(mailOptions, function (err) {
                             if (err) { return res.status(500).send({ msg: err.message }); }
                             //res.status(200).send('A verification email has been sent to ' + user.email + '.');
@@ -114,6 +118,7 @@ var confirmationPost = function (req, res, next) {
     });
 };
 
+
 var resendTokenGet = function(req,res){
     res.render('AfterSignUp');
     // res.render('require_email_page',{
@@ -121,6 +126,7 @@ var resendTokenGet = function(req,res){
     //     action: "verification"
     // });
 }
+
 
 var resendTokenPost = function (req, res, next) {
     User.findOne({ email: req.body.email }, function (err, user) {
@@ -163,6 +169,7 @@ var resendTokenPost = function (req, res, next) {
     });
 };
 
+
 var sendresetPasswordGet = function(req,res){
     res.render('require_email_page',{
         title: "Reset Password",
@@ -198,7 +205,7 @@ var sendresetPasswordPost = function(req,res, next){
                 from: EMAIL,
                 to: user.email,
                 subject: 'Password Reset',
-                text: 'Hello,\n\n' + 'Press this link to reset your password: \nhttp:\/\/' + req.headers.host + '\/user/passwordreset\/' + token.token + '.\n'
+                text: 'Hello,\n\n' + 'Press this link to reset your password: \nhttp:\/\/' + req.headers.host + '\/user/confirmedpasswordreset\/' + token.token
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
@@ -206,10 +213,9 @@ var sendresetPasswordPost = function(req,res, next){
                     if (err) {
                         return res.status(500).send({msg: err.message});
                     }
-                    res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                    res.status(200).send('A password reset link has been sent to ' + user.email + ' .');
                 });
-                // req.flash("success","Email verification sent");
-                // res.redirect('/user/login');
+
 
             });
         });
@@ -243,14 +249,15 @@ var resetPasswordPost = function(req,res){
             Token.deleteOne({token: req.params.id}, function(err,token){
                 if (err) {return res.status(500).send({msg: err.message});}
             });
-            res.send('Password has been reset!').redirect('/user/login');
+            req.flash("success", "Password resetted");
+            res.redirect('/user/login');
         });
     });
 }
 
 var getJoinHistory = function(req,res){
     User.findById(req.user.id, function(err, user){
-        res.render('event_history_template', {
+        res.render('history_template', {
             title: 'Join History',
             events: user.joined_events
         });
@@ -259,35 +266,50 @@ var getJoinHistory = function(req,res){
 
 const getAllJoinHistory = function (req, res) {
     UserEvent.find({userid :req.user.id, type : "join"}, function (err, docs) {
-       if(err){
-           res.status(400);
-           req.flash("danger", "no join history");
-       }
-       else{
-           const events = [];
-           docs.forEach(element => events.push(element.eventid));
-           console.log(docs);
-           res.render('event_history_template', {
-               title: 'Join History',
-               events: events
-           });
-       }
+        if(err){
+            res.status(400);
+            req.flash("danger", "no join history");
+        }
+        else{
+            const events = [];
+            docs.forEach(element => events.push(element.eventid));
+            Event.find({_id:events}, function (err, eventJoined){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render('history_template', {
+                    title: 'Join History',
+                    events: eventJoined
+                    });
+                }
+            });
+        }
     });
 };
 
 const getAllCreateHistory = function (req, res) {
     UserEvent.find({userid :req.user.id, type : "create"}, function(err, docs){
+
         if(err){
             res.status(400);
             req.flash("danger", "no create history");
         }
         else{
-            const events = [];
-            docs.forEach(element => events.push(element.eventid));
-            res.render('event_history_template', {
-                title: 'Create History',
-                events: events
+            const events_id = [];
+            docs.forEach(element => events_id.push(element.eventid));
+
+            Event.find({_id:events_id}, function(err, all_events){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render('history_template', {
+                        title: 'Create History',
+                        events: all_events
+                    });
+                }
             });
+
         }
     });
 };
@@ -295,17 +317,17 @@ const getAllCreateHistory = function (req, res) {
 var validate = (method) => {
     switch (method) {
         case 'saveUser': {
-            return [ 
+            return [
                 body('name','name is required').notEmpty(),
                 body('email','Please enter a valid UniMelb Email')
                     .isEmail()
-                    // .custom(value => {
-                    //     let regex = /.unimelb.edu.au$/;
-                    //     if (!regex.test(value)) {
-                    //       return false;
-                    //     }
-                    //     return true;
-                    //   }),
+                    .custom(value => {
+                        let regex = /.unimelb.edu.au$/;
+                        if (!regex.test(value)) {
+                          return false;
+                        }
+                        return true;
+                      })
                 ,
                 body('email','E-mail already in use')
                     .custom(value => {
@@ -327,22 +349,23 @@ var validate = (method) => {
             return [
                 body('email','Please enter a valid UniMelb Email')
                     .isEmail()
-                // .custom(value => {
-                //     let regex = /.unimelb.edu.au$/;
-                //     if (!regex.test(value)) {
-                //       return false;
-                //     }
-                //     return true;
-                //   }),
-                ,
-                body('email','E-mail already in use')
                     .custom(value => {
-                        return User.exists({email: value}).then(user => {
-                            if (user){
-                                throw new Error;
-                            }
-                        });
+                        let regex = /.unimelb.edu.au$/;
+                        if (!regex.test(value)) {
+                        return false;
+                        }
+                        return true;
                     })
+
+                // ,
+                // body('email','E-mail already in use')
+                //     .custom(value => {
+                //         return User.exists({email: value}).then(user => {
+                //             if (user){
+                //                 throw new Error;
+                //             }
+                //         });
+                //     })
             ]
         }
         case 'passwordValidate': {
@@ -362,9 +385,9 @@ var ensureVerified = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
 
-        if (!user) { 
-            req.flash('danger', 'Account not found! Please Register!');
-            return res.redirect('/user/register');
+        if (!user) {
+            req.flash('danger', 'Account not found! Please try again!');
+            return res.redirect('/user/login');
         }
 
         if (!user.verified) {
@@ -386,9 +409,45 @@ var logOut = function(req, res){
     res.redirect('/');
 }
 
+//getUpdateUser
+var loadUser =  function (req, res) {
+    var id = req.user.id;
 
-  
-function ensureAuthenticated(req, res, next){  
+    //find the data of current event
+    User.findById(id, function(err, user){
+
+        res.render('updateProfile', {
+            name: 'Update Profile',
+            user: user
+        });
+    });
+};
+
+//updateUserProfile
+var updateProfile =  function (req, res) {
+    var id = req.user.id;
+
+    User.findById(id, function(err, user) {
+
+        if (err) {
+            console.error('error, invalid User');
+        }
+        user.name = req.body.name;
+        user.email = req.body.email;
+        user.password = req.body.password;
+        user.save(function(err){
+            if(err){
+                console.log(err);
+                return;
+            } else {
+                req.flash('success','Profile Updated!');
+                res.redirect('/');
+            }
+        });
+    });
+};
+
+function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else {
@@ -397,6 +456,8 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+module.exports.updateProfile = updateProfile;
+module.exports.loadUser = loadUser;
 module.exports.logOut = logOut;
 module.exports.ensureVerified = ensureVerified;
 module.exports.ensureAuthenticated = ensureAuthenticated;

@@ -3,15 +3,17 @@ extend layout
 block content
     h1= event.name
     h2= event.category
-    p= "Location:   ".concat(event.location)
-    p= "Date:       ".concat(days[event.date.getDay()],', ', event.date.getDate(), ' ',months[event.date.getMonth()], ' ', event.date.getFullYear())
-    p= "Time:       ".concat(event.time)
-    p= "Desc:       ".concat(event.description)
-    p= "Capacity:   ".concat(event.capacity)
+    p= "Location    : ".concat(event.location)
+    p= "Date        : ".concat(event.datetime.toLocaleDateString(undefined ,{dateStyle:"full"}))
+    p= "Time        : ".concat(event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"}))
+    p= "Desc        : ".concat(event.description)
+    p= "Capacity    : ".concat(event.capacity)
     p= "Curr Attendees: ".concat(event.current_attendees)
-    //- p= "Is Active:  ".concat(event.isactive)
+    p= "Is Active   :  ".concat(event.isActive)
     
-
+    a(href="/event/user/"+event.id) who had join the event???
+    br
+    br
     a(href="/event/edit/"+event.id) Event edit button
 
     

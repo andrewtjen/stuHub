@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 //Bringing the models
 let Event = require('../models/event');
 let UserEvents = require('../models/user_events');
+let User = require('../models/user');
 
 const { body , validationResult } = require('express-validator');
 
@@ -27,12 +28,11 @@ var createEvent = function (req, res) {
         errors: errors.errors
         });
     } else {
+        //storing each data to the variable
         let event = new Event();
         event.name = req.body.name;
         event.category = req.body.category;
         event.location = req.body.location;
-        event.date = req.body.date;
-        event.time = req.body.time;
         event.datetime = new Date(req.body.date + " "+ req.body.time + ":00");
         event.description = req.body.description;
         event.creatorID = req.user.id;
@@ -47,6 +47,7 @@ var createEvent = function (req, res) {
                 //res.redirect('/');
             }
         });
+        //storing the a db created for event and user
         let userevents = new UserEvents();
         userevents.userid = req.user.id;
         userevents.eventid = event.id;
@@ -62,18 +63,18 @@ var createEvent = function (req, res) {
     }
 };
 
-//get single event
+//get single event in a page
 var getEvent = function(req, res){
-    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
     Event.findById(req.params.id, function(err, event){
+
         res.render('event', {
-            days: days,
-            months: months,
             event: event
         });
     });
 };
+
+//join an event letting the user data created to be stored and update the capcity
 var joinEvent = function(req,res){
     Event.findById(req.params.id, function(err, event) {
         if (err) {
@@ -87,12 +88,13 @@ var joinEvent = function(req,res){
             }
             else {
                 UserEvents.find({userid: req.user.id, eventid: event.id, type: "join"}, function (err, docs) {
+                    //check if user has previously register for the event
                     if (docs.length > 0){
-                        //req.flash('danger', 'already in event');
                         req.flash("danger", "already in event");
                         res.redirect('/');
                     }
                     else{
+                        //update the current event after joining
                         event.current_attendees = event.current_attendees + 1;
                         event.save(function (err) {
                             if (err) {
@@ -102,6 +104,8 @@ var joinEvent = function(req,res){
                                 req.flash('success', 'Join Succesful');
                             }
                         });
+
+                        //update to the db of the event
                         let userevents = new UserEvents();
                         userevents.userid = req.user.id;
                         userevents.eventid = event.id;
@@ -118,6 +122,7 @@ var joinEvent = function(req,res){
             }
         }
          else {
+            //check if event is full
             req.flash('danger','Event is Full');
             res.redirect('/');
             return;
@@ -125,12 +130,27 @@ var joinEvent = function(req,res){
     });
 };
 
+// //leave event
+// var leaveEvent = function (req, res) {
+//     var id = req.body.id;
+//     UserEvents.findById(id, function (err, event) {
+//         if(){
+//             UserEvents.findByIdAndRemove(id).exec();
+//             req.flash('danger','You had leave an event');
+//             res.redirect('/');
+//         }else{
+//             req.flash('danger','Not Authorized');
+//             res.redirect('/event/'+id);
+//         }
+//     });
+// };
+
 //load edit event
 var loadEvent =  function (req, res) {
     var id = req.params.id;
 
+    //find the data of current event
     Event.findById(id, function(err, event){
-
         if(event.creatorID != req.user.id){
             req.flash('danger', 'Not Authorized');
             return res.redirect('/');
@@ -143,7 +163,7 @@ var loadEvent =  function (req, res) {
     });
 };
 
-//post edit event
+//Update and save the event to the db
 var editEvent =  function (req, res) {
     var id = req.body.id;
     
@@ -155,8 +175,7 @@ var editEvent =  function (req, res) {
         event.name = req.body.name;
         event.category = req.body.category;
         event.location = req.body.location;
-        event.date = new Date(req.body.date);
-        event.time = req.body.time;
+        event.datetime = new Date(req.body.date + " "+ req.body.time + ":00" );
         event.description = req.body.description;
         event.save(function(err){
             if(err){
@@ -170,16 +189,48 @@ var editEvent =  function (req, res) {
     });
 };
 
+//Who had join the event
+var user_in_event =  function (req, res) {
+    var id = req.params.id;
+    
+    //find the data of current event
+    UserEvents.find({eventid:id}, function(err, user){
+        if(err){
+            console.log(err);
+        } else {
+            const userid_joined = [];
+            user.forEach(element => userid_joined.push(element.userid));
+            
+            User.find({_id:userid_joined}, function (err, userJoined){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render('history_template', {
+                        title: 'Who had join the event?',
+                        events: userJoined
+                    });
+                }
+            });
+        }
+    });
+};
+
 //delete event
 var deleteEvent = function (req, res) {
     var id = req.body.id;
-
-    Event.findByIdAndRemove(id).exec();
-    req.flash('danger','Event Deleted');
-    res.redirect('/');
+    Event.findById(id, function (err, event) {
+        if(req.user.id == event.creatorID){
+            Event.findByIdAndRemove(id).exec();
+            req.flash('danger','Event Deleted');
+            res.redirect('/');
+        }else{
+            req.flash('danger','Not Authorized');
+            res.redirect('/event/'+id);
+        }
+    });
 };
 
-
+//validation use in the html entry
 var validate = (method) => {
     switch (method) {
         case 'saveEvent': {
@@ -190,8 +241,11 @@ var validate = (method) => {
                 body('category','must be either "sports", "studies", "leisure", "club activity"').isIn(["sports", "studies", "leisure", "club activity"]),
                 body('location','location is required').notEmpty(),
                 body('date','date is required').notEmpty(),
-                //body('date','date cannot travel to past').custom(value => {return value >= Date.now }),
                 body('time','time is required').notEmpty(),
+                body('date','date cannot travel to past').custom(value => {
+                    let currentDate = new Date();
+                    return new Date(value) >= currentDate }),
+                
                 body('description','description is required').notEmpty(),
                 body('capacity','capacity is required').notEmpty(),
                 body('capacity','capacity must be a number').isNumeric()
@@ -210,7 +264,7 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
-
+module.exports.user_in_event = user_in_event;
 module.exports.getEventPage = getEventPage;
 module.exports.createEvent = createEvent;
 module.exports.getEvent = getEvent;

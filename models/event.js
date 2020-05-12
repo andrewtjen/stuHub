@@ -15,14 +15,14 @@ let eventSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  date:{
-    type: Date,
-    required: true
-  },
-  time:{
-    type: String,
-    required: true
-  },
+  // date:{
+  //   type: Date,
+  //   required: true
+  // },
+  // time:{
+  //   type: String,
+  //   required: true
+  // },
   datetime:{
     type: Date
   },
@@ -41,8 +41,9 @@ let eventSchema = mongoose.Schema({
   current_attendees: {
     type: Number,
   },
-  isactive: {
-    type: Boolean
+  isActive: {
+    type: Boolean,
+    default: true
   },
   createdAt: {
     type: Date,

@@ -5,7 +5,7 @@ var router = express.Router();
 
 var userController = require('../controllers/user_controller.js');
 
-// Register Form
+// get register Form
 router.get('/register', function(req, res){
     res.render('register');
 });
@@ -13,6 +13,11 @@ router.get('/register', function(req, res){
 //register user
 router.post('/register', userController.validate('saveUser'), userController.createUser);
 
+//get update profile form
+router.get('/updateProfile', userController.ensureAuthenticated , userController.loadUser);
+
+//update Profile
+router.post('/updateProfile', userController.validate('saveUser'), userController.updateProfile);
 
 //register user
 router.get('/login', function(req, res){
