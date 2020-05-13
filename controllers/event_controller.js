@@ -135,15 +135,23 @@ var joinEvent = function(req,res){
 
 // //leave event
 // var leaveEvent = function (req, res) {
-//     var id = req.body.id;
-//     UserEvents.findById(id, function (err, event) {
-//         if(){
-//             UserEvents.findByIdAndRemove(id).exec();
+//     let eventID = req.params.id;
+//     let userID = req.user.id;
+//     UserEvents.findById({userid:userID, eventid:eventID}, function (err, userEvent) {
+//         if (err){
+//             console.log(err);
+//         }else{
+//             UserEvents.findByIdAndRemove(userEvent.id).exec();
+//             Event.findById(eventID, function(err, singleEvent){
+//                 if(err){
+//                     console.log(err);
+//                 } else {
+//                     singleEvent.current_attendees -=1;
+//                     singleEvent.save();
+//                 }
+//             })
 //             req.flash('danger','You had leave an event');
 //             res.redirect('/');
-//         }else{
-//             req.flash('danger','Not Authorized');
-//             res.redirect('/event/'+id);
 //         }
 //     });
 // };
