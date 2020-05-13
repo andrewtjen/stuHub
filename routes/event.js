@@ -10,7 +10,7 @@ let Event = require('../models/event');
 router.get('/add', eventController.ensureAuthenticated, eventController.getEventPage);
 
 //add event
-router.post('/add', eventController.validate('saveEvent'), eventController.createEvent);
+router.post('/add', eventController.ensureAuthenticated, eventController.validate('saveEvent'), eventController.createEvent);
 
 //get single event
 router.get('/:id', eventController.getEvent);

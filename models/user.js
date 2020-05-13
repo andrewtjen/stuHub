@@ -18,6 +18,9 @@ var userSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
+  eventCreated:{
+    type: [mongoose.ObjectId]
+  },
   passwordResetToken:{
     type: String
   },

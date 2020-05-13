@@ -280,29 +280,24 @@ const getAllJoinHistory = function (req, res) {
 };
 
 const getAllCreateHistory = function (req, res) {
-    UserEvent.find({userid :req.user.id, type : "create"}, function(err, docs){
+
+    let eventCreated = req.user.eventCreated;
         
+
+
+    Event.find({_id:eventCreated}, function(err, all_events){
         if(err){
-            res.status(400);
-            req.flash("danger", "no create history");
-        }
-        else{
-            const events_id = [];
-            docs.forEach(element => events_id.push(element.eventid));
-
-            Event.find({_id:events_id}, function(err, all_events){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render('history_template', {
-                        title: 'Create History',
-                        events: all_events
-                    });
-                }
+            console.log(err);
+        } else {
+            res.render('history_template', {
+                title: 'Create History',
+                events: all_events
             });
-
         }
     });
+
+    
+
 };
 
 var validate = (method) => {

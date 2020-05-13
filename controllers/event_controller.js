@@ -42,24 +42,28 @@ var createEvent = function (req, res) {
             if(err){
                 console.log(err);
                 return;
-            } else {
-                req.flash('success','Event Added');
-                //res.redirect('/');
             }
         });
-        //storing the a db created for event and user
-        let userevents = new UserEvents();
-        userevents.userid = req.user.id;
-        userevents.eventid = event.id;
-        userevents.type = "create";
-        userevents.save(function(err){
+        
+        let userID = req.user.id;
+        User.findById(userID, function(err, userAccount){
             if(err){
                 console.log(err);
-                return;
-            } else {
-                res.redirect('/');
+            }else{
+                userAccount.eventCreated.push(event.id);
+                userAccount.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    } else {
+                        req.flash('success','Event Added');
+                        res.redirect('/');
+                    }
+                });
+                
             }
         });
+        // res.redirect('/');
     }
 };
 
@@ -109,7 +113,6 @@ var joinEvent = function(req,res){
                         let userevents = new UserEvents();
                         userevents.userid = req.user.id;
                         userevents.eventid = event.id;
-                        userevents.type = "join";
                         userevents.save(function(err){
                             if(err){
                                 console.log(err);

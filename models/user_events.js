@@ -10,10 +10,6 @@ let usereventSchema = mongoose.Schema({
     },
     eventid: {
         type: String
-    },
-    type:{
-        enum: ["join","create"],
-        type: String
     }
 });
 let userevents = module.exports = mongoose.model('user_events', usereventSchema);
