@@ -8,11 +8,54 @@ html
     link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
     script
       include sidebar.js
+      include modal1.js
   body
     if user
+      #overlay
+      #modal.modal
+        .modal-header
+          .title Add Event
+          button.close-button(onclick = "closeModal()") &times;
+        .modal-body
+          form(method='POST', action='/event/add')
+            #form-group
+              label Name:
+              input.form-control(name='name', type='text')
+            br
+            #form-group
+              label Category:
+              select(name='category')
+                option(value='') Please select category
+                option(value='sports') Sports
+                option(value='studies') Studies
+                option(value='leisure') Leisure
+                option(value='club activity') Club Activity
+            br
+            #form-group
+              label Location:
+              input(name='location', type='text')
+            br
+            #form-group
+              label Date:
+              input(name='date', type='date')
+            br
+            #form-group
+              label Time:
+              input(name='time',type="time")
+            br
+            #form-group
+              label Description:
+              textarea.form-control(name='description', type='text')
+            br
+            #form-group
+              label(for='capacity') Capacity:
+              input(type='number', name='capacity', min='1')
+            br
+            input.btn.btn-primary(type='submit',value='Submit')
       #mySidenav.sidebar
         a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
-        a(href='/event/add') Add Event
+        a(href='javascript:void(0)' , onclick = 'openModal(),closeNav()') Add Event
+
         a(href='/user/history/joined/') Joined Events
         a(href='/user/history/created/') Created Events
         a(href='#') Account
