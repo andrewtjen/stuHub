@@ -385,13 +385,13 @@ var ensureVerified = function(req, res, next) {
         if (err) { return next(err); }
 
         if (!user) {
-            req.flash('danger', 'Account not found! Please try again!');
-            return res.redirect('/user/login');
+            req.flash('danger', 'Incorrect Username or Password. Please try again!');
+            return res.render('login', {danger: req.flash('danger')});
         }
 
         if (!user.verified) {
-            req.flash('danger', 'Account is not verified! Please check email');
-            return res.redirect('/user/login');
+            req.flash('danger', 'Account is not yet verified! Please check your email.');
+            return res.render('login', {danger: req.flash('danger')});
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }

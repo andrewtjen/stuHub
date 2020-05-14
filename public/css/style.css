@@ -152,12 +152,17 @@ modal-inputStyle{
   outline: none;
 }
 
+.red {
+  border: solid 1px red;
+  outline: none;
+}
+
 .submitButton {
   color: white;
   border: none;
   background-color: #884EA0;
   border-radius: 20px;
-  width: 100%;
+  width: 50%;
   transition-duration: 0.5s;
 }
 
@@ -167,6 +172,7 @@ modal-inputStyle{
 
 .loginForm {
   display: inline-block;
+  width: 100%;
 }
 
 .tiny {
