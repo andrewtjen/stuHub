@@ -9,7 +9,8 @@ body, html {
 }
 
 *:focus {
-  outline: none;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 input[type="submit"]:hover, i:hover {
@@ -296,34 +297,24 @@ modal-input-section{
   height: 50px;
 }
 
-.searchBar {
-  padding: 5em;
-}
-
 .search {
-  padding: 10px;
-  border: 3px solid #533180;
-  border-radius: 5px 0 0 5px;
+  border: 3px solid #533180 !important;
+  border-radius: 5px 0 0 5px !important;
   font-family: 'Spartan', sans-serif;
 }
 
 .filter {
   border-radius: 5px;
+  padding: .375rem .75rem;
+  border: 3px solid #533180;
+  font-family: 'Spartan', sans-serif;
 }
 
 .searchButton {
-  border-radius: 0 5px 5px 0;
-  background-color: #533180;
-  color: white;
-  border: 1px solid #533180;
-  padding: 6px;
-  vertical-align: bottom;
-  line-height: 15px;
-}
-
-.searchBarElement {
-  display: inline;
-  padding-right: 10px;
+  padding: .200rem .50rem !important;
+  border-radius: 0 5px 5px 0 !important;
+  background-color: #533180 !important;
+  color: white !important;
 }
 
 .dropbtn {
