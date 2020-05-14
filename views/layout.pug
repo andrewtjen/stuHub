@@ -6,6 +6,8 @@ html
       include ../public/css/style.css
     link(href='https://fonts.googleapis.com/css2?family=Spartan&display=swap', rel='stylesheet')
     link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    //link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
+
     script
       include sidebar.js
       include modal1.js
@@ -14,44 +16,38 @@ html
       #overlay
       #modal.modal
         .modal-header
-          .title Add Event
-          button.close-button(onclick = "closeModal()") &times;
+          button.close-button(onclick = "closeModal()") &times
+          .modaltitle Add Event
         .modal-body
-          form(method='POST', action='/event/add')
-            #form-group
-              label Name:
-              input.form-control(name='name', type='text')
-            br
-            #form-group
-              label Category:
-              select(name='category')
+          form.modal-form(method='POST', action='/event/add')
+            .modal-input-section
+              label.modal-label Name
+              label.modal-label Date
+            .modal-input-section
+              label.modal-label Category
+              label.modal-label Time
+            .modal-input-section
+              input.modal-input.inputStyle(name='name', type='text')
+              label.modal-label Category:
+              select.modal-input.inputStyle(name='category')
                 option(value='') Please select category
                 option(value='sports') Sports
                 option(value='studies') Studies
                 option(value='leisure') Leisure
                 option(value='club activity') Club Activity
-            br
-            #form-group
-              label Location:
-              input(name='location', type='text')
-            br
-            #form-group
-              label Date:
-              input(name='date', type='date')
-            br
-            #form-group
-              label Time:
-              input(name='time',type="time")
-            br
-            #form-group
-              label Description:
-              textarea.form-control(name='description', type='text')
-            br
-            #form-group
-              label(for='capacity') Capacity:
-              input(type='number', name='capacity', min='1')
-            br
-            input.btn.btn-primary(type='submit',value='Submit')
+              label.modal-label Location:
+              input.modal-input.inputStyle(name='location', type='text')
+            .modal-input-section
+              label.modal-label Date
+              input.modal-input.inputStyle(name='date', type='date')
+              label.modal-label Time:
+              input.modal-input.inputStyle(name='time',type="time")
+              label.modal-label(for='capacity') Capacity:
+              input.modal-input.inputStyle(type='number', name='capacity', min='1')
+          label.modal-label Description:
+          textarea.modal-input.inputStyle(name='description', type='text')
+          input.input.submitButton(type='submit',value='Submit')
+
       #mySidenav.sidebar
         a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
         a(href='javascript:void(0)' , onclick = 'openModal(),closeNav()') Add Event
