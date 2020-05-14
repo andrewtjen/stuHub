@@ -23,6 +23,45 @@ input[type="submit"]:hover, i:hover {
   background-position: center;
   position: relative;
 }
+.modal.custom {
+  outline:none;
+}
+modal.custom .fade{
+  background: linear-gradient(#D7BDE2, #FFE6FF);
+}
+
+.modal.custom .modal-dialog {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+  width: 60%;
+  height: 60%;
+  margin:0 auto;
+
+}
+
+.modal.custom .modal-header {
+  border-bottom : none;
+}
+.modal.custom .modal-header .close{
+  padding-right: 2% !important;
+}
+.modal.custom .modal-header{
+  display: block
+}
+.modal.custom .modal-header .modal-title{
+  font-size: 30px !important;
+  font-weight: bolder;
+  font-family: 'Spartan', sans-serif;
+}
+.modal.custom .modal-body .modal-label{
+  font-family: 'Spartan', sans-serif;
+}
+.modal.custom .modal-body .form-control{
+  border: none;
+  border-bottom: 1px solid #BFC9CA;
+  outline: none;
+  font-family: 'Spartan', sans-serif;
+}
+
 
 .modal2 {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
@@ -38,12 +77,6 @@ input[type="submit"]:hover, i:hover {
   background: white;
   max-width: 80%;
 }
-.modal-header {
-  padding: 10px 15px;
-  /*justify-content: space-between;*/
-  /*align-items: center;*/
-}
-
 .modal-header .modaltitle {
   text-align: center;
   font-size: 30px;
@@ -70,20 +103,14 @@ input[type="submit"]:hover, i:hover {
 modal-input-section{
   display: flex;
 }
-.modal-label{
-  padding: 0px 100px;
-  font-family: 'Spartan', sans-serif;
-}
+/*.modal-label{*/
+/*  padding: 0px 100px;*/
+/*  font-family: 'Spartan', sans-serif;*/
+/*}*/
 
 .modal-input{
   display: block;
   font-family: 'Spartan', sans-serif;
-}
-
-modal-inputStyle{
-  border: none;
-  border-bottom: 1px solid #BFC9CA;
-  outline: none;
 }
 
 #overlay {

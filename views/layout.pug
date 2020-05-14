@@ -17,56 +17,69 @@ html(lang='en')
       include modal1.js
   body
     if user
-      #overlay
       .container
-        #myModal.modal.fade(role='dialog')
-          .modal-dialog
-            .modal-content
-              .modal-header
-                button.close(type='button', data-dismiss='modal') ×
-                h4.modal-title Modal Header
-              .modal-body
-                p Some text in the modal.
-              .modal-footer
-                button.btn.btn-default(type='button', data-dismiss='modal') Close
-      //#modal.modal
-      //  .modal-header
-      //    button.close-button(onclick = "closeModal()") &times
-      //    .modaltitle Add Event
-      //  .modal-body
-      //    form.modal-form(method='POST', action='/event/add')
-      //      .modal-input-section
-      //        label.modal-label Name
-      //        label.modal-label Date
-      //      .modal-input-section
-      //        label.modal-label Category
-      //        label.modal-label Time
-      //      .modal-input-section
-      //        input.modal-input.inputStyle(name='name', type='text')
-      //        label.modal-label Category:
-      //        select.modal-input.inputStyle(name='category')
-      //          option(value='') Please select category
-      //          option(value='sports') Sports
-      //          option(value='studies') Studies
-      //          option(value='leisure') Leisure
-      //          option(value='club activity') Club Activity
-      //        label.modal-label Location:
-      //        input.modal-input.inputStyle(name='location', type='text')
-      //      .modal-input-section
-      //        label.modal-label Date
-      //        input.modal-input.inputStyle(name='date', type='date')
-      //        label.modal-label Time:
-      //        input.modal-input.inputStyle(name='time',type="time")
-      //        label.modal-label(for='capacity') Capacity:
-      //        input.modal-input.inputStyle(type='number', name='capacity', min='1')
-      //    label.modal-label Description:
-      //    textarea.modal-input.inputStyle(name='description', type='text')
-      //    input.input.submitButton(type='submit',value='Submit')
+        #myModal2.modal.custom.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+          .container
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+                  .modal-title.text-center Add Event
+                form(method='POST', action='/event/add')
+                  .modal-body
+                    .row
+                      .col-6
+                        label.modal-label Name
+                      .col-6
+                        label.modal-label Category
+                    .row
+                      .col-6
+                        .form-group
+                          input.form-control(name='name', type='text')
+                      .col-6
+                        .form-group
+                          select.form-control(name='category')
+                            option(value='') Please select category
+                            option(value='sports') Sports
+                            option(value='studies') Studies
+                            option(value='leisure') Leisure
+                            option(value='club activity') Club Activity
+                    .row
+                      .col-6
+                        label.modal-label Location
+                      .col-6
+                        label.modal-label Date
+                    .row
+                      .col-6
+                        .form-group
+                          input.form-control(name='location', type='text')
+                      .col-6
+                        .form-group
+                          input.form-control(name='date', type='date')
+                    .row
+                      .col-6
+                        label.modal-label(for='capacity') Capacity
+                      .col-6
+                        label.modal-label Time
+                    .row
+                      .col-6
+                        .form-group
+                          input.form-control(type='number', name='capacity', min='1')
+                      .col-6
+                        .form-group
+                          input.form-control.text-centered(name='time',type="time")
+                    .row
+                      .col-6
+                        label.modal-label Description
+                    .form-group
+                      textarea.form-control(name='description', type='text')
+                    input.input.submitButton(type='submit',value='Submit')
 
       #mySidenav.sidebar
         a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
-        a(href='javascript:void(0)' , onclick = 'openModal(),closeNav()') Add Event
-        button.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Open Modal
+        a(href='javascript:void(0)' , data-toggle='modal', data-target='#myModal2', onclick = 'closeNav()') Add Event
+
         a(href='/user/history/joined/') Joined Events
         a(href='/user/history/created/') Created Events
         a(href='#') Account
