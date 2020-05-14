@@ -9,11 +9,20 @@ html
     .box
       h1.title.titleSignupPadding Sign Up
       form.loginForm(action='/user/register', method='post')
-        input.input.inputStyle(type='text', name='name', placeholder='Name')
-        input.input.inputStyle(type='email', name='email', placeholder='Email')
-        input.input.inputStyle(type='password', name='password', placeholder='Password')
-        input.input.inputStyle(type='password', name='confirm_password', placeholder='Confirm Password')
-        input.input.submitButton(type='submit', value='Submit')
+        if !errors.length
+          input.input.inputStyle(type='text', name='name', placeholder='Name')
+          input.input.inputStyle(type='email', name='email', placeholder='Email')
+          input.input.inputStyle(type='password', name='password', placeholder='Password')
+          input.input.inputStyle(type='password', name='confirm_password', placeholder='Confirm Password')
+          input.input.submitButton(type='submit', value='Submit')
+        else
+          each error, i in errors
+            h2 #{error.msg}
+          input.input.red(type='text', name='name', placeholder='Name')
+          input.input.red(type='email', name='email', placeholder='Email')
+          input.input.red(type='password', name='password', placeholder='Password')
+          input.input.red(type='password', name='confirm_password', placeholder='Confirm Password')
+          input.input.submitButton(type='submit', value='Submit')
       a.tiny.block(href='/user/login')
         p Already Have Account?
 
