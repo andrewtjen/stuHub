@@ -33,4 +33,7 @@ router.get('/user/:id', eventController.user_in_event);
 //leave event
 router.post('/leaveEvent', eventController.ensureAuthenticated, eventController.leaveEvent);
 
+//cancel event
+router.post('/cancelEvent', eventController.ensureAuthenticated, eventController.cancelEvent);
+
 module.exports = router;
