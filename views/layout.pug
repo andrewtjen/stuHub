@@ -15,6 +15,28 @@ html(lang='en')
     script
       include sidebar.js
       include modal1.js
+    script.
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              var name = $("#validationName").val();
+              if(name.length)
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })()
+
   body
     if user
       .container
@@ -26,25 +48,31 @@ html(lang='en')
                   button.close(type='button' data-dismiss='modal' aria-label='Close')
                     span(aria-hidden='true') &times;
                   .modal-title.text-center Add Event
-                form(method='POST', action='/event/add')
+                form.needs-validation(novalidate='')(method='POST', action='/event/add')
                   .modal-body
                     .row
                       .col-6
                         label.modal-label Name
                       .col-6
                         label.modal-label Category
-                    .row
+                    .form-row
                       .col-6
                         .form-group
-                          input.form-control(name='name', type='text')
+                          .input-group
+                            input#validationName.form-control(type='text' , required='')
+                            .invalid-feedback
+                              | Please enter name
                       .col-6
                         .form-group
-                          select.form-control(name='category')
-                            option(value='') Please select category
-                            option(value='sports') Sports
-                            option(value='studies') Studies
-                            option(value='leisure') Leisure
-                            option(value='club activity') Club Activity
+                          .input-group
+                            select.custom-select(required='')#validationcategory.form-control(name='category')
+                              option(value='') Please select category
+                              option(value='sports') Sports
+                              option(value='studies') Studies
+                              option(value='leisure') Leisure
+                              option(value='club activity') Club Activity
+                            .invalid-feedback
+                              | Please select category
                     .row
                       .col-6
                         label.modal-label Location
@@ -53,10 +81,16 @@ html(lang='en')
                     .row
                       .col-6
                         .form-group
-                          input.form-control(name='location', type='text')
+                          .input-group
+                            input#validationLocation.form-control(name='location', type='text', required='')
+                            .invalid-feedback
+                              | Please enter location
                       .col-6
                         .form-group
-                          input.form-control(name='date', type='date')
+                          .input-group
+                            input.form-control(name='date', type='date',required='')
+                            .invalid-feedback
+                              | Please enter date
                     .row
                       .col-6
                         label.modal-label(for='capacity') Capacity
@@ -65,15 +99,24 @@ html(lang='en')
                     .row
                       .col-6
                         .form-group
-                          input.form-control(type='number', name='capacity', min='1')
+                          .input-group
+                            input.form-control(type='number', name='capacity', min='1',required='')
+                            .invalid-feedback
+                              | Please enter capacity
                       .col-6
                         .form-group
-                          input.form-control.text-centered(name='time',type="time")
+                          .input-group
+                            input.form-control.text-centered(name='time',type="time",required='')
+                            .invalid-feedback
+                              | Please enter time
                     .row
                       .col-6
                         label.modal-label Description
                     .form-group
-                      textarea.form-control(name='description', type='text')
+                      .input-group
+                        textarea.form-control(name='description', type='text',required='')
+                        .invalid-feedback
+                          | Please enter Description
                     input.input.submitButton(type='submit',value='Submit')
 
       #mySidenav.sidebar
