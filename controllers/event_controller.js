@@ -235,6 +235,35 @@ var user_in_event =  function (req, res) {
     });
 };
 
+//cancel event
+var cancelEvent = function (req, res) {
+    var id = req.body.eventID;
+    Event.findById(id, function (err, event) {
+
+        if(req.user.id == event.creatorID){
+
+            Event.findById(id, function(err, event){
+                if(err){
+                    console.log(err);
+                }else{
+                    event.isActive = false;
+                    event.save(function(err){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            req.flash('danger','Event Cancelled');
+                            res.redirect('/');
+                        }
+                    });
+                }
+            });
+        }else{
+            req.flash('danger','Not Authorized');
+            res.redirect('/event/'+id);
+        }
+    });
+};
+
 //delete event
 var deleteEvent = function (req, res) {
     var id = req.body.id;
@@ -284,7 +313,7 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
-
+module.exports.cancelEvent = cancelEvent;
 module.exports.leaveEvent = leaveEvent;
 module.exports.user_in_event = user_in_event;
 module.exports.getEventPage = getEventPage;

@@ -29,6 +29,11 @@ block content
         input(type='hidden', name="eventID", value=event.id)
         input.btn.btn-primary(type='submit',value='Leave this Event')
 
+    br
+
+    form(method='POST', action='/event/cancelEvent')
+        input(type='hidden', name="eventID", value=event.id)
+        input.btn.btn-primary(type='submit',value='Cancel this Event')
 
     //- a(href="/",data-id=event.id) Delete
     
