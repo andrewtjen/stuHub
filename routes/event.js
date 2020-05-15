@@ -30,4 +30,7 @@ router.post('/join/:id', eventController.ensureAuthenticated, eventController.jo
 //user_in_event
 router.get('/user/:id', eventController.user_in_event);
 
+//leave event
+router.post('/leaveEvent', eventController.ensureAuthenticated, eventController.leaveEvent);
+
 module.exports = router;

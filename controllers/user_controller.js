@@ -343,15 +343,15 @@ var validate = (method) => {
                         return true;
                     })
 
-                // ,
-                // body('email','E-mail already in use')
-                //     .custom(value => {
-                //         return User.exists({email: value}).then(user => {
-                //             if (user){
-                //                 throw new Error;
-                //             }
-                //         });
-                //     })
+                ,
+                body('email','E-mail already in use')
+                    .custom(value => {
+                        return User.exists({email: value}).then(user => {
+                            if (user){
+                                throw new Error;
+                            }
+                        });
+                    })
             ]
         }
         case 'passwordValidate': {
