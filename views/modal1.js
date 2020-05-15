@@ -1,3 +1,10 @@
+$(".modal.fade .modal-dialog").css({"transform": "translate(50%, -50%)"});
+
+jQuery('#open').click(function() {
+    alert($(".modal.fade .modal-dialog").css("transform"));
+    $('#myModal').modal('show');
+});
+
 function openModal() {
     // document.getElementById("modal").style.height = '500px';
     // document.getElementById("modal").style.width = '500px';
