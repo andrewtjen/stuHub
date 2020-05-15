@@ -10,13 +10,19 @@ block content
     p= "Capacity    : ".concat(event.capacity)
     p= "Curr Attendees: ".concat(event.current_attendees)
     p= "Is Active   :  ".concat(event.isActive)
+
+    br
+    br
+    h5 Who had Joined:
+    ul
+        each attendee, i in attendance
+            li= attendee.name
     
     a(href="/event/user/"+event.id) who had join the event???
     br
     br
     a(href="/event/edit/"+event.id) Event edit button
 
-    
     br
     br
     form(method='POST', action='/event/delete')

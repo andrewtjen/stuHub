@@ -69,12 +69,33 @@ var createEvent = function (req, res) {
 
 //get single event in a page
 var getEvent = function(req, res){
+    let eventID = req.params.id;
+    Event.findById(eventID, function(err, event){
+        if(err){
+            console.log(err);
+        }else{
+            UserEvents.find({'eventid':eventID}, function(err, attendeesID){
+                if(err){
+                    console.log(err);
+                } else {
+                    const attendeesID_array = [];
+                    attendeesID.forEach(element => attendeesID_array.push(element.userid));
+                    
+                    User.find({_id:attendeesID_array}, function (err, user){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            res.render('event', {
+                                event: event,
+                                attendance: user
+                            });
+                        }
+                    });
 
-    Event.findById(req.params.id, function(err, event){
-
-        res.render('event', {
-            event: event
-        });
+                }
+            });
+        }
+        
     });
 };
 
