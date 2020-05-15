@@ -19,12 +19,12 @@ html(lang='en')
       // Example starter JavaScript for disabling form submissions if there are invalid fields
 
   body
-    if messages('message', locals)
-      .alert.alert-success.alert-dismissible.fade.show(role='alert')
-        strong Events Added!
-        |  Check list of events below.
-        button.close(type='button' data-dismiss='alert' aria-label='Close')
-          span(aria-hidden='true') &times;
+    !=messages('message', locals)
+    //.alert.alert-success.alert-dismissible.fade.show(role='alert')
+    //  strong Events Added!
+    //  |  Check list of events below.
+    //  button.close(type='button' data-dismiss='alert' aria-label='Close')
+    //    span(aria-hidden='true') &times;
     if user
       .container
         #myModal2.modal.custom.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
