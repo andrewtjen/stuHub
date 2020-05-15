@@ -1,14 +1,24 @@
-extends layout
-
-block content
-  h1 Login
-  form(method='POST', action='/user/login')
-    #form-group
-      label Username:
-      input.form-control(name='username',type='text')
-    #form-group
-      label Password:
-      input.form-control(name='password',type='password')
-    br
-    input.btn.btn-primary(type='submit',value='Submit')
-  a(href="/user/send/passwordreset")= "Forgot Password?"
+doctype html
+html
+  head
+    title Login
+    link(rel='stylesheet', href="https://fonts.googleapis.com/css2?family=Spartan&display=swap")
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js')
+    style
+      include ../public/css/style.css
+body.background
+    .box
+      h1.title.titleLoginPadding Login
+      form.loginForm(action='/user/login', method='post')
+        if !danger
+          input.input.inputStyle(name='username', type='text', placeholder='Username')
+          input.input.inputStyle(name='password', type='password', placeholder='Password')
+        else
+          h2.title #{danger}
+          input.input.red(name='username', type='text', placeholder='Username')
+          input.input.red(name='password', type='password', placeholder='Password')
+        input.input.submitButton(type='submit', value='Submit')
+      a.tiny.block(href='/user/send/passwordreset')
+        p Forgot Password?
+      a.tiny.block(href='/user/register')
+        p Sign Up

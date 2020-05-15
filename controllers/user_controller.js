@@ -75,7 +75,12 @@ var createUser = function (req, res) {
                         //ask to check email
                         transporter.sendMail(mailOptions, function (err) {
                             if (err) { return res.status(500).send({ msg: err.message }); }
-                            res.status(200).send('A verification email has been sent to ' + user.email + ' .');
+                            //res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                            res.render('AfterSignUp', {
+                                email: user.email
+                            });
+                            // req.flash("success","Email verification sent");
+                            // res.redirect('/user/login');
                         });
                     }
                 });
@@ -152,9 +157,12 @@ var resendTokenPost = function (req, res, next) {
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
-                res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                //res.status(200).send('A verification email has been sent to ' + user.email + '.');
                 // req.flash("success","Email verification sent");
                 // res.redirect('/user/login');
+                res.render('AfterSignUp', {
+                    email: user.email
+                });
             });
         });
     });
@@ -166,7 +174,7 @@ var sendresetPasswordGet = function(req,res){
         title: "Reset Password",
         action: "passwordreset"
     });
-}
+};
 //reset password require email in body
 var sendresetPasswordPost = function(req,res, next){
     User.findOne({email: req.body.email }, function (err, user) {
@@ -280,9 +288,21 @@ const getAllJoinHistory = function (req, res) {
 };
 
 const getAllCreateHistory = function (req, res) {
+<<<<<<< HEAD
 
     let eventCreated = req.user.eventCreated;
         
+=======
+    UserEvent.find({userid :req.user.id, type : "create"}, function(err, docs){
+
+        if(err){
+            res.status(400);
+            req.flash("danger", "no create history");
+        }
+        else{
+            const events_id = [];
+            docs.forEach(element => events_id.push(element.eventid));
+>>>>>>> html
 
 
     Event.find({_id:eventCreated}, function(err, all_events){
@@ -303,7 +323,7 @@ const getAllCreateHistory = function (req, res) {
 var validate = (method) => {
     switch (method) {
         case 'saveUser': {
-            return [ 
+            return [
                 body('name','name is required').notEmpty(),
                 body('email','Please enter a valid UniMelb Email')
                     .isEmail()
@@ -371,14 +391,14 @@ var ensureVerified = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
 
-        if (!user) { 
-            req.flash('danger', 'Account not found! Please try again!');
-            return res.redirect('/user/login');
+        if (!user) {
+            req.flash('danger', 'Incorrect Username or Password. Please try again!');
+            return res.render('login', {danger: req.flash('danger')});
         }
 
         if (!user.verified) {
-            req.flash('danger', 'Account is not verified! Please check email');
-            return res.redirect('/user/login');
+            req.flash('danger', 'Account is not yet verified! Please check your email.');
+            return res.render('login', {danger: req.flash('danger')});
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }
@@ -392,7 +412,7 @@ var ensureVerified = function(req, res, next) {
 var logOut = function(req, res){
     req.logout();
     req.flash('success', 'You are logged out');
-    res.redirect('/user/login');
+    res.redirect('/');
 }
 
 //getUpdateUser
@@ -414,7 +434,7 @@ var updateProfile =  function (req, res) {
     var id = req.user.id;
 
     User.findById(id, function(err, user) {
-        
+
         if (err) {
             console.error('error, invalid User');
         }
@@ -432,8 +452,8 @@ var updateProfile =  function (req, res) {
         });
     });
 };
-  
-function ensureAuthenticated(req, res, next){  
+
+function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else {

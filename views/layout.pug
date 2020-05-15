@@ -1,79 +1,240 @@
 doctype html
-html
+html(lang='en')
   head
-    title StudentHub
+    title Home
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    style
+      include ../public/css/style.css
+    link(href='https://fonts.googleapis.com/css2?family=Spartan&display=swap', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css", rel='stylesheet')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+    script
+      include sidebar.js
+      include addEventValidation.js
+    script.
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+
   body
-    if user
-      h1 LOGGED IN
-    else
-      h1 LOGGED OUT
-
-    br
-    form(method='GET', action="/")
-      input(type="submit" value="Home")
-    if user
-      br
-      form(method='GET', action="/event/add")
-        input(type="submit" value="Add an Event")
-      br
-      form(method='GET', action="/user/logout")
-        input(type="submit" value="Logout")
-      br
-      form(method='GET', action='/user/history/joined/')
-        input(type="submit" value="Joined Events")
-      br
-      form(method='GET', action='/user/history/created/')
-        input(type="submit" value="Created Events")
-      br
-      form(method='GET', action='/user/updateProfile')
-        input(type="submit", value="Update your profile now !!")
-      br
-
-    else
-      br
-      form(method='GET', action="/user/login")
-        input(type="submit" value="Log In")
-      br
-      form(method='GET', action="/user/register")
-        input(type="submit" value="Sign Up")
-      br
-      form(method='GET', action="/user/send/verification")
-        input(type="submit" value="Havent got verification email?")
-    
-    br  
-
-    form.form-inline(action='/search' method='GET')
-      .form-group
-        input.form-control(type='text' name='search' placeholder='Event search...')
-        select(name='filterBy')
-          option(value='') Filter By
-          option(value='sports') Sports
-          option(value='studies') Studies
-          option(value='leisure') Leisure
-          option(value='club activity') Club Activity
-        select(name='sortBy')
-          option(value='') Sort By
-          option(value='happeningsoon') Happening Soon
-          option(value='happeninglatest') Happening latest
-          option(value='newestcreated') Newest Created
-          option(value= 'latestcreated') Latest Created
-          //option(value= 'capacity') Capacity
-
-        input.btn.btn-default(type='submit' value='Search')
-
-
-
-    if errors
-      each error, i in errors
-        div(class="alert alert-danger") || #{error.msg} ||
-
-    br
-    //nampilin message kalo gagal login
     !=messages('message', locals)
+    //.alert.alert-success.alert-dismissible.fade.show(role='alert')
+    //  strong Events Added!
+    //  |  Check list of events below.
+    //  button.close(type='button' data-dismiss='alert' aria-label='Close')
+    //    span(aria-hidden='true') &times;
+    if user
+      .container
+        #myModal2.modal.custom.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+          .container
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+                  .modal-title.text-center Add Event
+                form.needs-validation(novalidate='')(method='POST', action='/event/add')
+                  .modal-body
+                    .row
+                      .col-6
+                        label.modal-label Name
+                      .col-6
+                        label.modal-label Category
+                    .form-row
+                      .col-6
+                        .form-group
+                          .input-group
+                            input#validationName.form-control(type='text' name = "name", required='')
+                            .invalid-feedback
+                              | Please enter name
+                      .col-6
+                        .form-group
+                          .input-group
+                            select.custom-select(required='')#validationcategory.form-control(name='category')
+                              option(value='') Please select category
+                              option(value='sports') Sports
+                              option(value='studies') Studies
+                              option(value='leisure') Leisure
+                              option(value='club activity') Club Activity
+                            .invalid-feedback
+                              | Please select category
+                    .row
+                      .col-6
+                        label.modal-label Location
+                      .col-6
+                        label.modal-label Date
+                    .row
+                      .col-6
+                        .form-group
+                          .input-group
+                            input#validationLocation.form-control(name='location', type='text', required='')
+                            .invalid-feedback
+                              | Please enter location
+                      .col-6
+                        .form-group
+                          .input-group
+                            input#validationDate.form-control(name='date', type='date',required='')
+                            .invalid-feedback
+                              | Please enter a valid date (atleast today)
+                    .row
+                      .col-6
+                        label.modal-label(for='capacity') Capacity
+                      .col-6
+                        label.modal-label Time
+                    .row
+                      .col-6
+                        .form-group
+                          .input-group
+                            input.form-control(type='number', name='capacity', min='1',required='')
+                            #invalid.invalid-feedback
+                              | Please enter capacity
+                      .col-6
+                        .form-group
+                          .input-group
+                            input.form-control.text-centered(name='time',type="time",required='')
+                            .invalid-feedback
+                              | Please enter time
+                    .row
+                      .col-6
+                        label.modal-label Description
+                    .form-group
+                      .input-group
+                        textarea.form-control(name='description', type='text',required='')
+                        .invalid-feedback
+                          | Please enter Description
+                    input.input.submitButton(type='submit',value='Submit')
+      #EventAdded.modal
+      #mySidenav.sidebar
+        a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
+        a(href='javascript:void(0)' , data-toggle='modal', data-target='#myModal2', onclick = 'closeNav()') Add Event
+
+        a(href='/user/history/joined/') Joined Events
+        a(href='/user/history/created/') Created Events
+        a(href='#') Account
+        a(href='#') About
+        a(href='#') Settings
+      #main
+        .header
+          span(onclick='openNav()')
+            i.material-icons.listButton menu
+          a(href='/')
+            img.logo(src='../../../img/stuhub-logo-final3.png', alt='logo')
+            a.headerButton.headerDark(href='/user/logout') Log Out
+    else
+      #mySidenav.sidebar
+        a.closebtn(href='javascript:void(0)', onclick='closeNav()') &times;
+        a(href='/event/add') Add Event
+        a(href='#') Account
+        a(href='#') About
+        a(href='#') Settings
+      #main
+        .header
+          span(onclick='openNav()')
+            i.material-icons.listButton menu
+          a(href='/')
+            img.logo(src='img/stuhub-logo-final3.png', alt='logo')
+            a.headerButton.headerLight(href='/user/login') Log In
+            a.headerButton.headerDark(href='/user/register') Sign Up
+    .container
+      .row.py-5
+        form.input-group(action='/search' method = 'GET')
+          input.form-control.search(type='text', placeholder='Event search...', name='search')
+          .input-group-btn.pr-4
+            button.btn.searchButton(type='submit')
+              i.material-icons search
+          .pr-4
+            select.filter(name='filterBy', class='dropdown-toggle')
+              option(value='') Filter By
+              option(value='sports') Sports
+              option(value='studies') Studies
+              option(value='leisure') Leisure
+              option(value='club activity') Club Activity
+          .pr-4
+            select.filter(name='sortBy')
+              option(value='') Sort By
+              option(value='happeningsoon') Happening Soon
+              option(value='happeninglatest') Happening latest
+              option(value='newestcreated') Newest Created
+              option(value= 'latestcreated') Latest Created
+              //option(value= 'capacity') Capacity
 
     block content
-    
-    br
-    hr
-    footer
-      p Copyright &copy; 2020 
+
+//doctype html
+//html
+//  head
+//    title StudentHub
+//  body
+//    if user
+//      h1 LOGGED IN
+//    else
+//      h1 LOGGED OUT
+//
+//    br
+//    form(method='GET', action="/")
+//      input(type="submit" value="Home")
+//    if user
+//      br
+//      form(method='GET', action="/event/add")
+//        input(type="submit" value="Add an Event")
+//      br
+//      form(method='GET', action="/user/logout")
+//        input(type="submit" value="Logout")
+//      br
+//      form(method='GET', action='/user/history/joined/')
+//        input(type="submit" value="Joined Events")
+//      br
+//      form(method='GET', action='/user/history/created/')
+//        input(type="submit" value="Created Events")
+//      br
+//
+//    else
+//      br
+//      form(method='GET', action="/user/login")
+//        input(type="submit" value="Log In")
+//      br
+//      form(method='GET', action="/user/register")
+//        input(type="submit" value="Sign Up")
+//      br
+//      form(method='GET', action="/user/send/verification")
+//        input(type="submit" value="Havent got verification email?")
+//
+//    br
+//
+//    form.form-inline(action='/search' method='GET')
+//      .form-group
+//        input.form-control(type='text' name='search' placeholder='Event search...')
+//        select(name='filterBy')
+//          option(value='') Filter By
+//          option(value='sports') Sports
+//          option(value='studies') Studies
+//          option(value='leisure') Leisure
+//          option(value='club activity') Club Activity
+//        select(name='sortBy')
+//          option(value='') Sort By
+//          option(value='happeningsoon') Happening Soon
+//          option(value='happeninglatest') Happening latest
+//          option(value='newestcreated') Newest Created
+//          option(value= 'latestcreated') Latest Created
+//          option(value= 'capacity') Capacity
+//
+//        input.btn.btn-default(type='submit' value='Search')
+//
+//
+//
+//    if errors
+//      each error, i in errors
+//        div(class="alert alert-danger") || #{error.msg} ||
+//
+//    br
+//    //nampilin message kalo gagal login
+//    !=messages('message', locals)
+//
+//    block content
+//
+//    br
+//    hr
+//    footer
+//      p Copyright &copy; 2020

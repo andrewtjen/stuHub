@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Spartan&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+
+    <div class="sidebar" id="mySidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="#">Add Event</a>
+      <a href="#">Account</a>
+      <a href="#">About</a>
+      <a href="#">Settings</a>
+    </div>
+
+    <div id="main">
+      <div class="topBar">
+        <span onclick="openNav()">
+          <i class="material-icons listButton">menu</i>
+        </span>
+        <a href="/user/login" class="headerButton">Log In</a>
+        <a href="/user/register" class="headerButton">Sign Up</a>
+      </div>
+    </div>
+
+  </body>
+
+  <script type="text/javascript" src="sidebar.js"></script>
+</html>
