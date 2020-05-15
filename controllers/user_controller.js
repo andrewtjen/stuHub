@@ -29,10 +29,17 @@ var createUser = function (req, res) {
 
     // Get Errors
     let errors = validationResult(req);
+    let nameError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'name');
+    let emailError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'email');
+    let passwordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'password');
+    let confirmPasswordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'confirm_password');
 
     if(!errors.isEmpty()){
         res.render('register', {
-        errors: errors.errors
+            nameError: nameError,
+            emailError: emailError,
+            passwordError: passwordError,
+            confirmPasswordError: confirmPasswordError
         });
     } else {
         //storing data from the fields enter
@@ -317,8 +324,8 @@ var validate = (method) => {
     switch (method) {
         case 'saveUser': {
             return [
-                body('name','name is required').notEmpty(),
-                body('email','Please enter a valid UniMelb Email')
+                body('name','Name is Required').notEmpty(),
+                body('email','Please Enter a Valid UniMelb Email')
                     .isEmail()
                     .custom(value => {
                         let regex = /.unimelb.edu.au$/;
@@ -328,7 +335,7 @@ var validate = (method) => {
                         return true;
                       })
                 ,
-                body('email','E-mail already in use')
+                body('email','E-mail Already in Use')
                     .custom(value => {
                         return User.exists({email: value}).then(user => {
                             if (user){
@@ -336,9 +343,9 @@ var validate = (method) => {
                             }
                         });
                     }),
-                body('password','password is required and needs to be atleast 8 characters').notEmpty()
+                body('password','Password is Required and Needs to be atleast 8 Characters').notEmpty()
                     .isLength({min:8}),
-                body('confirm_password','password do not match')
+                body('confirm_password','Password Do Not Match')
                     .exists()
                     .custom((value, { req }) => value === req.body.password)
             ]

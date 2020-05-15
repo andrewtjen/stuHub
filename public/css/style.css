@@ -17,6 +17,10 @@ input[type="submit"]:hover, i:hover {
   cursor: pointer;
 }
 
+.w-40 {
+  width: 40%;
+}
+
 .background {
   background: linear-gradient(#884EA0, #D7BDE2);
   background-size: cover;
@@ -143,13 +147,13 @@ modal-inputStyle{
   padding: 10px;
   display: block;
   margin: 50px auto;
-  font-family: 'Spartan', sans-serif;
 }
 
 .inputStyle {
   border: none;
   border-bottom: 1px solid #BFC9CA;
   outline: none;
+  font-family: 'Spartan', sans-serif;
 }
 
 .red {
@@ -213,6 +217,11 @@ modal-inputStyle{
   text-align: right;
   transition: 0.3s;
   white-space: nowrap;
+}
+
+.sidebar a:hover {
+  color: #7B68EE;
+  text-decoration: none;
 }
 
 .sidebar .closebtn {

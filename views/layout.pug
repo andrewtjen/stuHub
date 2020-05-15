@@ -94,28 +94,6 @@ html(lang='en')
             img.logo(src='img/stuhub-logo-final3.png', alt='logo')
             a.headerButton.headerLight(href='/user/login') Log In
             a.headerButton.headerDark(href='/user/register') Sign Up
-    .container
-      .row.py-5
-        form.input-group(action='/search' method = 'GET')
-          input.form-control.search(type='text', placeholder='Event search...', name='search')
-          .input-group-btn.pr-4
-            button.btn.searchButton(type='submit')
-              i.material-icons search
-          .pr-4
-            select.filter(name='filterBy', class='dropdown-toggle')
-              option(value='') Filter By
-              option(value='sports') Sports
-              option(value='studies') Studies
-              option(value='leisure') Leisure
-              option(value='club activity') Club Activity
-          .pr-4
-            select.filter(name='sortBy')
-              option(value='') Sort By
-              option(value='happeningsoon') Happening Soon
-              option(value='happeninglatest') Happening latest
-              option(value='newestcreated') Newest Created
-              option(value= 'latestcreated') Latest Created
-              //option(value= 'capacity') Capacity
 
     block content
 

@@ -36,10 +36,8 @@ app.use(session({
 
 // Express messages middleware
 app.use(require('connect-flash')());
-app.use(flash());
 app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
-  res.locals.errors = req.flash("error");
   next();
 });
 
