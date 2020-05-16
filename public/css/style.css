@@ -333,8 +333,36 @@ modal.custom .fade{
 
 .dropdown-content a:hover {background-color: #ddd}
 
-.show {display:block;} {
-  vertical-align: bottom;
+.show {display:block;}
+
+.button {
+  display: block;
+  background-color: white;
+  margin: 10px;
+  padding: 10px
+}
+
+.joinButton {
+  display: block;
+  background-color: white;
   padding: 5px;
-  line-height: 20px;
+  font-family: 'Spartan', sans-serif;
+  border-radius: 20px;
+  transition-duration: 0.5s;
+  font-size: 10px;
+}
+
+.noleftmargin {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: 0px!important;
+  max-width: 800px;
+}
+
+.trbackground {
+  background-color: plum;
+  font-family: 'Spartan', sans-serif;
+  text-decoration: none !important;
+  font-size: 12px;
 }
