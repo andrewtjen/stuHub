@@ -1,30 +1,38 @@
 extends layout
 
 block content
-    h1 #{title}
-
     br
+    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css')
+    style.
+        table.ui.celled img { display: inline-block; }
     //input#myInput(type='text', onkeyup='myFunction()', placeholder='Search for names..', title='Type in a name')
     if(noMatch !== null)
         h3 #{noMatch}
 
-    ul(id="myUL")
-        each event, i in events
-            li
-                a(href="/event/"+event._id)= event.name
-                p #{event.current_attendees} / #{event.capacity} people
-                p Happening: #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"})}
-                form(method='POST', action='/event/join/' + event.id)
-                    input(type='hidden', name="id", value=event.id)
-                    input.btn.btn-primary(type='submit',value='Join Event')
-                
-                .dropdown
-                    button.dropbtn(onclick='myFunction()') About Event
-                    #myDropdown.dropdown-content
-                        a(href='event.name') Description
-                        a(href='event.current_attendees') Attendees
-
-                br
+    each event, i in events                           
+        .ui.noleftmargin
+            table.ui.celled.table.left.aligned
+                thead                               
+                    h3 #{event.name}
+                tbody
+                    tr.trbackground
+                        th 
+                            h4 Capacity: #{event.capacity}
+                        th 
+                            h4 Description:
+                    tr.trbackground
+                        th 
+                            h4 Happening: #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"})}
+                        th 
+                            h4 #{event.description}
+                tfoot
+                    form(method='POST', action='/event/join/' + event.id)
+                        input(type='hidden', name="id", value=event.id)
+                        input.btn.btn-primary(type='submit',value='More Details')
+                    form(method='POST', action='/event/join/' + event.id)
+                        input(type='hidden', name="id", value=event.id)
+                        input.btn.btn-primary(type='submit',value='Join Event')
+    br
 
     //script.
     //    function myFunction() {
