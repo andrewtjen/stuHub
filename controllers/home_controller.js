@@ -48,13 +48,14 @@ let sortEvents = function(events,sortBy){
         return events.sort(function(a, b) {
             a = new Date(a.datetime);
             b = new Date(b.datetime);
-            return a<b ? -1 : a>b ? 1 : 0;
+            return a>b ? -1 : a<b ? 1 : 0;
         });
     } else if(sortBy == 'happeningsoon'){
         return events.sort(function(a, b) {
             a = new Date(a.datetime);
             b = new Date(b.datetime);
-            return a>b ? -1 : a<b ? 1 : 0;
+            return a<b ? -1 : a>b ? 1 : 0;
+            
         });
     } else if(sortBy == 'capacity'){
         return events.sort(events.capacity);
