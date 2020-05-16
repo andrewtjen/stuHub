@@ -200,16 +200,17 @@ modal.custom .fade{
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: black;
   overflow-x: hidden;
-  padding-top: 50px;
+  padding-top: 3rem;
   transition: 0.3s;
   font-family: 'Spartan', sans-serif;
   background-color: #533180;
 }
 
 .sidebar a {
-  padding: 10px 20px;
+  margin-bottom: 2em;
+  margin-top: 1rem;
+  margin-right: 1rem;
   text-decoration: none;
   font-size: 25px;
   color: white;
@@ -291,7 +292,7 @@ modal.custom .fade{
 }
 
 .searchButton {
-  padding: .200rem .50rem !important;
+  height: calc(1.5em + .75rem + 2px);
   border-radius: 0 5px 5px 0 !important;
   background-color: #533180 !important;
   color: white !important;
