@@ -125,8 +125,6 @@ var joinEvent = function(req,res){
                             if (err) {
                                 console.log(err);
                                 return;
-                            } else {
-                                req.flash('success', 'Join Succesful');
                             }
                         });
 
@@ -138,9 +136,12 @@ var joinEvent = function(req,res){
                             if(err){
                                 console.log(err);
                                 return;
+                            } else {
+                                res.redirect("/");
+                                req.flash('success', 'Join Succesful');
                             }
                         })
-                        res.redirect("/");
+
                     }
                 });
             }

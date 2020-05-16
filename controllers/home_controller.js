@@ -12,10 +12,17 @@ var getAllEvent = function(req, res) {
         if (err) {
             console.log(err);
         } else {
+            const noMatch = null;
+            // if(events.length < 1){
+            //     noMatch = "No events with that query"
+            // }
             updateEvent(events);
             res.render('index', {
                 title: 'List of Events',
-                events: events
+                events: events,
+                noMatch: noMatch
+            
+
             });
         }
     });

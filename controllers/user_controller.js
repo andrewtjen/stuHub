@@ -278,7 +278,7 @@ const getAllJoinHistory = function (req, res) {
         }
         else{
             const eventsID = [];
-            docs.forEach(element => events.push(element.eventid));
+            docs.forEach(element => eventsID.push(element.eventid));
             Event.find({_id:eventsID}, function (err, eventJoined){
                 if(err){
                     console.log(err);
