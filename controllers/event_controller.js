@@ -42,35 +42,60 @@ var createEvent = function (req, res) {
             if(err){
                 console.log(err);
                 return;
-            } else {
-                req.flash('success','Event Added');
-                //res.redirect('/');
             }
         });
-        //storing the a db created for event and user
-        let userevents = new UserEvents();
-        userevents.userid = req.user.id;
-        userevents.eventid = event.id;
-        userevents.type = "create";
-        userevents.save(function(err){
+        
+        let userID = req.user.id;
+        User.findById(userID, function(err, userAccount){
             if(err){
                 console.log(err);
-                return;
-            } else {
-                res.redirect('/');
+            }else{
+                userAccount.eventCreated.push(event.id);
+                userAccount.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    } else {
+                        req.flash('success','Event Added');
+                        res.redirect('/');
+                    }
+                });
+                
             }
         });
+        // res.redirect('/');
     }
 };
 
 //get single event in a page
 var getEvent = function(req, res){
+    let eventID = req.params.id;
+    Event.findById(eventID, function(err, event){
+        if(err){
+            console.log(err);
+        }else{
+            UserEvents.find({'eventid':eventID}, function(err, attendeesID){
+                if(err){
+                    console.log(err);
+                } else {
+                    const attendeesID_array = [];
+                    attendeesID.forEach(element => attendeesID_array.push(element.userid));
+                    
+                    User.find({_id:attendeesID_array}, function (err, user){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            res.render('event', {
+                                event: event,
+                                attendance: user
+                            });
+                        }
+                    });
 
-    Event.findById(req.params.id, function(err, event){
-
-        res.render('event', {
-            event: event
-        });
+                }
+            });
+        }
+        
     });
 };
 
@@ -87,7 +112,7 @@ var joinEvent = function(req,res){
                 return;
             }
             else {
-                UserEvents.find({userid: req.user.id, eventid: event.id, type: "join"}, function (err, docs) {
+                UserEvents.find({userid: req.user.id, eventid: event.id}, function (err, docs) {
                     //check if user has previously register for the event
                     if (docs.length > 0){
                         req.flash("danger", "already in event");
@@ -109,7 +134,6 @@ var joinEvent = function(req,res){
                         let userevents = new UserEvents();
                         userevents.userid = req.user.id;
                         userevents.eventid = event.id;
-                        userevents.type = "join";
                         userevents.save(function(err){
                             if(err){
                                 console.log(err);
@@ -130,20 +154,37 @@ var joinEvent = function(req,res){
     });
 };
 
-// //leave event
-// var leaveEvent = function (req, res) {
-//     var id = req.body.id;
-//     UserEvents.findById(id, function (err, event) {
-//         if(){
-//             UserEvents.findByIdAndRemove(id).exec();
-//             req.flash('danger','You had leave an event');
-//             res.redirect('/');
-//         }else{
-//             req.flash('danger','Not Authorized');
-//             res.redirect('/event/'+id);
-//         }
-//     });
-// };
+//leave event
+var leaveEvent = function (req, res) {
+    let eventID = req.body.eventID;
+    let userID = req.user._id;
+
+    UserEvents.find({userid:userID, eventid:eventID}, function (err, userEvent) {
+        if (err){
+            console.log(err);
+        }else{
+
+            if (userEvent.length > 0){
+                UserEvents.find({userid:userID, eventid:eventID}).remove().exec();
+
+                Event.findById(eventID, function(err, singleEvent){
+                    if(err){
+                        console.log(err);
+                    } else {
+                        singleEvent.current_attendees -=1;
+                        singleEvent.save();
+                        req.flash('danger','You had leave an event');
+                    }
+                })
+            } else {
+                req.flash('danger','You are not in this event');
+            }
+        }
+    });
+
+    res.redirect('/event/' + eventID);
+
+};
 
 //load edit event
 var loadEvent =  function (req, res) {
@@ -215,6 +256,35 @@ var user_in_event =  function (req, res) {
     });
 };
 
+//cancel event
+var cancelEvent = function (req, res) {
+    var id = req.body.eventID;
+    Event.findById(id, function (err, event) {
+
+        if(req.user.id == event.creatorID){
+
+            Event.findById(id, function(err, event){
+                if(err){
+                    console.log(err);
+                }else{
+                    event.isActive = false;
+                    event.save(function(err){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            req.flash('danger','Event Cancelled');
+                            res.redirect('/');
+                        }
+                    });
+                }
+            });
+        }else{
+            req.flash('danger','Not Authorized');
+            res.redirect('/event/'+id);
+        }
+    });
+};
+
 //delete event
 var deleteEvent = function (req, res) {
     var id = req.body.id;
@@ -264,6 +334,8 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+module.exports.cancelEvent = cancelEvent;
+module.exports.leaveEvent = leaveEvent;
 module.exports.user_in_event = user_in_event;
 module.exports.getEventPage = getEventPage;
 module.exports.createEvent = createEvent;

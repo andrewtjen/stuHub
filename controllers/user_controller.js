@@ -271,15 +271,15 @@ var getJoinHistory = function(req,res){
 };
 
 const getAllJoinHistory = function (req, res) {
-    UserEvent.find({userid :req.user.id, type : "join"}, function (err, docs) {
+    UserEvent.find({userid :req.user.id}, function (err, docs) {
         if(err){
             res.status(400);
             req.flash("danger", "no join history");
         }
         else{
-            const events = [];
+            const eventsID = [];
             docs.forEach(element => events.push(element.eventid));
-            Event.find({_id:events}, function (err, eventJoined){
+            Event.find({_id:eventsID}, function (err, eventJoined){
                 if(err){
                     console.log(err);
                 }
@@ -295,29 +295,22 @@ const getAllJoinHistory = function (req, res) {
 };
 
 const getAllCreateHistory = function (req, res) {
-    UserEvent.find({userid :req.user.id, type : "create"}, function(err, docs){
 
+    let eventCreated = req.user.eventCreated;
+
+    Event.find({_id:eventCreated}, function(err, all_events){
         if(err){
-            res.status(400);
-            req.flash("danger", "no create history");
-        }
-        else{
-            const events_id = [];
-            docs.forEach(element => events_id.push(element.eventid));
-
-            Event.find({_id:events_id}, function(err, all_events){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.render('history_template', {
-                        title: 'Create History',
-                        events: all_events
-                    });
-                }
+            console.log(err);
+        } else {
+            res.render('history_template', {
+                title: 'Create History',
+                events: all_events
             });
-
         }
     });
+
+    
+
 };
 
 var validate = (method) => {
@@ -363,15 +356,15 @@ var validate = (method) => {
                         return true;
                     })
 
-                // ,
-                // body('email','E-mail already in use')
-                //     .custom(value => {
-                //         return User.exists({email: value}).then(user => {
-                //             if (user){
-                //                 throw new Error;
-                //             }
-                //         });
-                //     })
+                ,
+                body('email','E-mail already in use')
+                    .custom(value => {
+                        return User.exists({email: value}).then(user => {
+                            if (user){
+                                throw new Error;
+                            }
+                        });
+                    })
             ]
         }
         case 'passwordValidate': {

@@ -10,7 +10,7 @@ let Event = require('../models/event');
 router.get('/add', eventController.ensureAuthenticated, eventController.getEventPage);
 
 //add event
-router.post('/add', eventController.validate('saveEvent'), eventController.createEvent);
+router.post('/add', eventController.ensureAuthenticated, eventController.validate('saveEvent'), eventController.createEvent);
 
 //get single event
 router.get('/:id', eventController.getEvent);
@@ -29,5 +29,11 @@ router.post('/join/:id', eventController.ensureAuthenticated, eventController.jo
 
 //user_in_event
 router.get('/user/:id', eventController.user_in_event);
+
+//leave event
+router.post('/leaveEvent', eventController.ensureAuthenticated, eventController.leaveEvent);
+
+//cancel event
+router.post('/cancelEvent', eventController.ensureAuthenticated, eventController.cancelEvent);
 
 module.exports = router;
