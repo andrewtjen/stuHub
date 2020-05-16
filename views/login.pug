@@ -19,14 +19,14 @@ html
         form(action='/user/login', method='post')
           if !danger
             .form-group.mb-5
-              input.inputStyle.form-control.w-40.mx-auto(name='username', type='text', placeholder='Username')
+              input.inputStyle.form-control.w-40.mx-auto(name='username', type='text', placeholder='Email')
             .form-group.mb-5
               input.inputStyle.form-control.w-40.mx-auto(name='password', type='password', placeholder='Password')
           else
             .form-group.mb-5
               h2.title #{danger}
             .form-group.mb-5
-              input.red.form-control.w-40.mx-auto(name='username', type='text', placeholder='Username')
+              input.red.form-control.w-40.mx-auto(name='username', type='text', placeholder='Email')
             .form-group.mb-5
               input.red.form-control.w-40.mx-auto(name='password', type='password', placeholder='Password')
           .form-group.mb-5
