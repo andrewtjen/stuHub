@@ -11,28 +11,31 @@ block content
 
     each event, i in events                           
         .ui.noleftmargin
-            table.ui.celled.table.left.aligned
-                thead                               
-                    h3 #{event.name}
-                tbody
-                    tr.trbackground
-                        th 
-                            h4 Capacity: #{event.capacity}
-                        th 
-                            h4 Description:
-                    tr.trbackground
-                        th 
-                            h4 Happening: #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"})}
-                        th 
-                            h4 #{event.description}
-                tfoot
-                    form(method='POST', action='/event/join/' + event.id)
-                        input(type='hidden', name="id", value=event.id)
-                        input.btn.btn-primary(type='submit',value='More Details')
-                    form(method='POST', action='/event/join/' + event.id)
-                        input(type='hidden', name="id", value=event.id)
-                        input.btn.btn-primary(type='submit',value='Join Event')
-    br
+            .row
+                table.ui.celled.table.left.aligned
+                    thead                               
+                        h3 #{event.name}
+                    tbody
+                        tr.trbackground
+                            th 
+                                h4 Capacity: #{event.capacity}
+                            th 
+                                h4 Description:
+                        tr.trbackground
+                            th 
+                                h4 Happening: #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"})}
+                            th 
+                                h4 #{event.description}
+                    tfoot
+                        th.text-left
+                            form(method='GET', action='/event/' + event.id)
+                                input(type='hidden', name="id", value=event.id)
+                                input.joinButton(type='submit',value='More Details')
+                        th.text-right
+                            form(method='POST', action='/event/join/' + event.id)
+                                input(type='hidden', name="id", value=event.id)
+                                input.joinButton(type='submit',value='Join Event')
+        br
 
     //script.
     //    function myFunction() {
