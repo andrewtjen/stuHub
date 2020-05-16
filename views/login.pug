@@ -13,23 +13,24 @@ html
       include ../public/css/style.css
   body.background
     .box.container.overflow-auto
-      h1.title.titleLoginPadding Login
-      form.loginForm(action='/user/login', method='post')
-        if !danger
+      .margin-auto
+        h1.title.titleLoginPadding Login
+        form(action='/user/login', method='post')
+          if !danger
+            .form-group.mb-5
+              input.inputStyle.form-control.w-40.mx-auto(name='username', type='text', placeholder='Username')
+            .form-group.mb-5
+              input.inputStyle.form-control.w-40.mx-auto(name='password', type='password', placeholder='Password')
+          else
+            .form-group.mb-5
+              h2.title #{danger}
+            .form-group.mb-5
+              input.red.form-control.w-40.mx-auto(name='username', type='text', placeholder='Username')
+            .form-group.mb-5
+              input.red.form-control.w-40.mx-auto(name='password', type='password', placeholder='Password')
           .form-group.mb-5
-            input.inputStyle.form-control.w-40.mx-auto(name='username', type='text', placeholder='Username')
-          .form-group.mb-5
-            input.inputStyle.form-control.w-40.mx-auto(name='password', type='password', placeholder='Password')
-        else
-          .form-group.mb-5
-            h2.title #{danger}
-          .form-group.mb-5
-            input.red.form-control.w-40.mx-auto(name='username', type='text', placeholder='Username')
-          .form-group.mb-5
-            input.red.form-control.w-40.mx-auto(name='password', type='password', placeholder='Password')
-        .form-group.mb-5
-          input.submitButton.p-2(type='submit', value='Submit')
-      a.tiny(href='/user/send/passwordreset')
-        p Forgot Password?
-      a.tiny(href='/user/register')
-        p Sign Up
+            input.submitButton.p-2(type='submit', value='Submit')
+        a.tiny(href='/user/send/passwordreset')
+          p Forgot Password?
+        a.tiny(href='/user/register')
+          p Sign Up

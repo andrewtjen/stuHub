@@ -90,6 +90,16 @@ modal.custom .fade{
   pointer-events: all;
 }
 
+.vertical-center-in-box {
+  width: 100%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .box {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
   background-color: white;
@@ -102,6 +112,12 @@ modal.custom .fade{
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  display: flex;
+}
+
+.margin-auto {
+  margin: auto;
+  width: 100%;
 }
 
 .boxWide {
@@ -118,11 +134,13 @@ modal.custom .fade{
 }
 
 .titleLoginPadding {
-  padding: 50px 0;
+  padding-bottom: 50px;
+  padding-top: 10px;
 }
 
 .titleSignupPadding {
-  padding: 30px 0;
+  padding-bottom: 30px;
+  padding-top: 10px;
 }
 
 .input {

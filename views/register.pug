@@ -13,43 +13,44 @@ html
       include ../public/css/style.css
   body.background
     .box.container.overflow-auto
-      h1.title.titleSignupPadding Sign Up
-      form.loginForm(action='/user/register', method='post')
-        .form-group.mb-5
-          if nameError
-            input.red.form-control.w-40.mx-auto(type='text', name='name', placeholder='Name')
-            small #{nameError.msg}
-          else
-            input.inputStyle.form-control.w-40.mx-auto(type='text', name='name', placeholder='Name')
-
-        .form-group.mb-5
-          if emailError
-            input.red.w-40.form-control.mx-auto(type='email', name='email', placeholder='Email')
-            small #{emailError.msg}
-          else
-            input.inputStyle.form-control.w-40.mx-auto(type='email', name='email', placeholder='Email')
-
-        .form-group.mb-5
-          if passwordError
-            input.red.w-40.form-control.mx-auto(type='password', name='password', placeholder='Password')
-            small #{passwordError.msg}
-          else
-            input.inputStyle.form-control.w-40.mx-auto(type='password', name='password', placeholder='Password')
-
-        .form-group.mb-5
-          if passwordError || confirmPasswordError
-            input.red.w-40.form-control.mx-auto(type='password', name='confirm_password', placeholder='Confirm Password')
-            if confirmPasswordError
-              small #{confirmPasswordError.msg}
+      .margin-auto
+        h1.title.titleSignupPadding Sign Up
+        form(action='/user/register', method='post')
+          .form-group.mb-5
+            if nameError
+              input.red.form-control.w-40.mx-auto(type='text', name='name', placeholder='Name')
+              small #{nameError.msg}
             else
-              small Please Enter Your Password
-          else
-            input.inputStyle.form-control.w-40.mx-auto(type='password', name='confirm_password', placeholder='Confirm Password')
+              input.inputStyle.form-control.w-40.mx-auto(type='text', name='name', placeholder='Name')
 
-        .form-group.mb-5
-          input.submitButton.p-2(type='submit', value='Submit')
-      a.tiny(href='/user/login')
-        p Already Have Account?
+          .form-group.mb-5
+            if emailError
+              input.red.w-40.form-control.mx-auto(type='email', name='email', placeholder='Email')
+              small #{emailError.msg}
+            else
+              input.inputStyle.form-control.w-40.mx-auto(type='email', name='email', placeholder='Email')
+
+          .form-group.mb-5
+            if passwordError
+              input.red.w-40.form-control.mx-auto(type='password', name='password', placeholder='Password')
+              small #{passwordError.msg}
+            else
+              input.inputStyle.form-control.w-40.mx-auto(type='password', name='password', placeholder='Password')
+
+          .form-group.mb-5
+            if passwordError || confirmPasswordError
+              input.red.w-40.form-control.mx-auto(type='password', name='confirm_password', placeholder='Confirm Password')
+              if confirmPasswordError
+                small #{confirmPasswordError.msg}
+              else
+                small Please Enter Your Password
+            else
+              input.inputStyle.form-control.w-40.mx-auto(type='password', name='confirm_password', placeholder='Confirm Password')
+
+          .form-group.mb-5
+            input.submitButton.p-2(type='submit', value='Submit')
+        a.tiny(href='/user/login')
+          p Already Have Account?
     //.box
     //  h1.title.titleSignupPadding Sign Up
     //  form.loginForm(action='/user/register', method='post')
