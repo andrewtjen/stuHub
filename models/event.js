@@ -12,8 +12,19 @@ let eventSchema = mongoose.Schema({
     required: true
   },
   location:{
-    type: String,
-    required: true
+    type: Object,
+    required: ["lat", "lng"],
+    properties: {
+      lat: {
+        type: Number,
+        required: true
+      },
+      lng: {
+        type: Number,
+        required: true
+      }
+    }
+
   },
   // date:{
   //   type: Date,

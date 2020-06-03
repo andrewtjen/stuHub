@@ -24,18 +24,18 @@ var mapOptions = {
 var map = new Mazemap.Map(mapOptions);
 map.addControl(new Mazemap.mapboxgl.NavigationControl());
 
-map.on('load', function(){
-  // MazeMap ready
+// map.on('load', function(){
+//   // MazeMap ready
 
-  var lngLat = map.getCenter();
+//   // var lngLat = map.getCenter();
+//   // document.getElementById("validationLocation").value =lngLat;
+//   var marker = new Mazemap.MazeMarker( {
+//       color: "MazeMapOrange",
+//       size: 36,
+//       glyph: '🖨'
+//   } ).setLngLat( "LngLat(144.95928978063154, -37.797538860015194)" ).addTo(map);
 
-  var marker = new Mazemap.MazeMarker( {
-      color: "MazeMapOrange",
-      size: 36,
-      glyph: '🖨'
-  } ).setLngLat( lngLat ).addTo(map);
-
-});
+// });
 
 
 
@@ -58,6 +58,15 @@ var mySearchInput = new Mazemap.Search.SearchInput({
   suggestions: document.getElementById('suggestions'),
   searchController: mySearch
   }).on('itemclick', function(e){
-    document.getElementById("validationLocation").value =Mazemap.Util.getPoiLngLat(e.item);
+
+    var myString = Mazemap.Util.getPoiLngLat(e.item);
+    var myRegexp = /.*LngLat[(](-?\d*\.\d*), (-?\d*\.\d*)[)]/g;
+    var match = myRegexp.exec(myString);
+    var lng = match[1]; 
+    var lat = match[2];
+
+    document.getElementById("locLng").value =lng;
+    document.getElementById("locLat").value =lat;
+    
   });
 

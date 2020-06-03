@@ -73,10 +73,11 @@ html(lang='en')
                           .input-group
                             #search-input-container.search-control-default
                               input#searchInput.search-input(tabindex='0', autocomplete='off', type='text', name='search', placeholder='Search')
+                              .invalid-feedback
+                                | Please select a location from the suggestion given
                               #suggestions.search-suggestions.default
-                            input#validationLocation.form-control(name='location', type='text', required='')
-                            .invalid-feedback
-                              | Please select a location from the suggestion
+                            input#locLng.form-control(name='lng', type='hidden', required='')
+                            input#locLat.form-control(name='lat', type='hidden', required='')
                       .col-6
                         .form-group
                           .input-group

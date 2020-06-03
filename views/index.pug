@@ -31,7 +31,31 @@ block content
     if(noMatch !== null)
         h3 #{noMatch}
 
-    each event, i in events                           
+    #mazemap-container(style='width: 50%; height: 50%;')
+    script
+        include map.js
+
+    each event, i in events
+        h4#lat #{event.location.lat}
+        h4#lng #{event.location.lng}
+        //- p#lat event.location.lat
+        //- p#lng event.location.lng
+
+        script.
+            map.on('load', function(){
+            var lng = parseFloat(document.getElementsById("lng"));
+            var lat = parseFloat(document.getElementsById("lat"));
+
+            var lnglat = {lat: lat, lng: lng};
+            var marker = new Mazemap.MazeMarker( {
+                color: "MazeMapOrange",
+                size: 36,
+                glyph: '🖨',
+
+            } ).setLngLat( lnglat ).addTo(map);
+
+            });
+        
         .ui.noleftmargin
             .row
                 table.ui.celled.table.left.aligned
@@ -58,11 +82,11 @@ block content
                                 input(type='hidden', name="id", value=event.id)
                                 input.joinButton(type='submit',value='Join Event')
 
+        
 
 
-    #mazemap-container(style='width: 50%; height: 50%;')
-    script
-        include map.js
+
+
 
 
 
