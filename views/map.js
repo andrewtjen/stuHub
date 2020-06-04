@@ -24,19 +24,6 @@ var mapOptions = {
 var map = new Mazemap.Map(mapOptions);
 map.addControl(new Mazemap.mapboxgl.NavigationControl());
 
-// map.on('load', function(){
-//   // MazeMap ready
-
-//   // var lngLat = map.getCenter();
-//   // document.getElementById("validationLocation").value =lngLat;
-//   var marker = new Mazemap.MazeMarker( {
-//       color: "MazeMapOrange",
-//       size: 36,
-//       glyph: '🖨'
-//   } ).setLngLat( "LngLat(144.95928978063154, -37.797538860015194)" ).addTo(map);
-
-// });
-
 
 
 var mySearch = new Mazemap.Search.SearchController({
@@ -57,16 +44,46 @@ var mySearchInput = new Mazemap.Search.SearchInput({
   input: document.getElementById('searchInput'),
   suggestions: document.getElementById('suggestions'),
   searchController: mySearch
-  }).on('itemclick', function(e){
+}).on('itemclick', function(e){
 
-    var myString = Mazemap.Util.getPoiLngLat(e.item);
-    var myRegexp = /.*LngLat[(](-?\d*\.\d*), (-?\d*\.\d*)[)]/g;
-    var match = myRegexp.exec(myString);
-    var lng = match[1]; 
-    var lat = match[2];
+  var myString = Mazemap.Util.getPoiLngLat(e.item);
+  var myRegexp = /.*LngLat[(](-?\d*\.\d*), (-?\d*\.\d*)[)]/g;
+  var match = myRegexp.exec(myString);
+  var lng = match[1]; 
+  var lat = match[2];
 
-    document.getElementById("locLng").value =lng;
-    document.getElementById("locLat").value =lat;
+  document.getElementById("locLng").value =lng;
+  document.getElementById("locLat").value =lat;
     
-  });
+});
+  
+function addMarker() {
+
+  var lng = document.querySelectorAll('#lng');
+  var lat = document.querySelectorAll('#lat');
+  var category = document.querySelectorAll('#category');
+  console.log(lng.length);
+  
+  for (var i=0; i < lng.length; i++){
+
+      var lnglat = {lat: lat[i].outerText, lng: lng[i].outerText};
+      if(category[i].outerText == "sports"){
+          var glyph = '⚽';
+      } else if(category[i].outerText == "studies"){
+          var glyph = '📗';
+      } else if(category[i].outerText == "leisure"){
+          var glyph = '🏖️';
+      } else if(category[i].outerText == "club activity"){
+          var glyph = '🏕️';
+      }
+
+      console.log(category[i].outerText);
+      var marker = new Mazemap.MazeMarker( {
+      color: "MazeMapOrange",
+      size: 20,
+      glyph: glyph
+
+      } ).setLngLat(  lnglat ).addTo(map);
+  }
+}
 

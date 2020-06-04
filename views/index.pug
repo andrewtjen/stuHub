@@ -37,24 +37,10 @@ block content
 
     each event, i in events
 
-        p#lng #{event.location.lng}
-        p#lat #{event.location.lat}
-        p#category #{event.category}
-            
-
-        
-
-        //- p#lat.lat #{event.location.lat}
-        //- p#lng.lng #{event.location.lng}
-        
-        //- object#lnglat(type='model') #{event.location}
-        
-        //- //- object#lnglat #{event.location}
-        //- //- p#lat event.location.lat
-        //- p#lng event.location.lng
-
-
-        
+        p(style='font-size:0;')#lng() #{event.location.lng}
+        p(style='font-size:0;')#lat #{event.location.lat}
+        p(style='font-size:0;')#category #{event.category}
+                
         .ui.noleftmargin
             .row
                 table.ui.celled.table.left.aligned
@@ -80,36 +66,37 @@ block content
                             form(method='POST', action='/event/join/' + event.id)
                                 input(type='hidden', name="id", value=event.id)
                                 input.joinButton(type='submit',value='Join Event')
-
-    script(src='https://code.jquery.com/jquery-3.5.0.js')
     script.
+        addMarker();
 
-        var lng = document.querySelectorAll('#lng');
-        var lat = document.querySelectorAll('#lat');
-        var category = document.querySelectorAll('#category');
-        console.log(lng.length);
+    //- script.
+
+    //-     var lng = document.querySelectorAll('#lng');
+    //-     var lat = document.querySelectorAll('#lat');
+    //-     var category = document.querySelectorAll('#category');
+    //-     console.log(lng.length);
         
-        for (var i=0; i < lng.length; i++){
+    //-     for (var i=0; i < lng.length; i++){
 
-            var lnglat = {lat: lat[i].outerText, lng: lng[i].outerText};
-            if(category[i].outerText == "sports"){
-                var glyph = '⚽';
-            } else if(category[i].outerText == "studies"){
-                var glyph = '📚';
-            } else if(category[i].outerText == "leisure"){
-                var glyph = '🏖️';
-            } else if(category[i].outerText == "club activity"){
-                var glyph = '🏕️';
-            }
+    //-         var lnglat = {lat: lat[i].outerText, lng: lng[i].outerText};
+    //-         if(category[i].outerText == "sports"){
+    //-             var glyph = '⚽';
+    //-         } else if(category[i].outerText == "studies"){
+    //-             var glyph = '📗';
+    //-         } else if(category[i].outerText == "leisure"){
+    //-             var glyph = '🏖️';
+    //-         } else if(category[i].outerText == "club activity"){
+    //-             var glyph = '🏕️';
+    //-         }
 
-            console.log(category[i].outerText);
-            var marker = new Mazemap.MazeMarker( {
-            color: "MazeMapOrange",
-            size: 20,
-            glyph: glyph
+    //-         console.log(category[i].outerText);
+    //-         var marker = new Mazemap.MazeMarker( {
+    //-         color: "MazeMapOrange",
+    //-         size: 20,
+    //-         glyph: glyph
 
-            } ).setLngLat(  lnglat ).addTo(map);
-        }
+    //-         } ).setLngLat(  lnglat ).addTo(map);
+    //-     }
 
 
 
