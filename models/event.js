@@ -24,7 +24,7 @@ let eventSchema = mongoose.Schema({
         required: true
       }
     }
-
+    
   },
   // date:{
   //   type: Date,

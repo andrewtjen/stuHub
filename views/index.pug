@@ -36,25 +36,24 @@ block content
         include map.js
 
     each event, i in events
-        h4#lat #{event.location.lat}
-        h4#lng #{event.location.lng}
-        //- p#lat event.location.lat
+
+        p#lng #{event.location.lng}
+        p#lat #{event.location.lat}
+        p#category #{event.category}
+            
+
+        
+
+        //- p#lat.lat #{event.location.lat}
+        //- p#lng.lng #{event.location.lng}
+        
+        //- object#lnglat(type='model') #{event.location}
+        
+        //- //- object#lnglat #{event.location}
+        //- //- p#lat event.location.lat
         //- p#lng event.location.lng
 
-        script.
-            map.on('load', function(){
-            var lng = parseFloat(document.getElementsById("lng"));
-            var lat = parseFloat(document.getElementsById("lat"));
 
-            var lnglat = {lat: lat, lng: lng};
-            var marker = new Mazemap.MazeMarker( {
-                color: "MazeMapOrange",
-                size: 36,
-                glyph: '🖨',
-
-            } ).setLngLat( lnglat ).addTo(map);
-
-            });
         
         .ui.noleftmargin
             .row
@@ -81,6 +80,38 @@ block content
                             form(method='POST', action='/event/join/' + event.id)
                                 input(type='hidden', name="id", value=event.id)
                                 input.joinButton(type='submit',value='Join Event')
+
+    script(src='https://code.jquery.com/jquery-3.5.0.js')
+    script.
+
+        var lng = document.querySelectorAll('#lng');
+        var lat = document.querySelectorAll('#lat');
+        var category = document.querySelectorAll('#category');
+        console.log(lng.length);
+        
+        for (var i=0; i < lng.length; i++){
+
+            var lnglat = {lat: lat[i].outerText, lng: lng[i].outerText};
+            if(category[i].outerText == "sports"){
+                var glyph = '⚽';
+            } else if(category[i].outerText == "studies"){
+                var glyph = '📚';
+            } else if(category[i].outerText == "leisure"){
+                var glyph = '🏖️';
+            } else if(category[i].outerText == "club activity"){
+                var glyph = '🏕️';
+            }
+
+            console.log(category[i].outerText);
+            var marker = new Mazemap.MazeMarker( {
+            color: "MazeMapOrange",
+            size: 20,
+            glyph: glyph
+
+            } ).setLngLat(  lnglat ).addTo(map);
+        }
+
+
 
         
 
