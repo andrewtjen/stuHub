@@ -45,13 +45,15 @@ block content
             map.on('load', function(){
             var lng = parseFloat(document.getElementsById("lng"));
             var lat = parseFloat(document.getElementsById("lat"));
-
-            var lnglat = {lat: lat, lng: lng};
-            var marker = new Mazemap.MazeMarker( {
+            console.log(event.location.lat);
+            var lnglat = {
+                lat: 144.95928978063154,
+                lng: -37.797538860015194
+            };
+            new Mazemap.MazeMarker( {
                 color: "MazeMapOrange",
-                size: 36,
+                size: 100,
                 glyph: '🖨',
-
             } ).setLngLat( lnglat ).addTo(map);
 
             });
