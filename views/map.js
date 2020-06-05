@@ -21,6 +21,7 @@ var mapOptions = {
   container: 'mazemap-container'
 
 }
+
 var map = new Mazemap.Map(mapOptions);
 map.addControl(new Mazemap.mapboxgl.NavigationControl());
 
@@ -80,7 +81,7 @@ function addMarker() {
       console.log(category[i].outerText);
       var marker = new Mazemap.MazeMarker( {
       color: "MazeMapOrange",
-      size: 20,
+      size: 40,
       glyph: glyph
 
       } ).setLngLat(  lnglat ).addTo(map);

@@ -20,7 +20,9 @@ input[type="submit"]:hover, i:hover {
 .w-40 {
   width: 40%;
 }
-
+.home-content{
+  display: inline-block;
+}
 .background {
   background: linear-gradient(#884EA0, #D7BDE2);
   background-size: cover;
@@ -366,4 +368,22 @@ modal.custom .fade{
   font-family: 'Spartan', sans-serif;
   text-decoration: none !important;
   font-size: 12px;
+}
+.map-home{
+  width: 45%;
+  height: 80%;
+  float:right;
+}
+.events-home{
+  width: 55% !important;
+  height: 80%;
+  float:left;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+.events-content{]
+  background-color: #fff;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
 }
