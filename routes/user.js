@@ -17,7 +17,7 @@ router.post('/register', userController.validate('saveUser'), userController.cre
 router.get('/updateProfile', userController.ensureAuthenticated , userController.loadUser);
 
 //update Profile
-router.post('/updateProfile', userController.validate('saveUser'), userController.updateProfile);
+router.post('/updateProfile', userController.validate('editUser'), userController.updateProfile);
 
 //register user
 router.get('/login', function(req, res){

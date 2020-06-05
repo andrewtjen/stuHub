@@ -30,6 +30,11 @@ input[type="submit"]:hover, i:hover {
   background-position: center;
   position: relative;
 }
+
+.lightBackground {
+  background-color: #f3e5f5 !important;
+}
+
 .modal.custom {
   outline:none;
 }
@@ -62,12 +67,20 @@ modal.custom .fade{
   font-family: 'Spartan', sans-serif;
 }
 .modal.custom .modal-body .form-control{
-  border: none;
-  border-bottom: 1px solid #BFC9CA;
-  outline: none;
-  font-family: 'Spartan', sans-serif;
+  border: none!important;
+  border-bottom: 1px solid #BFC9CA !important;
+  outline: none!important;
+  font-family: 'Spartan', sans-serif !important;
 }
-
+.modal.custom .modal-body .search-input{
+  border: none!important;
+  border-bottom: 1px solid #BFC9CA !important;
+  outline: none!important;
+  font-family: 'Spartan', sans-serif !important;
+  box-shadow: 0 0 0 0 rgba(0,0,0,.25)!important;
+  width: max-content !important;
+  height: 2.3em!important;
+}
 .modal-header .modaltitle {
   text-align: center;
   font-size: 30px;
@@ -159,8 +172,17 @@ modal.custom .fade{
 }
 
 .red {
-  border: solid 1px red;
+  border: solid 1px red !important;
   outline: none;
+}
+
+.submitButtonNoWidth {
+  color: white;
+  border: none;
+  background-color: #884EA0;
+  border-radius: 20px;
+  transition-duration: 0.5s;
+  padding: .375rem .75rem;
 }
 
 .submitButton {
@@ -179,6 +201,10 @@ modal.custom .fade{
 .loginForm {
   display: inline-block;
   width: 100%;
+}
+
+.spartan {
+  font-family: 'Spartan', sans-serif;
 }
 
 .tiny {
@@ -371,19 +397,49 @@ modal.custom .fade{
 }
 .map-home{
   width: 45%;
-  height: 80%;
+  height: 100%;
   float:right;
 }
 .events-home{
   width: 55% !important;
-  height: 80%;
+  height: 100%;
   float:left;
   padding-left: 1%;
   padding-right: 1%;
 }
-.events-content{]
-  background-color: #fff;
+.events-content{
+  background-color: #ffffff;
   border: 1px solid #d6d6d6;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  margin: 0em 0.25em 1em 0.25em;
+}
+
+.events-each{
+  width: 55% !important;
+  height: 100%;
+  float:left;
+  padding-left: 1%;
+  padding-right: 1%;
+  font-family: 'Spartan', sans-serif;
+  background: linear-gradient(#D7BDE2, #FFE6FF);
+}
+.events-each content{
+  background-color: #ffffff;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+  box-shadow: 0 2px 15px rgba(0,0,0,.08);
+}
+
+.events-each h1{
+  text-align: center;
+  font-family: 'Spartan', sans-serif;
+  margin: 0.25em;
+}
+.events-each .body{
+  padding: 1em;
+  text-align: center;
+}
+.underline{
+  text-decoration: underline;
 }

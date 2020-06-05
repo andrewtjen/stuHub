@@ -2,22 +2,34 @@ extends layout
 
 block content
 
-  h1 Change Profile
-
-  form(method='POST', action='/user/updateProfile')
-    #form-group
-      label Name:
-      input.form-control(name='name', type='text', value=user.name)
-    #form-group
-      label Email:
-      input.form-control(name='email', type='text', value=user.email)
-    #form-group
-      label Password:
-      input.form-control(name='password',type='password', value=user.password)
-    #form-group
-      label Confirm Password:
-      input.form-control(name='confirm_password',type='password')
-    br
-    input.btn.btn-primary(type='submit',value='Submit')
+  .container
+    .events-content.p-3.lightBackground
+      h1.title Edit Profile
+      h3.title Your email is #{user.email}
+      .body
+        form(method='POST', action='/user/updateProfile')
+          .form-group.mb-3
+            label.spartan Name:
+            if nameError
+              input.red.form-control.spartan(name='name', type='text', value=user.name)
+              small.spartan #{nameError.msg}
+            else
+              input.form-control.spartan(name='name', type='text', value=user.name)
+          .form-group.mb-3
+            label.spartan Password:
+            if passwordError
+              input.red.form-control.spartan(name='password',type='password', value=user.password)
+              small.spartan #{passwordError.msg}
+            else
+              input.form-control.spartan(name='password',type='password', value=user.password)
+          .form-group.mb-3
+            label.spartan Confirm Password:
+            if confirmPasswordError
+              input.red.form-control.spartan(name='confirm_password',type='password', value=user.password)
+              small.spartan #{confirmPasswordError.msg}
+            else
+              input.form-control.spartan(name='confirm_password',type='password', value=user.password)
+          br
+          input.submitButtonNoWidth(type='submit',value='Submit')
 
 

@@ -314,6 +314,16 @@ const getAllCreateHistory = function (req, res) {
 
 var validate = (method) => {
     switch (method) {
+        case 'editUser': {
+            return [
+                body('name','Name is Required').notEmpty(),
+                body('password','Password is Required and Needs to be at least 8 Characters').notEmpty()
+                    .isLength({min:8}),
+                body('confirm_password','Password Do Not Match')
+                    .notEmpty()
+                    .custom((value, { req }) => value === req.body.password)
+            ]
+        }
         case 'saveUser': {
             return [
                 body('name','Name is Required').notEmpty(),
@@ -335,7 +345,7 @@ var validate = (method) => {
                             }
                         });
                     }),
-                body('password','Password is Required and Needs to be atleast 8 Characters').notEmpty()
+                body('password','Password is Required and Needs to be at least 8 Characters').notEmpty()
                     .isLength({min:8}),
                 body('confirm_password','Password Do Not Match')
                     .exists()
@@ -422,23 +432,40 @@ var loadUser =  function (req, res) {
 //updateUserProfile
 var updateProfile =  function (req, res) {
     var id = req.user.id;
-    User.findById(id, function(err, user) {
-        if (err) {
-            console.error('error, invalid User');
-        }
-        user.name = req.body.name;
-        user.email = req.body.email;
-        user.password = req.body.password;
-        user.save(function(err){
-            if(err){
-                console.log(err);
-                return;
-            } else {
-                req.flash('success','Profile Updated!');
-                res.redirect('/');
-            }
+    let errors = validationResult(req);
+    let nameError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'name');
+    let passwordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'password');
+    let confirmPasswordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'confirm_password');
+
+    if(!errors.isEmpty()) {
+        User.findById(id, function(err, user) {
+            res.render('updateProfile', {
+                nameError: nameError,
+                passwordError: passwordError,
+                confirmPasswordError: confirmPasswordError,
+                user: user
+            });
         });
-    });
+    }
+    else {
+        User.findById(id, function (err, user) {
+
+            if (err) {
+                console.error('error, invalid User');
+            }
+            user.name = req.body.name;
+            user.password = req.body.password;
+            user.save(function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                } else {
+                    req.flash('success', 'Profile Updated!');
+                    res.redirect('/');
+                }
+            });
+        });
+    }
 };
 
 function ensureAuthenticated(req, res, next){
