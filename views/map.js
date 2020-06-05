@@ -101,9 +101,8 @@ function addMarker() {
       var marker = new Mazemap.MazeMarker( {
         color: 'MazePurple',
         size: 40,
-        innerCircle: true,
-        innerCircleColor: '#FFFFFF',
-        innerCircleScale: 0.6,
+        innerCircle: false,
+        glyphSize: 18,
         glyph: glyph
 
       } ).setLngLat(  lnglat ).addTo(map);
