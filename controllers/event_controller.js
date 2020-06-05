@@ -139,8 +139,8 @@ var joinEvent = function(req,res){
                                 console.log(err);
                                 return;
                             } else {
-                                res.redirect("/");
                                 req.flash('success', 'Join Succesful');
+                                res.redirect("/");
                             }
                         })
 

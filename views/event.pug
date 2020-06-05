@@ -1,45 +1,84 @@
 extend layout
 
 block content
-    h1= event.name
-    h2= event.category
-    p= "Location    : ".concat(event.location.name)
-    p= "Date        : ".concat(event.datetime.toLocaleDateString(undefined ,{dateStyle:"full"}))
-    p= "Time        : ".concat(event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"}))
-    p= "Desc        : ".concat(event.description)
-    p= "Capacity    : ".concat(event.capacity)
-    p= "Curr Attendees: ".concat(event.current_attendees)
-    p= "Is Active   :  ".concat(event.isActive)
+    #mazemap-container.map-home
+    .container.overflow-auto.events-each
+        p(style='font-size:0;')#lng #{event.location.lng}
+        p(style='font-size:0;')#lat #{event.location.lat}
+        p(style='font-size:0;')#category #{event.category}
+        .events-content
+            h1 Event Details
+            .body
+                .row
+                    .col
+                        h5.underline Name
+                    .col
+                        h5.underline Ongoing
+                .row
+                    .col
+                        p #{event.name}
+                    .col
+                        p #{event.isActive}
+                .row
+                    .col
+                        h5.underline Location
+                    .col
+                        h5.underline Category
+                .row
+                    .col
+                        p= event.location.name
+                    .col
+                        p= event.category
+                .row
+                    .col
+                        h5.underline Time
+                    .col
+                        h5.underline Date
+                .row
+                    .col
+                        p= event.datetime.toLocaleTimeString(undefined, {timeStyle: "short", hourCycle: "h24"})
+                    .col
+                        p= event.datetime.toLocaleDateString(undefined, {dateStyle: "full"})
+                .row
+                    .col
+                        h5.underline Capacity
+                    .col
+                        h5.underline Current Attendance
+                .row
+                    .col
+                        p= event.capacity
+                    .col
+                        p= event.current_attendees
+                .row
+                    .col
+                        h5.underline Description
+                .row
+                    .col
+                        p= event.description
+                .row
+                    .col
+                        h5.underline Attendants
+                .row
+                    .col
+                        each attendee, i in attendance
+                            p #{attendee.name}
+                .row
+                    .col
+                        form(method='GET', action="/event/edit/" + event.id)
+                            input.submitButton(type='submit',value='Edit')
+                    .col
+                        //form(method='POST', action='/event/delete')
+                        //    input(type='hidden', name="id", value=event.id)
+                        //    input.btn.btn-primary(type='submit',value='Delete')
+                        form(method='POST', action='/event/cancelEvent')
+                            input(type='hidden', name="eventID", value=event.id)
+                            input.submitButton(type='submit',value='Cancel')
+                    .col
+                        form(method='POST', action='/event/leaveEvent')
+                            input(type='hidden', name="eventID", value=event.id)
+                            input.submitButton(type='submit',value='Leave')
 
-    br
-    br
-    h5 Who had Joined:
-    ul
-        each attendee, i in attendance
-            li= attendee.name
-    
-    a(href="/event/user/"+event.id) who had join the event???
-    br
-    br
-    a(href="/event/edit/"+event.id) Event edit button
-
-    br
-    br
-    form(method='POST', action='/event/delete')
-        input(type='hidden', name="id", value=event.id)
-        input.btn.btn-primary(type='submit',value='Delete')
-
-    br
-
-    form(method='POST', action='/event/leaveEvent')
-        input(type='hidden', name="eventID", value=event.id)
-        input.btn.btn-primary(type='submit',value='Leave this Event')
-
-    br
-
-    form(method='POST', action='/event/cancelEvent')
-        input(type='hidden', name="eventID", value=event.id)
-        input.btn.btn-primary(type='submit',value='Cancel this Event')
-
-    //- a(href="/",data-id=event.id) Delete
-    
+    script
+        include map.js
+    script.
+        addMarker();

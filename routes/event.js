@@ -5,7 +5,6 @@ var router = express.Router();
 var eventController = require('../controllers/event_controller.js');
 let Event = require('../models/event');
 
-
 //get add event page
 router.get('/add', eventController.ensureAuthenticated, eventController.getEventPage);
 
