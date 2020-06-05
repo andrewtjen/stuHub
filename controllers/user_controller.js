@@ -295,7 +295,6 @@ const getAllJoinHistory = function (req, res) {
 };
 
 const getAllCreateHistory = function (req, res) {
-
     let eventCreated = req.user.eventCreated;
 
     Event.find({_id:eventCreated}, function(err, all_events){
@@ -411,10 +410,8 @@ var logOut = function(req, res){
 //getUpdateUser
 var loadUser =  function (req, res) {
     var id = req.user.id;
-
     //find the data of current event
     User.findById(id, function(err, user){
-
         res.render('updateProfile', {
             name: 'Update Profile',
             user: user
@@ -425,9 +422,7 @@ var loadUser =  function (req, res) {
 //updateUserProfile
 var updateProfile =  function (req, res) {
     var id = req.user.id;
-
     User.findById(id, function(err, user) {
-
         if (err) {
             console.error('error, invalid User');
         }
@@ -455,6 +450,33 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
+// // function to handle a request to get all user
+// function getAllUser(req, res){
+//     // console.log("KONTOL");
+//     // // console.log(User);
+//     // User.find({}, function(err, user){
+//     //     console.log(user);
+//     //     res.send(user);
+//     // });
+//     res.send(User);
+//     // User.find({}, function(err, user){
+//     //     console.log("JANCOk = "+user);
+//     //     res.send(user);
+//     // })
+    
+//     // res.send(User); // return the list of User
+// };
+
+// // var getAllUser =  function (req, res) {
+// //     console.log("BANGSAT33");
+// //     User.find({}, function(err, user) {
+// //         console.log(err);
+// //         console.log(user);
+// //         res.render(user);
+// //     });
+// // };
+
+// module.exports.getAllUser = getAllUser;
 module.exports.updateProfile = updateProfile;
 module.exports.loadUser = loadUser;
 module.exports.logOut = logOut;

@@ -28,6 +28,18 @@ var getAllEvent = function(req, res) {
     });
 };
 
+// //getting all available events
+// var getAllEvents = function(req, res) {
+
+//     Event.find({}, function(err, events) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.send(events);
+//         }
+//     });
+// };
+
 //sorting the event based on the selected fields
 let sortEvents = function(events,sortBy){
     if (sortBy == 'newestcreated') {
@@ -155,5 +167,6 @@ function updateEvent( eventList ){
     }
 }
 
+// module.exports.getAllEvents = getAllEvents;
 module.exports.getAllEvent = getAllEvent;
 module.exports.searchEventGet = searchEventGet;
