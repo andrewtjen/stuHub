@@ -8,7 +8,7 @@ const { body , validationResult } = require('express-validator');
 //getting all available events
 var getAllEvent = function(req, res) {
 
-    Event.find({}, function(err, events) {
+    Event.find({isActive: true}, function(err, events) {
         if (err) {
             console.log(err);
         } else {
@@ -19,7 +19,7 @@ var getAllEvent = function(req, res) {
             updateEvent(events);
             res.render('index', {
                 title: 'List of Events',
-                events: events,
+                events: sortEvents(events, "newestreated"),
                 noMatch: noMatch
             
 
@@ -42,13 +42,13 @@ var getAllEvent = function(req, res) {
 
 //sorting the event based on the selected fields
 let sortEvents = function(events,sortBy){
-    if (sortBy == 'newestcreated') {
+    if (sortBy == 'latestcreated') {
         return events.sort(function(a, b) {
             a = new Date(a.createdAt);
             b = new Date(b.createdAt);
             return a<b ? -1 : a>b ? 1 : 0;
         });
-    } else if (sortBy == 'latestcreated') {
+    } else if (sortBy == 'newestcreated') {
         return events.sort(function(a, b) {
             a = new Date(a.createdAt);
             b = new Date(b.createdAt);
@@ -83,13 +83,13 @@ var searchEventGet = function(req, res) {
     if(filterBy.length < 1) {
         if (req.query.search) {
             const regex = new RegExp(req.query.search, 'gi');
-            Event.find({name: regex}, function (err, events) {
+            Event.find({name: regex,isActive: true}, function (err, events) {
                 if (err) {
                     console.log.err
                 } else {
                     if (events.length < 1) {
                         noMatch = "No events with that query! Showing all events.";
-                        Event.find({}, function (err, events) {
+                        Event.find({isActive: true}, function (err, events) {
                             if (err) {
                                 console.log(err)
                             } else {
@@ -104,7 +104,7 @@ var searchEventGet = function(req, res) {
                 }
             });
         } else {
-            Event.find({}, function (err, events) {
+            Event.find({isActive: true}, function (err, events) {
                 if (err) {
                     console.log(err)
                 } else {
@@ -117,13 +117,13 @@ var searchEventGet = function(req, res) {
     else{
         if (req.query.search) {
             const regex = new RegExp(req.query.search, 'gi');
-            Event.find({name: regex, category: filterBy}, function (err, events) {
+            Event.find({name: regex, category: filterBy, isActive: true}, function (err, events) {
                 if (err) {
                     console.log.err
                 } else {
                     if (events.length < 1) {
                         noMatch = "No events with that query! Showing all events.";
-                        Event.find({category: filterBy}, function (err, events) {
+                        Event.find({category: filterBy, isActive: true}, function (err, events) {
                             if (err) {
                                 console.log(err)
                             } else {
@@ -138,7 +138,7 @@ var searchEventGet = function(req, res) {
                 }
             });
         } else {
-            Event.find({category: filterBy}, function (err, events) {
+            Event.find({category: filterBy, isActive: true}, function (err, events) {
                 if (err) {
                     console.log(err)
                 } else {
