@@ -2,47 +2,109 @@ extends layout
 
 block content
   #mazemap-container.map-home
-  
-  h1 #{title}
-  form(method='POST', action='/event/edit')
-    #form-group
-      label Name:
-      input.form-control(name='name', type='text', value=event.name)
-    br
-    #form-group
-      label Category:
-      select(name='category', value=event.category)
-        option(value='sports') Sports
-        option(value='studies') Studies
-        option(value='leisure') Leisure
-        option(value='club activity') Club Activity
-    br
-    #form-group
-      label Location:
-      #search-input-container_edit.search-control-default
-        input#searchInput_edit.search-input(tabindex='0', autocomplete='off', type='text', name='search', placeholder='Search')
-        #suggestions_edit.search-suggestions.default
-      input#locLng_edit.form-control(name='lng', type='hidden', required='')
-      input#locLat_edit.form-control(name='lat', type='hidden', required='')
-    br
-    #form-group
-      label Date:
-      input(name='date', type='date', value=event.date)
-    br
-    #form-group
-      label Time:
-      input(name='time',type='time', value=event.time)
-    br
-    #form-group
-      label Description:
-      textarea.form-control(name='description', type='text', value=event.description)
-    br
-    #form-group
-      label(for='capacity') Capacity:
-      input(type='number', name='capacity', min='1', value=event.capacity)
-    br
-    input(type='hidden', name="id", value=event.id)
-    input.btn.btn-primary(type='submit',value='Update This!')
+  .container.overflow-auto.events-each
+    p(style='font-size:0;')#lng #{event.location.lng}
+    p(style='font-size:0;')#lat #{event.location.lat}
+    p(style='font-size:0;')#category #{event.category}
+    .events-content
+      h1 Event Details
+      form(method='POST', action='/event/edit')
+        .body
+          .row
+            .col
+              h5.underline Name
+            .col
+              h5.underline Category
+          .row
+            .col
+              if nameError
+                input.red.form-control.spartan(name='name', type='text', value=event.name)
+                small.spartan #{nameError.msg}
+              else
+                input.form-control.spartan(name='name', type='text', value=event.name)
+            .col
+              select.form-control(name='category', value=event.category)
+                option(value='sports') Sports
+                option(value='studies') Studies
+                option(value='leisure') Leisure
+                option(value='club activity') Club Activity
+              .invalid-feedback
+                | Please select category
+          .row
+            .col
+              h5.underline Location
+            .col
+              h5.underline Date
+          .row
+            .col
+              p= event.location.name
+            .col
+              p= event.datetime.toLocaleDateString(undefined, {dateStyle: "full"})
+
+          .row
+            .col
+              h5.underline Capacity
+            .col
+              h5.underline Time
+          .row
+            .col
+              if capacityError
+                input.red.form-control.spartan(name='capacity', type='number', min = "1",value=event.capacity)
+                small.spartan #{nameError.msg}
+              else
+                input.form-control.spartan(type='number', name='capacity', min='1', value=event.capacity)
+
+            .col
+              p= event.datetime.toLocaleTimeString(undefined, {timeStyle: "short", hourCycle: "h24"})
+
+          .row
+            .col
+              h5.underline Description
+          .form-row
+            .col
+              if descriptionError
+                textarea.red.form-control.spartan(name='description', type='text', value=event.description)
+                small.spartan #{nameError.msg}
+              else
+                textarea.form-control(name='description', type='text', value=event.description)
+          .row
+            .col
+              input(type='hidden', name="id", value=event.id)
+              input.btn.btn-primary(type='submit',value='Update This!')
+
+    //form(method='POST', action='/event/edit')
+    //  #form-group
+    //    label Name:
+    //    input.form-control(name='name', type='text', value=event.name)
+    //  br
+    //  #form-group
+    //    label Category:
+    //    select(name='category', value=event.category)
+    //      option(value='sports') Sports
+    //      option(value='studies') Studies
+    //      option(value='leisure') Leisure
+    //      option(value='club activity') Club Activity
+    //  br
+    //  #form-group
+    //    label Location:
+    //  #form-group
+    //    label Date:
+    //    input(name='date', type='date', value=event.date)
+    //  br
+    //  #form-group
+    //    label Time:
+    //    input(name='time',type='time', value=event.time)
+    //  br
+    //  #form-group
+    //    label Description:
+    //    textarea.form-control(name='description', type='text', value=event.description)
+    //  br
+    //  #form-group
+    //    label(for='capacity') Capacity:
+    //    input(type='number', name='capacity', min='1', value=event.capacity)
+    //  br
+    //  input(type='hidden', name="id", value=event.id)
+    //  input.btn.btn-primary(type='submit',value='Update This!')
 
 
   script

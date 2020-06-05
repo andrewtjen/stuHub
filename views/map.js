@@ -45,7 +45,7 @@ var mySearchInput = new Mazemap.Search.SearchInput({
   input: document.getElementById('searchInput'),
   suggestions: document.getElementById('suggestions'),
   searchController: mySearch
-}).on('click', function(e){
+}).on('itemclick', function(e){
   console.log("search Successful! parsing now");
 
   var myString = Mazemap.Util.getPoiLngLat(e.item);
