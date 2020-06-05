@@ -31,6 +31,10 @@ input[type="submit"]:hover, i:hover {
   position: relative;
 }
 
+.lightBackground {
+  background-color: #f3e5f5 !important;
+}
+
 .modal.custom {
   outline:none;
 }
@@ -168,8 +172,17 @@ modal.custom .fade{
 }
 
 .red {
-  border: solid 1px red;
+  border: solid 1px red !important;
   outline: none;
+}
+
+.submitButtonNoWidth {
+  color: white;
+  border: none;
+  background-color: #884EA0;
+  border-radius: 20px;
+  transition-duration: 0.5s;
+  padding: .375rem .75rem;
 }
 
 .submitButton {
@@ -188,6 +201,10 @@ modal.custom .fade{
 .loginForm {
   display: inline-block;
   width: 100%;
+}
+
+.spartan {
+  font-family: 'Spartan', sans-serif;
 }
 
 .tiny {

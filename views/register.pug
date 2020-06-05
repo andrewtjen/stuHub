@@ -18,34 +18,34 @@ html
         form(action='/user/register', method='post')
           .form-group.mb-5
             if nameError
-              input.red.form-control.w-40.mx-auto(type='text', name='name', placeholder='Name')
-              small #{nameError.msg}
+              input.red.form-control.w-40.mx-auto.spartan(type='text', name='name', placeholder='Name')
+              small.spartan #{nameError.msg}
             else
-              input.inputStyle.form-control.w-40.mx-auto(type='text', name='name', placeholder='Name')
+              input.inputStyle.form-control.w-40.mx-auto.spartan(type='text', name='name', placeholder='Name')
 
           .form-group.mb-5
             if emailError
-              input.red.w-40.form-control.mx-auto(type='email', name='email', placeholder='Email')
-              small #{emailError.msg}
+              input.red.w-40.form-control.mx-auto.spartan(type='email', name='email', placeholder='Email')
+              small.spartan #{emailError.msg}
             else
-              input.inputStyle.form-control.w-40.mx-auto(type='email', name='email', placeholder='Email')
+              input.inputStyle.form-control.w-40.mx-auto.spartan(type='email', name='email', placeholder='Email')
 
           .form-group.mb-5
             if passwordError
-              input.red.w-40.form-control.mx-auto(type='password', name='password', placeholder='Password')
-              small #{passwordError.msg}
+              input.red.w-40.form-control.mx-auto.spartan(type='password', name='password', placeholder='Password')
+              small.spartan #{passwordError.msg}
             else
-              input.inputStyle.form-control.w-40.mx-auto(type='password', name='password', placeholder='Password')
+              input.inputStyle.form-control.w-40.mx-auto.spartan(type='password', name='password', placeholder='Password')
 
           .form-group.mb-5
             if passwordError || confirmPasswordError
-              input.red.w-40.form-control.mx-auto(type='password', name='confirm_password', placeholder='Confirm Password')
+              input.red.w-40.form-control.mx-auto.spartan(type='password', name='confirm_password', placeholder='Confirm Password')
               if confirmPasswordError
-                small #{confirmPasswordError.msg}
+                small.spartan #{confirmPasswordError.msg}
               else
-                small Please Enter Your Password
+                small.spartan Please Enter Your Password
             else
-              input.inputStyle.form-control.w-40.mx-auto(type='password', name='confirm_password', placeholder='Confirm Password')
+              input.inputStyle.form-control.w-40.mx-auto.spartan(type='password', name='confirm_password', placeholder='Confirm Password')
 
           .form-group.mb-5
             input.submitButton.p-2(type='submit', value='Submit')
