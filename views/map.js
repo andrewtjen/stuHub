@@ -88,20 +88,22 @@ function addMarker() {
 
       var lnglat = {lat: lat[i].outerText, lng: lng[i].outerText};
       if(category[i].outerText == "sports"){
-          var glyph = '⚽';
+          var glyph = '🏀';
       } else if(category[i].outerText == "studies"){
-          var glyph = '📗';
+          var glyph = '📚';
       } else if(category[i].outerText == "leisure"){
           var glyph = '🏖️';
       } else if(category[i].outerText == "club activity"){
-          var glyph = '🏕️';
+          var glyph = '👪';
       }
 
       console.log(category[i].outerText);
       var marker = new Mazemap.MazeMarker( {
-      color: "MazeMapOrange",
-      size: 40,
-      glyph: glyph
+        color: 'MazePurple',
+        size: 40,
+        innerCircle: false,
+        glyphSize: 18,
+        glyph: glyph
 
       } ).setLngLat(  lnglat ).addTo(map);
   }
