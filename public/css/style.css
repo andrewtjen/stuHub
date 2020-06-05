@@ -30,6 +30,7 @@ input[type="submit"]:hover, i:hover {
   background-position: center;
   position: relative;
 }
+
 .modal.custom {
   outline:none;
 }
