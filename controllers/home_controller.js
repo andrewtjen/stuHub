@@ -13,9 +13,9 @@ var getAllEvent = function(req, res) {
             console.log(err);
         } else {
             const noMatch = null;
-            // if(events.length < 1){
-            //     noMatch = "No events with that query"
-            // }
+            if(events.length < 1){
+                noMatch = "No events match with that keywords"
+            }
             updateEvent(events);
             res.render('index', {
                 title: 'List of Events',

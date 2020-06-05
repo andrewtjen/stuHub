@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  #mazemap-container.map-home
+  
   h1 #{title}
   form(method='POST', action='/event/edit')
     #form-group
@@ -17,7 +19,11 @@ block content
     br
     #form-group
       label Location:
-      input(name='location', type='text', value=event.location)
+      #search-input-container_edit.search-control-default
+        input#searchInput_edit.search-input(tabindex='0', autocomplete='off', type='text', name='search', placeholder='Search')
+        #suggestions_edit.search-suggestions.default
+      input#locLng_edit.form-control(name='lng', type='hidden', required='')
+      input#locLat_edit.form-control(name='lat', type='hidden', required='')
     br
     #form-group
       label Date:
@@ -37,3 +43,9 @@ block content
     br
     input(type='hidden', name="id", value=event.id)
     input.btn.btn-primary(type='submit',value='Update This!')
+
+
+  script
+    include map.js
+  script.
+      addMarker();

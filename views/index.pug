@@ -63,10 +63,10 @@ block content
                                     form(method='POST', action='/event/join/' + event.id)
                                         input(type='hidden', name="id", value=event.id)
                                         input.joinButton(type='submit',value='Join Event')
-        script
-            include map.js
-        script.
-            addMarker();
+    script
+        include map.js
+    script.
+        addMarker();
 
     //- script.
 

@@ -77,6 +77,8 @@ html(lang='en')
                               //-   | Please select a location from the suggestion given
                               #suggestions.search-suggestions.default
                             input#locLng.form-control(name='lng', type='hidden', required='')
+                            .invalid-feedback
+                              | Please select from sugested location!
                             input#locLat.form-control(name='lat', type='hidden', required='')
                       .col-6
                         .form-group
@@ -145,6 +147,9 @@ html(lang='en')
             a.headerButton.headerDark(href='/user/register') Sign Up
 
     block content
+
+    //- script
+    //-   include map.js
 
 //doctype html
 //html

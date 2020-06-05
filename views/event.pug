@@ -3,7 +3,7 @@ extend layout
 block content
     h1= event.name
     h2= event.category
-    p= "Location    : ".concat(event.location)
+    p= "Location    : ".concat(event.location.name)
     p= "Date        : ".concat(event.datetime.toLocaleDateString(undefined ,{dateStyle:"full"}))
     p= "Time        : ".concat(event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"}))
     p= "Desc        : ".concat(event.description)

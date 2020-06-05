@@ -33,7 +33,7 @@ var mySearch = new Mazemap.Search.SearchController({
   rows: 10,
 
   withpois: true,
-  withbuilding: false,
+  withbuilding: true,
   withtype: false,
   withcampus: false,
 
@@ -45,7 +45,8 @@ var mySearchInput = new Mazemap.Search.SearchInput({
   input: document.getElementById('searchInput'),
   suggestions: document.getElementById('suggestions'),
   searchController: mySearch
-}).on('itemclick', function(e){
+}).on('dbclick', function(e){
+  console.log("search Successful! parsing now");
 
   var myString = Mazemap.Util.getPoiLngLat(e.item);
   var myRegexp = /.*LngLat[(](-?\d*\.\d*), (-?\d*\.\d*)[)]/g;
@@ -55,9 +56,27 @@ var mySearchInput = new Mazemap.Search.SearchInput({
 
   document.getElementById("locLng").value =lng;
   document.getElementById("locLat").value =lat;
-    
-});
   
+  console.log('parsing completed!');
+});
+
+var mySearchInput = new Mazemap.Search.SearchInput({
+  container: document.getElementById('search-input-container_edit'),
+  input: document.getElementById('searchInput_edit'),
+  suggestions: document.getElementById('suggestions_edit'),
+  searchController: mySearch
+}).on('itemclick', function(e){
+  var myString = Mazemap.Util.getPoiLngLat(e.item);
+  var myRegexp = /.*LngLat[(](-?\d*\.\d*), (-?\d*\.\d*)[)]/g;
+  var match = myRegexp.exec(myString);
+  var lng = match[1]; 
+  var lat = match[2];
+
+  document.getElementById("locLng_edit").value =lng;
+  document.getElementById("locLat_edit").value =lat;
+});
+
+
 function addMarker() {
 
   var lng = document.querySelectorAll('#lng');

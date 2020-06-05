@@ -23,6 +23,12 @@
                     $("#validationDate").addClass("is-valid");
                     form.classList.add('was-validated');
                 }
+                var lng = $('#locLng').val();
+                if(lng == ""){
+                    $("#locLng").addClass("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
             }, false);
         });
     }, false);

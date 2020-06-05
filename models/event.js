@@ -13,8 +13,12 @@ let eventSchema = mongoose.Schema({
   },
   location:{
     type: Object,
-    required: ["lat", "lng"],
+    required: ["name", "lat", "lng"],
     properties: {
+      name: {
+        type: String,
+        required: true
+      },
       lat: {
         type: Number,
         required: true

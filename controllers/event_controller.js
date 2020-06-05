@@ -33,7 +33,7 @@ var createEvent = function (req, res) {
         event.name = req.body.name;
         event.category = req.body.category;
         // event.location.name = req.body.search;
-        event.location = {lng: parseFloat(req.body.lng), lat: parseFloat(req.body.lat)};
+        event.location = {name: req.body.search, lng: parseFloat(req.body.lng), lat: parseFloat(req.body.lat)};
         // event.location.lat = parseFloat(req.body.lat);
         event.datetime = new Date(req.body.date + " "+ req.body.time + ":00");
         event.description = req.body.description;
@@ -201,7 +201,7 @@ var loadEvent =  function (req, res) {
         }
 
         res.render('edit_event', {
-            name: 'Edit Event',
+            title: 'Edit Event',
             event: event
         });
     });
@@ -218,7 +218,7 @@ var editEvent =  function (req, res) {
         }
         event.name = req.body.name;
         event.category = req.body.category;
-        event.location = req.body.location;
+        event.location = {name: req.body.search, lng: parseFloat(req.body.lng), lat: parseFloat(req.body.lat)};
         event.datetime = new Date(req.body.date + " "+ req.body.time + ":00" );
         event.description = req.body.description;
         event.save(function(err){
@@ -312,7 +312,7 @@ var validate = (method) => {
                 body('name','name is required').notEmpty(),
                 body('category','category is required').notEmpty(),
                 body('category','must be either "sports", "studies", "leisure", "club activity"').isIn(["sports", "studies", "leisure", "club activity"]),
-                // body('location','location is required').notEmpty(),
+                body('search','location is required').notEmpty(),
                 body('date','date is required').notEmpty(),
                 body('time','time is required').notEmpty(),
                 body('date','date cannot travel to past').custom(value => {
