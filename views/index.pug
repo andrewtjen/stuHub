@@ -37,32 +37,22 @@ block content
                 p(style='font-size:0;')#lng #{event.location.lng}
                 p(style='font-size:0;')#lat #{event.location.lat}
                 p(style='font-size:0;')#category #{event.category}
+               
+                .card(style='width: 50rem; background-color: plum')
+                    .card-body
+                        h3.card-title #{event.name}
+                        h4.card-subtitle.mb-2.text-muted #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"})}
+                        p.card-text #{event.description}
+                        a
+                            form(method='GET', action='/event/' + event.id)
+                                input(type='hidden', name="id", value=event.id)
+                                input.joinButton(type='submit',value='More Details')
+                        a   
+                            form(method='GET', action='/event/' + event.id)
+                                input(type='hidden', name="id", value=event.id)
+                                input.joinButton(type='submit',value='Join Event')
 
-                .ui.noleftmargin
-                    .row
-                        table.ui.celled.table.left.aligned
-                            thead
-                                h3 #{event.name}
-                            tbody
-                                tr.trbackground
-                                    th
-                                        h4 Capacity: #{event.capacity}
-                                    th
-                                        h4 Description:
-                                tr.trbackground
-                                    th
-                                        h4 Happening: #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined ,{timeStyle:"short", hourCycle:"h24"})}
-                                    th
-                                        h4 #{event.description}
-                            tfoot
-                                th.text-left
-                                    form(method='GET', action='/event/' + event.id)
-                                        input(type='hidden', name="id", value=event.id)
-                                        input.joinButton(type='submit',value='More Details')
-                                th.text-right
-                                    form(method='POST', action='/event/join/' + event.id)
-                                        input(type='hidden', name="id", value=event.id)
-                                        input.joinButton(type='submit',value='Join Event')
+
     script
         include map.js
     script.
