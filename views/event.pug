@@ -72,13 +72,21 @@ block content
                         //    input.btn.btn-primary(type='submit',value='Delete')
                         form(method='POST', action='/event/cancelEvent')
                             input(type='hidden', name="eventID", value=event.id)
-                            input.submitButton(type='submit',value='Cancel')
+                            input.submitButton(type='submit',value='Cancel', onclick="confirmCancel()")
                     .col
                         form(method='POST', action='/event/leaveEvent')
                             input(type='hidden', name="eventID", value=event.id)
-                            input.submitButton(type='submit',value='Leave')
+                            input.submitButton(type='submit',onclick="confirmLeave()", value='Leave')
 
     script
         include map.js
     script.
         addMarker();
+
+        function confirmLeave() {
+            confirm("Are you sure leaving this event?");
+        }
+        
+        function confirmCancel(){
+            confirm("Are you sure to cancel this event?")
+        }
