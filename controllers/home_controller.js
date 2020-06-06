@@ -9,20 +9,16 @@ const { body , validationResult } = require('express-validator');
 var getAllEvent = function(req, res) {
 
     Event.find({isActive: true}, function(err, events) {
+        console.log(events);
         if (err) {
             console.log(err);
         } else {
             const noMatch = null;
-            if(events.length < 1){
-                noMatch = "No events match with that keywords"
-            }
             updateEvent(events);
             res.render('index', {
                 title: 'List of Events',
                 events: sortEvents(events, "newestcreated"),
                 noMatch: noMatch
-            
-
             });
         }
     });
