@@ -184,48 +184,55 @@ var sendresetPasswordGet = function(req,res){
 };
 //reset password require email in body
 var sendresetPasswordPost = function(req,res, next){
-    User.findOne({email: req.body.email }, function (err, user) {
-        if (!user) return res.status(400).send({msg: 'We were unable to find a user with that email.'});
 
-        // Create a verification token, save it, and send email
-        var token = new Token();
-        token._userId = user._id;
-        token.token = crypto.randomBytes(16).toString('hex');
+        User.findOne({email: req.body.email}, function (err, user) {
+            if (!user) return res.status(400).send({msg: 'We were unable to find a user with that email.'});
 
-        // Save the token
-        token.save(function (err) {
-            if (err) { return res.status(500).send({ msg: err.message }); }
+            // Create a verification token, save it, and send email
+            var token = new Token();
+            token._userId = user._id;
+            token.token = crypto.randomBytes(16).toString('hex');
 
-            user.passwordResetToken = token.token;
-            user.passwordResetExpire = token.createdAt;
-
-            // Send the email
-            var options ={
-                auth: {
-                    api_user: SENDGRID_USERNAME,
-                    api_key: SENDGRID_PASS
+            // Save the token
+            token.save(function (err) {
+                if (err) {
+                    return res.status(500).send({msg: err.message});
                 }
-            };
-            var transporter = nodemailer.createTransport(sgTransport(options));
-            var mailOptions = {
-                from: EMAIL,
-                to: user.email,
-                subject: 'Password Reset',
-                text: 'Hello,\n\n' + 'Press this link to reset your password: \nhttp:\/\/' + req.headers.host + '\/user/confirmedpasswordreset\/' + token.token
-            };
-            transporter.sendMail(mailOptions, function (err) {
-                if (err) { return res.status(500).send({ msg: err.message }); }
-                user.save(function (err) {
+
+                user.passwordResetToken = token.token;
+                user.passwordResetExpire = token.createdAt;
+
+                // Send the email
+                var options = {
+                    auth: {
+                        api_user: SENDGRID_USERNAME,
+                        api_key: SENDGRID_PASS
+                    }
+                };
+                var transporter = nodemailer.createTransport(sgTransport(options));
+                var mailOptions = {
+                    from: EMAIL,
+                    to: user.email,
+                    subject: 'Password Reset',
+                    text: 'Hello,\n\n' + 'Press this link to reset your password: \nhttp:\/\/' + req.headers.host + '\/user/confirmedpasswordreset\/' + token.token
+                };
+                transporter.sendMail(mailOptions, function (err) {
                     if (err) {
                         return res.status(500).send({msg: err.message});
                     }
-                    res.status(200).send('A password reset link has been sent to ' + user.email + ' .');
+                    user.save(function (err) {
+                        if (err) {
+                            return res.status(500).send({msg: err.message});
+                        }
+                        res.render("AfterPasswordReset",{
+                            email: user.email
+                        });
+                    });
+
+
                 });
-
-
             });
         });
-    });
 }
 
 
@@ -245,20 +252,35 @@ var resetPasswordGet = function(req,res){
 }
 // post reset password
 var resetPasswordPost = function(req,res){
-    User.findOne({passwordResetToken : req.params.id}, function(err,user){
-        user.password = req.body.password;
-        user.PasswordResetToken = null;
-        user.PasswordResetExpire = null;
-
-        user.save(function (err) {
-            if (err) {return res.status(500).send({msg: err.message});}
-            Token.deleteOne({token: req.params.id}, function(err,token){
-                if (err) {return res.status(500).send({msg: err.message});}
-            });
-            req.flash("success", "Password resetted");
-            res.redirect('/user/login');
+    let errors = validationResult(req);
+    let passwordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'password');
+    let confirmPasswordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'confirm_password');
+    if(!errors.isEmpty()) {
+        res.render('password_reset_page', {
+            passwordError: passwordError,
+            confirmPasswordError: confirmPasswordError,
         });
-    });
+    }
+    else {
+        User.findOne({passwordResetToken: req.params.id}, function (err, user) {
+            user.password = req.body.password;
+            user.PasswordResetToken = null;
+            user.PasswordResetExpire = null;
+
+            user.save(function (err) {
+                if (err) {
+                    return res.status(500).send({msg: err.message});
+                }
+                Token.deleteOne({token: req.params.id}, function (err, token) {
+                    if (err) {
+                        return res.status(500).send({msg: err.message});
+                    }
+                });
+                req.flash("success", "Password resetted");
+                res.redirect('/user/login');
+            });
+        });
+    }
 }
 
 var getJoinHistory = function(req,res){
@@ -477,33 +499,6 @@ function ensureAuthenticated(req, res, next){
     }
 }
 
-// // function to handle a request to get all user
-// function getAllUser(req, res){
-//     // console.log("KONTOL");
-//     // // console.log(User);
-//     // User.find({}, function(err, user){
-//     //     console.log(user);
-//     //     res.send(user);
-//     // });
-//     res.send(User);
-//     // User.find({}, function(err, user){
-//     //     console.log("JANCOk = "+user);
-//     //     res.send(user);
-//     // })
-    
-//     // res.send(User); // return the list of User
-// };
-
-// // var getAllUser =  function (req, res) {
-// //     console.log("BANGSAT33");
-// //     User.find({}, function(err, user) {
-// //         console.log(err);
-// //         console.log(user);
-// //         res.render(user);
-// //     });
-// // };
-
-// module.exports.getAllUser = getAllUser;
 module.exports.updateProfile = updateProfile;
 module.exports.loadUser = loadUser;
 module.exports.logOut = logOut;
