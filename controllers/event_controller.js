@@ -222,7 +222,6 @@ var editEvent =  function (req, res) {
     var id = req.body.id;
 
     Event.findById(id, function (err, event) {
-
         if (err) {
             console.error('error, no event found');
         }
@@ -232,7 +231,7 @@ var editEvent =  function (req, res) {
         let capacityError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'capacity');
         let descriptionError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'category');
 
-        if(!errors.isEmpty()){
+        if(!(nameError === undefined && categoryError == undefined && capacityError === undefined && capacityError === undefined)){
             res.render('edit_event', {
                 nameError: nameError,
                 categoryError: categoryError,
@@ -243,8 +242,6 @@ var editEvent =  function (req, res) {
         }else {
             event.name = req.body.name;
             event.category = req.body.category;
-            event.location = {name: req.body.search, lng: parseFloat(req.body.lng), lat: parseFloat(req.body.lat)};
-            event.datetime = new Date(req.body.date + " " + req.body.time + ":00");
             event.description = req.body.description;
             event.save(function (err) {
                 if (err) {
