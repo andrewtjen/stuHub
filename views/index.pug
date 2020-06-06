@@ -41,15 +41,15 @@ block content
                 .card(style='width: 100%; background-color: white; border: 1px solid #533180; max-height: 9em !important;')
                     .card-body
                         .row
-                            .col.overflow-auto(style="max-height: 3em;")
+                            .col.overflow-auto(style="max-height: 5em;min-height: 5em;")
                                 h2.card-title.spartan #{event.name}
-                            .col.overflow-auto(style= 'border-left: 1px solid #533180;max-height: 5em;' )
+                            .col.overflow-auto(style= 'border-left: 1px solid #533180;max-height: 5em;min-height: 5em;' )
                                 p.card-text.spartan #{event.description}
 
                         .row
-                            .col.overflow-auto(style="max-height: 3em;")
+                            .col.overflow-auto(style="max-height: 3em;min-height: 3em;")
                                 h5.card-subtitle.mb-2.spartan #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined, {timeStyle: "short",hourCycle: "h24"})}
-                            .col.overflow-auto(style="display: inline-flex;max-height: 5em;")
+                            .col.overflow-auto(style="display: inline-flex; max-height: 3em;min-height: 3em;")
                                 form(style="margin-right: 15%;")(method='GET', action='/event/' + event.id)
                                         input(type='hidden', name="id", value=event.id)
                                         input.joinButton(type='submit',value='More Details')

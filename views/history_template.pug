@@ -1,10 +1,35 @@
 extend layout
 
 block content
-    h1 #{title}
-    ul
-        each event, i in events
-            li
-                a(href="/event/" + event._id)= event.name
-                //p #{event.current_attendees} / #{event.capacity} people
-                //p Happening: #{event.date.getDate()}/#{event.date.getMonth() + 1}/#{event.date.getFullYear()} at #{event.time}
+    #mazemap-container.map-home
+    .container.overflow-auto.events-home
+        .events-content
+            h1(style="text-align: center; font-family: 'Spartan', sans-serif;  margin: 0.25em;") #{title}
+            each event, i in events
+                p(style='font-size:0;')#lng #{event.location.lng}
+                p(style='font-size:0;')#lat #{event.location.lat}
+                p(style='font-size:0;')#category #{event.category}
+                .card(style='width: 100%; background-color: white; border: 1px solid #533180; max-height: 9em !important;')
+                    .card-body
+                        .row
+                            .col.overflow-auto(style="max-height: 5em;min-height: 5em;")
+                                h3.card-title.spartan #{event.name}
+                            .col.overflow-auto(style= 'border-left: 1px solid #533180;max-height: 5em;min-height: 5em;' )
+                                p.card-text.spartan #{event.description}
+
+                        .row
+                            .col(style="max-height: 3em;min-height: 3em;")
+                                h6.card-subtitle.mb-2.spartan #{event.datetime.toLocaleDateString()} at #{event.datetime.toLocaleTimeString(undefined, {timeStyle: "short",hourCycle: "h24"})}
+                            .col.overflow-auto(style="display: inline-flex;max-height: 3em;min-height: 3em;")
+                                form(style="margin-right: 15%;")(method='GET', action='/event/' + event.id)
+                                    input(type='hidden', name="id", value=event.id)
+                                    input.joinButton(type='submit',value='More Details')
+                                form(style="margin-left: 18%")(method='GET', action='/event/' + event.id)
+                                    input(type='hidden', name="id", value=event.id)
+                                    input.joinButton(type='submit',value='Join Event')
+
+
+    script
+        include map.js
+    script.
+        addMarker();
