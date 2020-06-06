@@ -6,8 +6,8 @@ var homeController = require('../controllers/home_controller.js');;
 //Home page that gets all event
 router.get('/', homeController.getAllEvent);
 
-// //Home page that gets all event
-// router.get('/getAllEvents', homeController.getAllEvents);
+//Home page that gets all event
+router.get('/getAllEvents', homeController.getAllEvents);
 
 //Search Route
 router.get('/search',homeController.searchEventGet);
