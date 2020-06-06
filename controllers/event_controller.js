@@ -161,31 +161,41 @@ var joinEvent = function(req,res){
 var leaveEvent = function (req, res) {
     let eventID = req.body.eventID;
     let userID = req.user._id;
+    Event.findById(eventID , function(err, event) {
+        if (err) {
+            console.error('error, no event found');
+        }
+        if(event.creatorID == req.user.id){
+            req.flash('danger', 'Owner Can\'t Leave own event');
+            res.redirect('/');
+        }
+        else{
+            UserEvents.find({userid:userID, eventid:eventID}, function (err, userEvent) {
+                if (err){
+                    console.log(err);
+                }else{
 
-    UserEvents.find({userid:userID, eventid:eventID}, function (err, userEvent) {
-        if (err){
-            console.log(err);
-        }else{
+                    if (userEvent.length > 0){
+                        UserEvents.find({userid:userID, eventid:eventID}).remove().exec();
 
-            if (userEvent.length > 0){
-                UserEvents.find({userid:userID, eventid:eventID}).remove().exec();
-
-                Event.findById(eventID, function(err, singleEvent){
-                    if(err){
-                        console.log(err);
+                        Event.findById(eventID, function(err, singleEvent){
+                            if(err){
+                                console.log(err);
+                            } else {
+                                singleEvent.current_attendees -=1;
+                                singleEvent.save();
+                                req.flash('success','You have leave an event');
+                                res.redirect('/event/' + eventID);
+                            }
+                        })
                     } else {
-                        singleEvent.current_attendees -=1;
-                        singleEvent.save();
-                        req.flash('danger','You had leave an event');
+                        req.flash('danger','You are not in this event');
+                        res.redirect('/event/' + eventID);
                     }
-                })
-            } else {
-                req.flash('danger','You are not in this event');
-            }
+                }
+            });
         }
     });
-
-    res.redirect('/event/' + eventID);
 
 };
 
@@ -199,7 +209,6 @@ var loadEvent =  function (req, res) {
             req.flash('danger', 'Not Authorized');
             return res.redirect('/');
         }
-
         res.render('edit_event', {
             title: 'Edit Event',
             event: event
@@ -292,7 +301,7 @@ var cancelEvent = function (req, res) {
                         if(err){
                             console.log(err);
                         } else {
-                            req.flash('danger','Event Cancelled');
+                            req.flash('success','Event Cancelled');
                             res.redirect('/');
                         }
                     });

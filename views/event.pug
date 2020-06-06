@@ -77,7 +77,6 @@ block content
                         form(method='POST', action='/event/leaveEvent')
                             input(type='hidden', name="eventID", value=event.id)
                             input.submitButton(type='submit',onclick="confirmLeave()", value='Leave')
-
     script
         include map.js
     script.

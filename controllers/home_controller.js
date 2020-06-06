@@ -19,7 +19,7 @@ var getAllEvent = function(req, res) {
             updateEvent(events);
             res.render('index', {
                 title: 'List of Events',
-                events: sortEvents(events, "newestreated"),
+                events: sortEvents(events, "newestcreated"),
                 noMatch: noMatch
             
 

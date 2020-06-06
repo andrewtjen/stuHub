@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  !=messages('message', locals)
   #mazemap-container.map-home
   .container.overflow-auto.events-each
     p(style='font-size:0;')#lng #{event.location.lng}
@@ -69,43 +70,9 @@ block content
                 textarea.form-control(name='description', type='text', value=event.description)
           .row
             .col
+              br
               input(type='hidden', name="id", value=event.id)
-              input.btn.btn-primary(type='submit',value='Update This!')
-
-    //form(method='POST', action='/event/edit')
-    //  #form-group
-    //    label Name:
-    //    input.form-control(name='name', type='text', value=event.name)
-    //  br
-    //  #form-group
-    //    label Category:
-    //    select(name='category', value=event.category)
-    //      option(value='sports') Sports
-    //      option(value='studies') Studies
-    //      option(value='leisure') Leisure
-    //      option(value='club activity') Club Activity
-    //  br
-    //  #form-group
-    //    label Location:
-    //  #form-group
-    //    label Date:
-    //    input(name='date', type='date', value=event.date)
-    //  br
-    //  #form-group
-    //    label Time:
-    //    input(name='time',type='time', value=event.time)
-    //  br
-    //  #form-group
-    //    label Description:
-    //    textarea.form-control(name='description', type='text', value=event.description)
-    //  br
-    //  #form-group
-    //    label(for='capacity') Capacity:
-    //    input(type='number', name='capacity', min='1', value=event.capacity)
-    //  br
-    //  input(type='hidden', name="id", value=event.id)
-    //  input.btn.btn-primary(type='submit',value='Update This!')
-
+              input.submitButton(type='submit',value='Update This!')
 
   script
     include map.js
