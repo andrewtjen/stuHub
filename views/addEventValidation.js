@@ -19,7 +19,6 @@
                     event.stopPropagation();
                 }
                 else{
-                    // $("#invalid").removeClass("error");
                     $("#validationDate").addClass("is-valid");
                     form.classList.add('was-validated');
                 }

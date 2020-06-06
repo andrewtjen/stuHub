@@ -22,11 +22,6 @@ html(lang='en')
 
   body.bg-light
     !=messages('message', locals)
-    //.alert.alert-success.alert-dismissible.fade.show(role='alert')
-    //  strong Events Added!
-    //  |  Check list of events below.
-    //  button.close(type='button' data-dismiss='alert' aria-label='Close')
-    //    span(aria-hidden='true') &times;
     if user
       .container
         #myModal2.modal.custom.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
@@ -140,6 +135,3 @@ html(lang='en')
             a.headerButton.headerDark(href='/user/register') Sign Up
 
     block content
-
-    //- script
-    //-   include map.js

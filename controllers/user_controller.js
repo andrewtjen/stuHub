@@ -60,7 +60,6 @@ var createUser = function (req, res) {
                 token.save(function(err){
                     if(err) {
                         res.status(500).send({msg: err.message});
-                        //console.log(err);
                         return;
                     }
                     else{
@@ -82,12 +81,9 @@ var createUser = function (req, res) {
                         //ask to check email
                         transporter.sendMail(mailOptions, function (err) {
                             if (err) { return res.status(500).send({ msg: err.message }); }
-                            //res.status(200).send('A verification email has been sent to ' + user.email + '.');
                             res.render('AfterSignUp', {
                                 email: user.email
                             });
-                            // req.flash("success","Email verification sent");
-                            // res.redirect('/user/login');
                         });
                     }
                 });
@@ -96,7 +92,7 @@ var createUser = function (req, res) {
     }
 };
 
-//right now its fine , but later separate find token to confirmationGet and the rest to confirmation Post
+//Sending the confirmation post
 var confirmationPost = function (req, res, next) {
     Token.findOne({ token: req.params.id }, function (err, token) {
         if (!token) {
@@ -116,8 +112,7 @@ var confirmationPost = function (req, res, next) {
             user.verified = true;
             user.save(function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
-                //account veriried, render again to login page
-                //res.status(200).send("The account has been verified. Please log in.");
+
                 req.flash("success", "Account has been verified! Please Login!");
                 res.redirect('/user/login');
             });
@@ -164,9 +159,6 @@ var resendTokenPost = function (req, res, next) {
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
-                //res.status(200).send('A verification email has been sent to ' + user.email + '.');
-                // req.flash("success","Email verification sent");
-                // res.redirect('/user/login');
                 res.render('AfterSignUp', {
                     email: user.email
                 });
@@ -175,13 +167,14 @@ var resendTokenPost = function (req, res, next) {
     });
 };
 
-
+//SendResetPassword
 var sendresetPasswordGet = function(req,res){
     res.render('require_email_page',{
         title: "Reset Password",
         action: "passwordreset"
     });
 };
+
 //reset password require email in body
 var sendresetPasswordPost = function(req,res, next){
 
@@ -235,7 +228,7 @@ var sendresetPasswordPost = function(req,res, next){
         });
 }
 
-
+//Reset Password
 var resetPasswordGet = function(req,res){
     Token.findOne({ token: req.params.id }, function (err, token) {
         if (!token) {
@@ -283,6 +276,7 @@ var resetPasswordPost = function(req,res){
     }
 }
 
+//Getting all joined event for that user
 var getJoinHistory = function(req,res){
     User.findById(req.user.id, function(err, user){
         res.render('history_template', {
@@ -292,6 +286,7 @@ var getJoinHistory = function(req,res){
     });
 };
 
+//Getting all joined event for that user
 const getAllJoinHistory = function (req, res) {
     UserEvent.find({userid :req.user.id}, function (err, docs) {
         if(err){
@@ -316,6 +311,7 @@ const getAllJoinHistory = function (req, res) {
     });
 };
 
+//Getting all created event for that user
 const getAllCreateHistory = function (req, res) {
     let eventCreated = req.user.eventCreated;
 
@@ -334,8 +330,10 @@ const getAllCreateHistory = function (req, res) {
 
 };
 
+//Validate for each response HTML
 var validate = (method) => {
     switch (method) {
+        //Validation for each user after edit
         case 'editUser': {
             return [
                 body('name','Name is Required').notEmpty(),
@@ -346,6 +344,7 @@ var validate = (method) => {
                     .custom((value, { req }) => value === req.body.password)
             ]
         }
+        //Validate for each user upon signup
         case 'saveUser': {
             return [
                 body('name','Name is Required').notEmpty(),
@@ -374,6 +373,8 @@ var validate = (method) => {
                     .custom((value, { req }) => value === req.body.password)
             ]
         }
+
+        //Validate email use is a unimelb email
         case 'emailValidate': {
 
             return [
@@ -398,6 +399,7 @@ var validate = (method) => {
                     })
             ]
         }
+        //Validate password match with the confirmation password
         case 'passwordValidate': {
             return [
                 body('password','password is required and needs to be atleast 8 characters').notEmpty()
@@ -459,6 +461,7 @@ var updateProfile =  function (req, res) {
     let passwordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'password');
     let confirmPasswordError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'confirm_password');
 
+    //Display error on user when changing profile is not correct
     if(!errors.isEmpty()) {
         User.findById(id, function(err, user) {
             res.render('updateProfile', {
@@ -470,10 +473,11 @@ var updateProfile =  function (req, res) {
         });
     }
     else {
+        //Updating new user profile
         User.findById(id, function (err, user) {
 
             if (err) {
-                console.error('error, invalid User');
+                console.error('error, unsuccessful change');
             }
             user.name = req.body.name;
             user.password = req.body.password;
@@ -490,6 +494,7 @@ var updateProfile =  function (req, res) {
     }
 };
 
+//Make sure that user are logged in or redirect when not
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         return next();

@@ -32,9 +32,7 @@ var createEvent = function (req, res) {
         let event = new Event();
         event.name = req.body.name;
         event.category = req.body.category;
-        // event.location.name = req.body.search;
         event.location = {name: req.body.search, lng: parseFloat(req.body.lng), lat: parseFloat(req.body.lat)};
-        // event.location.lat = parseFloat(req.body.lat);
         event.datetime = new Date(req.body.date + " "+ req.body.time + ":00");
         event.description = req.body.description;
         event.creatorID = req.user.id;
@@ -46,7 +44,7 @@ var createEvent = function (req, res) {
                 return;
             }
         });
-        
+        //Add eventID to the eventCreated array on user
         let userID = req.user.id;
         User.findById(userID, function(err, userAccount){
             if(err){
@@ -76,6 +74,8 @@ var getEvent = function(req, res){
         if(err){
             console.log(err);
         }else{
+
+            //get number of attendee from userEvent
             UserEvents.find({'eventid':eventID}, function(err, attendeesID){
                 if(err){
                     console.log(err);
@@ -83,6 +83,7 @@ var getEvent = function(req, res){
                     const attendeesID_array = [];
                     attendeesID.forEach(element => attendeesID_array.push(element.userid));
                     
+                    //get number of attendance
                     User.find({_id:attendeesID_array}, function (err, user){
                         if(err){
                             console.log(err);
@@ -107,6 +108,7 @@ var joinEvent = function(req,res){
         if (err) {
             console.error('error, no event found');
         }
+        //Check if they had enough capacity
         if(event.capacity >= event.current_attendees + 1) {
             if (event.creatorID == req.user.id) {
                 req.flash('danger', 'Owner Can\'t join own event');
@@ -170,14 +172,17 @@ var leaveEvent = function (req, res) {
             res.redirect('/');
         }
         else{
+            //remove from UserEvent collection
             UserEvents.find({userid:userID, eventid:eventID}, function (err, userEvent) {
                 if (err){
                     console.log(err);
                 }else{
 
                     if (userEvent.length > 0){
+                        //Remove userEvent from the collection
                         UserEvents.find({userid:userID, eventid:eventID}).remove().exec();
 
+                        //Update event number attendees
                         Event.findById(eventID, function(err, singleEvent){
                             if(err){
                                 console.log(err);
@@ -207,7 +212,7 @@ var loadEvent =  function (req, res) {
     Event.findById(id, function(err, event){
         if(event.creatorID != req.user.id){
             req.flash('danger', 'Not Authorized');
-            return res.redirect('/');
+            return res.redirect('/event/'+id);
         }
         res.render('edit_event', {
             title: 'Edit Event',
@@ -218,19 +223,22 @@ var loadEvent =  function (req, res) {
 
 //Update and save the event to the db
 var editEvent =  function (req, res) {
-
     var id = req.body.id;
 
+    //Find the event
     Event.findById(id, function (err, event) {
         if (err) {
             console.error('error, no event found');
         }
+
+        //Validation check
         let errors = validationResult(req);
         let nameError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'name');
         let categoryError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'category');
         let capacityError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'capacity');
         let descriptionError = errors.array({onlyFirstError: false}).find(itm => itm.param === 'category');
 
+        //Will return error message when it detects
         if(!(nameError === undefined && categoryError == undefined && capacityError === undefined && capacityError === undefined)){
             res.render('edit_event', {
                 nameError: nameError,
@@ -240,6 +248,7 @@ var editEvent =  function (req, res) {
                 event: event
             });
         }else {
+            //Save the newest update
             event.name = req.body.name;
             event.category = req.body.category;
             event.description = req.body.description;
@@ -267,7 +276,7 @@ var user_in_event =  function (req, res) {
         } else {
             const userid_joined = [];
             user.forEach(element => userid_joined.push(element.userid));
-            
+            //Get user name on the event
             User.find({_id:userid_joined}, function (err, userJoined){
                 if(err){
                     console.log(err);
@@ -288,7 +297,7 @@ var cancelEvent = function (req, res) {
     Event.findById(id, function (err, event) {
 
         if(req.user.id == event.creatorID){
-
+            //Find the event that is cancelled
             Event.findById(id, function(err, event){
                 if(err){
                     console.log(err);
@@ -326,11 +335,12 @@ var deleteEvent = function (req, res) {
     });
 };
 
-//validation use in the html entry
+//validation for input form 
 var validate = (method) => {
     switch (method) {
-        case 'saveEvent': {
 
+        //Validation for each events
+        case 'saveEvent': {
             return [ 
                 body('name','name is required').notEmpty(),
                 body('category','category is required').notEmpty(),
@@ -350,7 +360,7 @@ var validate = (method) => {
     }
 }
 
-// Access Control
+// Access Control (redirect to login page when not logged in)
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated()){
       return next();

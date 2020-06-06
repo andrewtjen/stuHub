@@ -67,9 +67,6 @@ block content
                         form(method='GET', action="/event/edit/" + event.id)
                             input.submitButton(type='submit',value='Edit')
                     .col
-                        //form(method='POST', action='/event/delete')
-                        //    input(type='hidden', name="id", value=event.id)
-                        //    input.btn.btn-primary(type='submit',value='Delete')
                         form(method='POST', action='/event/cancelEvent')
                             input(type='hidden', name="eventID", value=event.id)
                             input.submitButton(type='submit',value='Cancel', onclick="confirmCancel()")

@@ -77,11 +77,13 @@ var searchEventGet = function(req, res) {
     let sortBy = req.query.sortBy;
     if(filterBy.length < 1) {
         if (req.query.search) {
+            //Searching using regex
             const regex = new RegExp(req.query.search, 'gi');
             Event.find({name: regex,isActive: true}, function (err, events) {
                 if (err) {
                     console.log.err
                 } else {
+                    //Check if there are no match on the query
                     if (events.length < 1) {
                         noMatch = "No events with that query! Showing all events.";
                         Event.find({isActive: true}, function (err, events) {
@@ -93,12 +95,14 @@ var searchEventGet = function(req, res) {
                             }
                         });
                     } else {
+                        //Displaying match events with sorted 
                         events = sortEvents(events, sortBy);
                         res.render("index", {title: 'List of Events', events: events, noMatch: noMatch});
                     }
                 }
             });
         } else {
+            //Render the event 
             Event.find({isActive: true}, function (err, events) {
                 if (err) {
                     console.log(err)
@@ -110,6 +114,7 @@ var searchEventGet = function(req, res) {
         }
     }
     else{
+        //Searching for match seaerch
         if (req.query.search) {
             const regex = new RegExp(req.query.search, 'gi');
             Event.find({name: regex, category: filterBy, isActive: true}, function (err, events) {
@@ -133,6 +138,7 @@ var searchEventGet = function(req, res) {
                 }
             });
         } else {
+            //Responding on unmatched search
             Event.find({category: filterBy, isActive: true}, function (err, events) {
                 if (err) {
                     console.log(err)
@@ -145,7 +151,7 @@ var searchEventGet = function(req, res) {
     }
 };
 
-
+//Updating isActive on the event when it has passed the current datetime
 function updateEvent( eventList ){
     let currentTime = new Date();
 

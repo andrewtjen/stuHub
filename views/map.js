@@ -1,3 +1,5 @@
+
+//Intiate the coordinate of the map
 var mapOptions = {
   // The DOM element ID for the map
   container: 'map',
@@ -15,8 +17,6 @@ var mapOptions = {
   doubleClickZoom: true,
   touchZoomRotate: true,
   zLevelControl: true,
-  // // Initial floor z level of map
-  // zLevel: 3,
 
   container: 'mazemap-container'
 
@@ -25,8 +25,7 @@ var mapOptions = {
 var map = new Mazemap.Map(mapOptions);
 map.addControl(new Mazemap.mapboxgl.NavigationControl());
 
-
-
+//Searching giving a suggested input on the searchbar
 var mySearch = new Mazemap.Search.SearchController({
   campusid: 200,
 
@@ -40,50 +39,58 @@ var mySearch = new Mazemap.Search.SearchController({
   resultsFormat: 'geojson'
 });
 
+//Searching the event
 var mySearchInput = new Mazemap.Search.SearchInput({
   container: document.getElementById('search-input-container'),
   input: document.getElementById('searchInput'),
   suggestions: document.getElementById('suggestions'),
   searchController: mySearch
 }).on('itemclick',function(e){
-  console.log("search Successful! parsing now");
+  //Action after selecting the suggested location input
 
+  //Parsing the coordinate
   var myString = Mazemap.Util.getPoiLngLat(e.item);
   var myRegexp = /.*LngLat[(](-?\d*\.\d*), (-?\d*\.\d*)[)]/g;
   var match = myRegexp.exec(myString);
   var lng = match[1]; 
   var lat = match[2];
 
+  //Store the coordinate
   document.getElementById("locLng").value =lng;
   document.getElementById("locLat").value =lat;
   
   console.log('parsing completed!');
 });
 
+//Searcing the suggested location input
 var mySearchInput = new Mazemap.Search.SearchInput({
   container: document.getElementById('search-input-container_edit'),
   input: document.getElementById('searchInput_edit'),
   suggestions: document.getElementById('suggestions_edit'),
   searchController: mySearch
 }).on('itemclick', function(e){
+
+  //parsing the coordinate 
   var myString = Mazemap.Util.getPoiLngLat(e.item);
   var myRegexp = /.*LngLat[(](-?\d*\.\d*), (-?\d*\.\d*)[)]/g;
   var match = myRegexp.exec(myString);
   var lng = match[1]; 
   var lat = match[2];
 
+  //storing the coordinate
   document.getElementById("locLng_edit").value =lng;
   document.getElementById("locLat_edit").value =lat;
 });
 
-
+//Adding marker to the event
 function addMarker() {
 
+  //grabbing the coordinate 
   var lng = document.querySelectorAll('#lng');
   var lat = document.querySelectorAll('#lat');
   var category = document.querySelectorAll('#category');
-  console.log(lng.length);
   
+  //add marker for every coordinate given
   for (var i=0; i < lng.length; i++){
 
       var lnglat = {lat: lat[i].outerText, lng: lng[i].outerText};
@@ -97,7 +104,7 @@ function addMarker() {
           var glyph = '👪';
       }
 
-      console.log(category[i].outerText);
+      //Set the types of the marker
       var marker = new Mazemap.MazeMarker( {
         color: 'MazePurple',
         size: 40,

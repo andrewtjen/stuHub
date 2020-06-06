@@ -27,7 +27,6 @@ block content
     link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css')
     style.
         table.ui.celled img { display: inline-block; }
-    //input#myInput(type='text', onkeyup='myFunction()', placeholder='Search for names..', title='Type in a name')
     if(noMatch !== null)
         h3 #{noMatch}
     #mazemap-container.map-home
@@ -62,37 +61,6 @@ block content
         include map.js
     script.
         addMarker();
-
-    //- script.
-
-    //-     var lng = document.querySelectorAll('#lng');
-    //-     var lat = document.querySelectorAll('#lat');
-    //-     var category = document.querySelectorAll('#category');
-    //-     console.log(lng.length);
-
-    //-     for (var i=0; i < lng.length; i++){
-
-    //-         var lnglat = {lat: lat[i].outerText, lng: lng[i].outerText};
-    //-         if(category[i].outerText == "sports"){
-    //-             var glyph = '⚽';
-    //-         } else if(category[i].outerText == "studies"){
-    //-             var glyph = '📗';
-    //-         } else if(category[i].outerText == "leisure"){
-    //-             var glyph = '🏖️';
-    //-         } else if(category[i].outerText == "club activity"){
-    //-             var glyph = '🏕️';
-    //-         }
-
-    //-         console.log(category[i].outerText);
-    //-         var marker = new Mazemap.MazeMarker( {
-    //-         color: "MazeMapOrange",
-    //-         size: 20,
-    //-         glyph: glyph
-
-    //-         } ).setLngLat(  lnglat ).addTo(map);
-    //-     }
-
-
 
         
 

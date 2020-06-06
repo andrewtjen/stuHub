@@ -52,6 +52,8 @@ require('./config/passport.js');
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+//import routes needed
 var events = require('./routes/event');
 var users = require('./routes/user');
 var home = require('./routes/home');
@@ -70,9 +72,5 @@ app.use('/user', users);
 app.listen(process.env.PORT || 3000, () => {
   console.log("Running on port 3000");
 });
-
-// app.listen(3000, function(){
-//     console.log('server run on port 3000..');
-// });
 
 module.exports = app;
