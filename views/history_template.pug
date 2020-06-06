@@ -6,9 +6,9 @@ block content
         .events-content
             h1(style="text-align: center; font-family: 'Spartan', sans-serif;  margin: 0.25em;") #{title}
             each event, i in events
-                p(style='font-size:0;')#lng #{event.location.lng}
-                p(style='font-size:0;')#lat #{event.location.lat}
-                p(style='font-size:0;')#category #{event.category}
+                p(style='font-size:0;margin-bottom: 0rem;')#lng #{event.location.lng}
+                p(style='font-size:0;margin-bottom: 0rem;')#lat #{event.location.lat}
+                p(style='font-size:0;margin-bottom: 0rem;')#category #{event.category}
                 .card(style='width: 100%; background-color: white; border: 1px solid #533180; max-height: 9em !important;')
                     .card-body
                         .row
