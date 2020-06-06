@@ -118,7 +118,7 @@ var confirmationPost = function (req, res, next) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
                 //account veriried, render again to login page
                 //res.status(200).send("The account has been verified. Please log in.");
-                req.flash("success", "account has been verified. Please log in");
+                req.flash("success", "Account has been verified! Please Login!");
                 res.redirect('/user/login');
             });
         });
@@ -136,8 +136,8 @@ var resendTokenGet = function(req,res){
 
 var resendTokenPost = function (req, res, next) {
     User.findOne({ email: req.body.email }, function (err, user) {
-        if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
-        if (user.verified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
+        if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email!' });
+        if (user.verified) return res.status(400).send({ msg: 'This account has already been verified. Please Login!' });
 
         // Create a verification token, save it, and send email
         var token = new Token();
