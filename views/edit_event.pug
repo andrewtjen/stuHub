@@ -63,10 +63,10 @@ block content
           .form-row
             .col
               if descriptionError
-                textarea.red.form-control.spartan(name='description', type='text', value=event.description)
+                textarea.red.form-control.spartan(name='description', type='text') #{event.description}
                 small.spartan #{nameError.msg}
               else
-                textarea.form-control(name='description', type='text', value=event.description)
+                textarea.form-control(name='description', type='text') #{event.description}
           .row
             .col
               input(type='hidden', name="id", value=event.id)
