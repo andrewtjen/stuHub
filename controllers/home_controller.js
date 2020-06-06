@@ -9,7 +9,6 @@ const { body , validationResult } = require('express-validator');
 var getAllEvent = function(req, res) {
 
     Event.find({isActive: true}, function(err, events) {
-        console.log(events);
         if (err) {
             console.log(err);
         } else {
